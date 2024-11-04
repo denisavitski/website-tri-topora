@@ -1,0 +1,151 @@
+---
+import Icon from './Icon.astro'
+
+export interface CardInfoStat {
+  icon: string
+  name: string
+}
+
+export interface Props {
+  class?: string | undefined
+  name?: string | undefined
+  stats?: Array<CardInfoStat> | undefined
+  size?: 'normal' | 'large' | undefined
+}
+
+const {
+  class: className,
+  name = 'Дом Макдональд',
+  stats = [
+    {
+      icon: 'bed',
+      name: '3 спален',
+    },
+    {
+      icon: 'bath',
+      name: '3 санузла',
+    },
+    {
+      icon: 'size',
+      name: '472 м²',
+    },
+  ],
+  size = 'normal',
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['card-info', className]}
+  data-size={size}
+>
+  <div
+    class="card-info__name"
+    set:html={name}
+  />
+
+  <ul class="card-info__stats">
+    {
+      stats.map((stat) => {
+        return (
+          <li class="card-info__stat">
+            <Icon
+              class="card-info__icon"
+              name={stat.icon}
+            />
+            <span
+              class="card-info__stat__name"
+              set:html={stat.name}
+            />
+          </li>
+        )
+      })
+    }
+  </ul>
+</div>
+
+<style is:global>
+  .card-info {
+  }
+
+  .card-info__name {
+    font-weight: 500;
+
+    color: var(--color, var(--color-white-1));
+
+    .card-info[data-size='normal'] & {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .card-info[data-size='large'] & {
+      font-size: 2.2rem;
+      margin-bottom: 2.4rem;
+    }
+
+    @media (max-width: 768px) {
+      .card-info[data-size='normal'] &,
+      .card-info[data-size='large'] & {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+      }
+    }
+  }
+
+  .card-info__stats {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      gap: 1.6rem;
+    }
+  }
+
+  .card-info__stat {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .card-info__icon {
+    fill: none;
+    stroke: var(--color, var(--color-white-1));
+
+    .card-info[data-size='normal'] & {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .card-info[data-size='large'] & {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+
+    @media (max-width: 768px) {
+      .card-info[data-size='normal'] &,
+      .card-info[data-size='large'] & {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+    }
+  }
+
+  .card-info__stat__name {
+    .card-info[data-size='normal'] & {
+      font-size: 1.8rem;
+    }
+
+    .card-info[data-size='large'] & {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .card-info[data-size='normal'] &,
+      .card-info[data-size='large'] & {
+        font-size: 1.4rem;
+      }
+    }
+  }
+</style>

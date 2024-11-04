@@ -1,0 +1,107 @@
+---
+import Icon from './Icon.astro'
+
+export interface Props {
+  class?: string
+  items?: Array<{
+    icon: string
+    href: string
+    type: 'circle' | 'square'
+  }>
+}
+
+const {
+  class: className,
+  items = [
+    {
+      href: 'https://google.com/',
+      icon: 'star',
+      type: 'square',
+    },
+    {
+      href: 'https://google.com/',
+      icon: 'r',
+      type: 'circle',
+    },
+    {
+      href: 'https://google.com/',
+      icon: 'vk',
+      type: 'square',
+    },
+    {
+      href: 'https://google.com/',
+      icon: 'tg',
+      type: 'circle',
+    },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<ul
+  {...rest}
+  class:list={['social', className]}
+>
+  {
+    items.map((item) => {
+      return (
+        <li
+          class="social__item"
+          data-type={item.type}
+        >
+          <a
+            class="social__link"
+            href={item.href}
+          >
+            <Icon
+              class="social__link__icon"
+              name={item.icon}
+            />
+          </a>
+        </li>
+      )
+    })
+  }
+</ul>
+
+<style is:global>
+  .social {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+  }
+
+  .social__item {
+    flex-shrink: 0;
+
+    width: var(--item-size, 3.6rem);
+    height: var(--item-size, 3.6rem);
+
+    background-color: rgba(236, 236, 236, 0.4);
+
+    @media (max-width: 768px) {
+      width: var(--item-size, 3.4rem);
+      height: var(--item-size, 3.4rem);
+    }
+  }
+
+  .social__item[data-type='square'] {
+    border-radius: 0.8rem;
+  }
+
+  .social__item[data-type='circle'] {
+    border-radius: 50%;
+  }
+
+  .social__link {
+    width: 100%;
+    height: 100%;
+  }
+
+  .social__link__icon {
+    width: 100%;
+    height: 100%;
+
+    fill: var(--color-white-1);
+  }
+</style>

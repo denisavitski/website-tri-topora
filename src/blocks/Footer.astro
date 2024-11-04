@@ -1,0 +1,254 @@
+---
+import Contact, { type Props as ContactProps } from '@elements/Contact.astro'
+import Logo from '@elements/Logo.astro'
+import Social, { type Props as SocialProps } from '@elements/Social.astro'
+
+export interface Props {
+  logo?: string
+  nav?: Array<{
+    name: string
+    href: string
+  }>
+  address?: ContactProps['value']
+  contacts?: Array<ContactProps['value']>
+  social?: SocialProps
+  policy?: {
+    text: string
+    href: string
+  }
+  developer?: {
+    text: string
+    href: string
+  }
+}
+
+const {
+  logo = '/images/common/logo.png',
+  nav = [
+    {
+      name: 'Проекты',
+      href: '/',
+    },
+    {
+      name: 'Услуги',
+      href: '/',
+    },
+    {
+      name: 'Технологии',
+      href: '/',
+    },
+    {
+      name: 'Три топора',
+      href: '/',
+    },
+  ],
+  address = 'г.&nbsp;Пермь, ул.&nbsp;1-я Красноармейская 3, 2&nbsp;этаж с&nbsp;10:00&nbsp;до&nbsp;19:00&nbsp;по&nbsp;будням сб&nbsp;и&nbsp;вс&nbsp;— выходной',
+  contacts = ['+7 (800) 444-16-49', 'mail@srub777.ru'],
+  social,
+  policy = {
+    text: 'Политика конфиденциальности',
+    href: 'https://google.com',
+  },
+  developer = {
+    text: 'Разработка студия ЯР',
+    href: 'https://google.com',
+  },
+} = Astro.props
+---
+
+<footer class="footer">
+  <div class="footer__top">
+    <Logo
+      class="footer__logo"
+      src={logo}
+    />
+
+    <Contact
+      class="footer__address"
+      value={address}
+    />
+
+    <div class="footer__middle">
+      <nav class="footer__nav">
+        {
+          nav.map((item) => {
+            return (
+              <a
+                class="footer__nav__link"
+                href={item.href}
+                target="_blank"
+              >
+                {item.name}
+              </a>
+            )
+          })
+        }
+      </nav>
+
+      <Social
+        class="footer__social"
+        {...social}
+      />
+    </div>
+
+    <div class="footer__contacts">
+      {
+        contacts.map((item) => {
+          return (
+            <Contact
+              class="footer__contact"
+              value={item}
+            />
+          )
+        })
+      }
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <a
+      class="footer__bottom__link"
+      target="_blank"
+      href={policy.href}
+      >{policy.text}</a
+    >
+
+    <a
+      class="footer__bottom__link"
+      target="_blank"
+      href={developer.href}
+      >{developer.text}</a
+    >
+  </div>
+</footer>
+
+<style is:global>
+  .footer {
+    margin-top: var(--section-vertical-padding);
+    display: flex;
+    flex-direction: column;
+
+    border-top: 0.1rem solid var(--color-grey-1);
+  }
+
+  .footer__top {
+    display: flex;
+    align-items: center;
+
+    padding: 4rem 5.95rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      padding-top: 2.5rem;
+      padding-bottom: 2.8rem;
+    }
+  }
+
+  .footer__logo {
+    flex-shrink: 0;
+
+    @media (min-width: 769px) {
+      margin-right: 2.4rem;
+    }
+
+    @media (max-width: 768px) {
+      width: 8.5rem;
+      height: 6.6rem;
+
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .footer__address {
+    @media (min-width: 769px) {
+      width: 52rem;
+      margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+      text-align: center;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .footer__middle {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+
+    @media (min-width: 769px) {
+      margin-right: 13.6rem;
+    }
+
+    @media (max-width: 768px) {
+      align-items: center;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .footer__nav {
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .footer__nav__link {
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .footer__social {
+    --item-size: 4rem;
+
+    @media (max-width: 768px) {
+      --item-size: 3.4rem;
+    }
+  }
+
+  .footer__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      align-items: center;
+      gap: 1.4rem;
+    }
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 2.4rem var(--screen-horisontal-padding);
+
+    border-top: 0.1rem solid var(--color-grey-1);
+
+    @media (max-width: 768px) {
+      padding-top: 2.8rem;
+      padding-bottom: 0.8rem;
+
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+  }
+
+  .footer__bottom__link {
+    font-size: 2rem;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    text-underline-offset: 0.2em;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>

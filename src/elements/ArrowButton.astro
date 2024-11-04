@@ -1,0 +1,163 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import Icon from './Icon.astro'
+
+export interface Props extends HTMLAttributes<any> {
+  class?: string
+  tag?: string
+  theme?: 'light' | 'dark'
+  transparent?: boolean
+  target?: string
+  name?: string
+}
+
+const {
+  class: className,
+  tag = 'button',
+  theme = 'light',
+  transparent = false,
+  name,
+  ...rest
+} = Astro.props
+
+const Tag = tag
+---
+
+<Tag
+  {...rest}
+  class:list={['arrow-button', className]}
+  data-theme={theme}
+  data-transparent={transparent}
+>
+  <span class="arrow-button__name"
+    >{name ? name : <slot>Arrow button</slot>}</span
+  >
+  <Icon
+    name="tail-arrow"
+    class="arrow-button__icon"
+  />
+</Tag>
+
+<style is:global>
+  .arrow-button {
+    position: relative;
+    flex-shrink: 0;
+
+    padding: 0 3.2rem;
+    height: 5rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 4rem;
+
+    transition-duration: var(--duration-button);
+    transition-property: opacity, color, background-color;
+
+    color: var(--color);
+
+    overflow: hidden;
+
+    &[data-transparent] {
+      @media (hover: hover) {
+        &::before {
+          content: '';
+
+          position: absolute;
+          top: 0;
+          left: 0;
+
+          z-index: -1;
+
+          width: 100%;
+          height: 100%;
+
+          background-color: var(--color-white-1);
+          opacity: 0;
+
+          transition-duration: var(--duration-button);
+          transition-property: opacity;
+
+          backdrop-filter: blur(0.8rem);
+        }
+
+        &:hover::before {
+          opacity: 0.4;
+        }
+      }
+    }
+
+    &[data-theme='light'] {
+      &:not([data-transparent]) {
+        background-color: var(--color-white-1);
+        --color: var(--color-grey-4);
+      }
+
+      &[data-transparent] {
+        background-color: transparent;
+        border: 0.1rem solid var(--color-white-1);
+        --color: var(--color-white-1);
+      }
+    }
+
+    &[data-theme='dark'] {
+      &:not([data-transparent]) {
+        --color: var(--color-white-1);
+        background-color: var(--color-grey-4);
+      }
+
+      &[data-transparent] {
+        background-color: transparent;
+        --color: var(--color-grey-4);
+        border: 0.1rem solid var(--color-grey-4);
+      }
+    }
+
+    &[disabled] {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      height: 4.5rem;
+    }
+  }
+
+  .arrow-button__name {
+    font-size: 2rem;
+    text-transform: uppercase;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .arrow-button__icon {
+    flex-shrink: 0;
+
+    width: 2.2rem;
+    height: 2.2rem;
+
+    margin-left: 0.8rem;
+
+    fill: var(--color-white-1);
+    fill: var(--color);
+
+    transform: rotate(45deg);
+
+    transition-property: transform;
+    transition-duration: var(--duration-button);
+
+    @media (hover: hover) {
+      .arrow-button:hover & {
+        transform: rotate(0deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+export interface Props extends HTMLAttributes<'a' | 'button'> {
+  class?: string
+  tag?: string
+  theme?: 'light' | 'dark'
+  target?: string
+}
+
+const {
+  class: className,
+  tag = 'button',
+  theme = 'light',
+  ...rest
+} = Astro.props
+
+const Tag = tag
+---
+
+<Tag
+  {...rest}
+  class:list={['simple-button', className]}
+  data-theme={theme}
+  ><span class="simple-button__name"><slot>Simple button</slot></span></Tag
+>
+
+<style is:global>
+  .simple-button {
+    flex-shrink: 0;
+
+    padding: 0 6.4rem;
+    height: 4.7rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 4rem;
+
+    transition-duration: var(--duration-button);
+    transition-property: opacity, color, background-color;
+
+    background-color: transparent;
+
+    &[data-theme='light'] {
+      color: var(--color-white-1);
+      border: 0.1rem solid var(--color-white-1);
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--color-grey-1);
+          background-color: var(--color-white-1);
+        }
+      }
+    }
+
+    &[data-theme='dark'] {
+      color: var(--color-grey-1);
+      border: 0.1rem solid var(--color-grey-1);
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--color-white-1);
+          background-color: var(--color-grey-1);
+        }
+      }
+    }
+
+    &[disabled] {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      height: 4.5rem;
+    }
+  }
+
+  .simple-button__name {
+    font-size: 1.8rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>

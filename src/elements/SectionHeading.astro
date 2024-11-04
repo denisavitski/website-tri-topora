@@ -1,0 +1,27 @@
+---
+export interface Props {
+  class?: string
+  text?: string
+}
+
+const { class: className, text = 'heading', ...rest } = Astro.props
+---
+
+<h2
+  {...rest}
+  class:list={['section-heading', className]}
+  set:html={text}
+/>
+
+<style is:global>
+  .section-heading {
+    font-family: 'Code', sans-serif;
+    font-size: 4.8rem;
+    text-transform: uppercase;
+    font-weight: 400;
+
+    @media (max-width: 768px) {
+      font-size: 2.8rem;
+    }
+  }
+</style>

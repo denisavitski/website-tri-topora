@@ -1,0 +1,300 @@
+---
+import ArrowButton from '@elements/ArrowButton.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import CardInfo, { type Props as CardInfoProps } from '@elements/CardInfo.astro'
+import type { ImageDataProps } from '@elements/Image.astro'
+import Image from '@elements/Image.astro'
+
+export interface Props {
+  background?: ImageDataProps
+  heading?: string
+  button?: {
+    href: string
+    name: string
+  }
+  projects?: Array<
+    Omit<CardInfoProps, 'size' | 'class'> & { image?: ImageDataProps }
+  >
+}
+
+const {
+  background = {
+    src: '/images/projects-section/background.jpg',
+    alt: '',
+  },
+  heading = 'проекты',
+  button = {
+    name: 'смотреть все',
+    href: '/',
+  },
+  projects = [
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спален',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '472 м²',
+        },
+      ],
+    },
+    {
+      name: 'Дом Гарда',
+      image: { src: '/images/projects-section/2.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спален',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '472 м²',
+        },
+      ],
+    },
+    {
+      name: 'Дом Атитлан',
+      image: { src: '/images/projects-section/3.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спален',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '472 м²',
+        },
+      ],
+    },
+    {
+      name: 'Дом Аннеси',
+      image: { src: '/images/projects-section/4.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спален',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '472 м²',
+        },
+      ],
+    },
+  ],
+} = Astro.props
+---
+
+<section class="projects">
+  <SectionHeading
+    class="projects__heading"
+    text={heading}
+  />
+
+  <Image
+    {...background}
+    class="projects__background"
+    lazy
+    lazyBackground
+    cover
+  />
+
+  <ul class="projects__list">
+    {
+      projects.map((project, i) => {
+        return (
+          <li
+            class="projects__card"
+            style={{ '--index': i }}
+          >
+            <Image
+              {...project.image}
+              class="projects__card__image"
+              lazy
+              lazyBackground
+              cover
+            />
+            <CardInfo
+              class="projects__card__info"
+              name={project.name}
+              size={'large'}
+              stats={project.stats}
+            />
+            <ArrowButton
+              class="projects__card__explore-button"
+              transparent
+            >
+              Перейти
+            </ArrowButton>
+          </li>
+        )
+      })
+    }
+  </ul>
+  <ArrowButton
+    class="projects__more-button"
+    {...button}
+  />
+</section>
+
+<style is:global>
+  .projects {
+    --offset: 9vh;
+    --gap: var(--header-height);
+    --card-height: calc(
+      (var(--viewport-height) - var(--offset)) - var(--header-height) * 2
+    );
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    @media (max-width: 768px) {
+      --gap: 0.8rem;
+      --card-height: 35.1rem;
+
+      padding: calc(var(--section-vertical-padding) * 2)
+        var(--screen-horisontal-padding);
+    }
+  }
+
+  .projects__heading {
+    margin-bottom: 3.2rem;
+
+    @media (min-width: 769px) {
+      position: absolute;
+      left: var(--screen-horisontal-padding);
+      top: 10rem;
+    }
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .projects__background {
+    position: sticky;
+    top: calc(var(--header-height) * -1);
+    left: 0;
+
+    width: 100%;
+    height: var(--viewport-height);
+
+    z-index: -1;
+
+    opacity: 0.1;
+
+    @media (max-width: 768px) {
+      position: absolute;
+      top: 0;
+      height: 100%;
+    }
+  }
+
+  .projects__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+
+    margin-bottom: 4rem;
+
+    @media (min-width: 769px) {
+      padding: 0 var(--screen-horisontal-padding);
+      margin-top: calc(var(--card-height) * -1);
+    }
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .projects__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+    height: var(--card-height);
+    padding: 4rem;
+
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      z-index: 1;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    @media (min-width: 769px) {
+      position: sticky;
+      top: calc(var(--offset) * var(--index));
+    }
+
+    @media (max-width: 768px) {
+      position: relative;
+      padding: 2.4rem;
+    }
+  }
+
+  .projects__card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  .projects__card__info {
+    position: relative;
+    z-index: 2;
+  }
+
+  .projects__card__explore-button {
+    width: max-content;
+    margin-left: auto;
+    z-index: 2;
+  }
+
+  .projects__more-button {
+    margin-right: var(--screen-horisontal-padding);
+    margin-left: auto;
+    margin-bottom: 3.9rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+</style>

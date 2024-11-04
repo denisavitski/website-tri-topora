@@ -1,0 +1,417 @@
+---
+import Form from '@elements/Form.astro'
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import Input, { type Props as InputProps } from '@elements/Input.astro'
+import ArrowButton from '@elements/ArrowButton.astro'
+
+export interface Props {
+  heading?: string
+  founders?: {
+    image: ImageDataProps
+    list: Array<{
+      name: string
+      position: string
+    }>
+  }
+  form?: {
+    inputs: Array<InputProps>
+    submitButton?: string
+    terms?: string
+    successTitle?: string
+    successMessage?: string
+    errorMessage?: string
+  }
+}
+
+const {
+  heading = 'Весь процесс&nbsp;— от&nbsp;разработки концепции до&nbsp;реализации готового объекта, в&nbsp;одних руках',
+  founders = {
+    image: {
+      src: '/images/feedback/founders.jpg',
+      alt: 'Основатели компании: Деменев Пётр Андреевич и Деменева Беляна Александровна',
+    },
+    list: [
+      { name: 'Деменев Пётр Андреевич', position: 'Генеральный директор' },
+      { name: 'Деменева Беляна Александровна', position: 'Арт директор' },
+    ],
+  },
+  form = {
+    inputs: [
+      {
+        name: 'name',
+        placeholder: 'Имя',
+        emptyError: 'Заполните поле',
+        type: 'text',
+        staticError: 'mobile',
+        // required: true,
+      },
+      {
+        name: 'phone',
+        placeholder: 'Телефон',
+        emptyError: 'Заполните поле',
+        fillError: 'Заполните телефон полностью',
+        type: 'phone',
+        staticError: 'mobile',
+        // required: true,
+      },
+      {
+        name: 'comment',
+        placeholder: 'Комментарий',
+        emptyError: 'Заполните поле',
+        type: 'text',
+        staticError: 'mobile',
+      },
+    ],
+    submitButton: 'Отправить',
+    terms:
+      'Нажимая на&nbsp;кнопку «отправить», вы&nbsp;даёте согласие на&nbsp;обработку персональных данных',
+    successTitle: 'Спасибо',
+    successMessage:
+      'Заявка отправлена, наш&nbsp;менеджер в&nbsp;близжайшее время свяжется с&nbsp;вами',
+    errorMessage:
+      '"При отправке форма произошла ошибка. Попробуйте повтроить попытку позже.',
+  },
+} = Astro.props
+---
+
+<section class="feedback">
+  <div class="feedback__inner">
+    <div class="feedback__left">
+      <h2
+        class="feedback__heading"
+        set:html={heading}
+      />
+
+      <Form
+        name="feedback"
+        class="feedback__form"
+        successTitle={form.successTitle}
+        successMessage={form.successMessage}
+        errorMessage={form.errorMessage}
+      >
+        <div class="feedback__form__inputs">
+          {
+            form.inputs.map((input) => {
+              return (
+                <Input
+                  class="feedback__form__input"
+                  {...input}
+                />
+              )
+            })
+          }
+        </div>
+        <div class="feedback__form__bottom">
+          <ArrowButton
+            theme="dark"
+            type="submit"
+            class="feedback__form__submit-button"
+            >{form.submitButton}</ArrowButton
+          >
+          <p
+            class="feedback__form__terms"
+            set:html={form.terms}
+          />
+        </div>
+      </Form>
+    </div>
+    <div class="feedback__founders">
+      <div class="feedback__founders__image-wrapper">
+        <Image
+          class="feedback__founders__image"
+          lazy
+          lazyBackground
+          cover
+          {...founders.image}
+        />
+      </div>
+
+      <ul class="feedback__founders__list">
+        {
+          founders.list.map((item) => {
+            return (
+              <li class="feedback__founders__list__item">
+                <div
+                  class="feedback__founders__list__item__name"
+                  set:html={item.name}
+                />
+                <div
+                  class="feedback__founders__list__item__position"
+                  set:html={item.position}
+                />
+              </li>
+            )
+          })
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .feedback {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+
+    color: var(--color-grey-1);
+
+    @media (max-width: 768px) {
+      padding: 0;
+      padding-top: 3rem;
+      padding-bottom: 4rem;
+    }
+  }
+
+  .feedback__inner {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+
+    background-color: var(--color-white-1);
+    border-radius: 0.8rem;
+
+    overflow: hidden;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      left: -11.5%;
+      bottom: -35%;
+
+      z-index: -1;
+
+      width: 65.1rem;
+      height: 53rem;
+
+      background-color: var(--color-white-3);
+
+      transform: rotate(135deg);
+      border-top-left-radius: 100rem;
+      border-bottom-left-radius: 100rem;
+
+      @media (max-width: 768px) {
+        top: 13rem;
+        left: -22rem;
+        bottom: unset;
+
+        width: 44.8rem;
+        height: 36.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      border-radius: 0;
+    }
+  }
+
+  .feedback__left {
+    width: 92.8rem;
+    padding: 4rem;
+    padding-right: 0;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 1.6rem 1.5rem;
+      padding-bottom: 2.4rem;
+    }
+  }
+
+  .feedback__heading {
+    font-family: 'Code', sans-serif;
+    font-size: 4.8rem;
+    text-transform: uppercase;
+
+    line-height: 120%;
+
+    margin-bottom: 5.2rem;
+
+    @media (max-width: 768px) {
+      font-size: 2.6rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .feedback__form {
+  }
+
+  .feedback__form__inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.6rem 2.4rem;
+
+    width: 77.9rem;
+    margin-bottom: 5.8rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      width: 100%;
+      gap: 2.4rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .feedback__form__input {
+    &:last-child {
+      grid-column: 1/3;
+    }
+
+    @media (max-width: 768px) {
+      &:last-child {
+        grid-column: 1/2;
+        min-height: 7.8rem;
+
+        .input__content {
+          min-height: 7.8rem;
+        }
+      }
+    }
+  }
+
+  .feedback__form__bottom {
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+      gap: 0.8rem;
+    }
+  }
+
+  .feedback__form__submit-button {
+  }
+
+  .feedback__form__terms {
+    font-weight: 300;
+    font-size: 1.8rem;
+
+    width: 38.2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+
+      width: 29.7rem;
+      max-width: 100%;
+    }
+  }
+
+  .feedback__founders {
+    --radius: 100rem;
+
+    position: relative;
+    z-index: -1;
+    flex-shrink: 0;
+
+    width: 65.1rem;
+    padding: 2.2rem 1.7rem;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    &::before,
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      z-index: 1;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+
+      border-top-left-radius: var(--radius);
+      border-bottom-left-radius: var(--radius);
+
+      background-image: linear-gradient(
+        to bottom,
+        rgba(44, 44, 44, 0) 30%,
+        rgba(44, 44, 44, 1) 100%
+      );
+    }
+
+    @media (max-width: 768px) {
+      align-self: flex-end;
+
+      width: 36.3rem;
+      height: 29.6rem;
+      padding: 2.2rem;
+    }
+  }
+
+  .feedback__founders__image-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  .feedback__founders__image-wrapper::before {
+    content: '';
+
+    position: absolute;
+    right: 5.1rem;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--color-white-3);
+
+    border-top-left-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
+
+    @media (max-width: 768px) {
+      right: 2.8rem;
+    }
+  }
+
+  .feedback__founders__image {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-top-left-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .feedback__founders__list {
+    position: relative;
+    z-index: 2;
+    color: var(--color-white-3);
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .feedback__founders__list__item {
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  .feedback__founders__list__item__name {
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .feedback__founders__list__item__position {
+  }
+</style>

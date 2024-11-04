@@ -1,0 +1,72 @@
+---
+import { tryCreateHrefFromContact } from '@utils/href'
+import Icon from './Icon.astro'
+
+export interface Props {
+  class?: string
+  value?: string | undefined
+}
+
+const { class: className, value = '+7 (800) 444-16-49', ...rest } = Astro.props
+
+const href = tryCreateHrefFromContact(value)
+const Tag = href ? 'a' : 'div'
+const icon = href
+  ? href.includes('@')
+    ? 'mail'
+    : href.includes('+')
+      ? 'phone'
+      : ''
+  : ''
+---
+
+<Tag
+  {...rest}
+  {href}
+  class:list={['contact', className]}
+>
+  {
+    icon && (
+      <Icon
+        class="contact__icon"
+        name={icon}
+      />
+    )
+  }
+  <span
+    class="contact__value"
+    set:html={value}
+  />
+</Tag>
+
+<style is:global>
+  .contact {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .contact__icon {
+    flex-shrink: 0;
+
+    width: 2.6rem;
+    height: 2.6rem;
+
+    margin-right: 0.8rem;
+
+    fill: var(--color-white-1);
+    stroke: none;
+
+    @media (max-width: 768px) {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .contact__value {
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>

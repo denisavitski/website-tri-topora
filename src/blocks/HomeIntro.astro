@@ -1,0 +1,191 @@
+---
+import ArrowButton, {
+  type Props as ArrowButtonProps,
+} from '@elements/ArrowButton.astro'
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import Parallax from '@elements/Parallax.astro'
+
+export interface Props {
+  image?: ImageDataProps
+  heading?: string
+  buttons?: Array<
+    Omit<ArrowButtonProps, 'class'> & {
+      name: string
+    }
+  >
+}
+
+const {
+  image = {
+    src: '/images/home-intro/main.jpg',
+    alt: 'Современный деревянный дом',
+  },
+  heading = 'Строительство из дерева, стекла и камня сравнимо <span>с исскуством</span>',
+  buttons = [
+    { name: 'Каталог проектов', href: '/', theme: 'light' },
+    { name: 'Обсудить проект', href: '/', theme: 'light', transparent: true },
+  ],
+} = Astro.props
+---
+
+<div class="home-intro">
+  <Parallax class="home-intro__parralax">
+    <Image
+      class="home-intro__image"
+      cover
+      {...image}
+    />
+  </Parallax>
+
+  <div class="home-intro__content">
+    <h1
+      class="home-intro__heading"
+      set:html={heading}
+    />
+
+    <div class="home-intro__buttons">
+      {
+        buttons.map((button) => {
+          return (
+            <ArrowButton
+              class="home-intro__button"
+              {...button}
+            >
+              {button.name}
+            </ArrowButton>
+          )
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .home-intro {
+    position: relative;
+
+    height: 90rem;
+    max-height: var(--viewport-height);
+    margin-top: calc(var(--header-height) * -1);
+
+    padding: 5.6rem var(--screen-horisontal-padding);
+    margin-bottom: var(--section-vertical-padding);
+
+    display: flex;
+    align-items: flex-end;
+
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      height: 72.8rem;
+      padding: 2.5rem var(--screen-horisontal-padding);
+      justify-content: flex-end;
+      flex-direction: column;
+    }
+  }
+
+  .home-intro__parralax {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  .home-intro__parralax::before {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 1;
+
+    width: 100%;
+    height: 100%;
+
+    background-image: linear-gradient(
+      to right,
+      rgba(57, 57, 57, 0) -100%,
+      rgba(48, 48, 48, 0.7) 10%,
+      rgba(11, 11, 11, 0) 100%
+    );
+  }
+
+  .home-intro__image {
+    width: 100%;
+    height: 100%;
+
+    & img {
+      object-position: 90%;
+    }
+  }
+
+  .home-intro__content {
+    position: relative;
+
+    width: 136rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .home-intro__heading {
+    flex-shrink: 0;
+    font-family: 'Code', sans-serif;
+    font-weight: 400;
+    font-size: 6.4rem;
+    text-transform: uppercase;
+    line-height: 120%;
+    text-indent: 20rem;
+
+    width: 100%;
+
+    @media (max-width: 768px) {
+      font-size: 3.2rem;
+      line-height: 100%;
+      text-indent: 18rem;
+      margin-bottom: 2.4rem;
+    }
+
+    @media (max-width: 600px) {
+      text-indent: 6rem;
+    }
+
+    & span {
+      display: block;
+
+      @media (max-width: 768px) {
+        display: inline;
+      }
+
+      @media (max-width: 600px) {
+        display: block;
+        text-align: end;
+      }
+    }
+  }
+
+  .home-intro__buttons {
+    display: flex;
+    gap: 2.4rem;
+
+    @media (min-width: 769px) {
+      position: absolute;
+      right: 0;
+      bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+  }
+
+  .home-intro__button {
+  }
+</style>

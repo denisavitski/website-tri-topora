@@ -1,0 +1,444 @@
+---
+import Contact, { type Props as ContactProps } from '@elements/Contact.astro'
+import Logo from '@elements/Logo.astro'
+import Social, { type Props as SocialProps } from '@elements/Social.astro'
+
+export interface Props {
+  logo?: string
+  nav?: Array<{
+    name: string
+    href: string
+  }>
+  address?: ContactProps['value']
+  phone?: ContactProps['value']
+  social?: SocialProps
+}
+
+const {
+  logo = '/images/common/logo.png',
+  nav = [
+    {
+      name: 'Проекты',
+      href: '/',
+    },
+    {
+      name: 'Услуги',
+      href: '/',
+      sub: [
+        {
+          name: 'Плотницкое дело',
+          href: '/',
+        },
+        {
+          name: 'Стройка под ключ',
+          href: '/',
+        },
+        {
+          name: 'Архитектурное проектирование',
+          href: '/',
+        },
+        {
+          name: 'Дизайн интерьера',
+          href: '/',
+        },
+        {
+          name: 'Деревянная скульптура',
+          href: '/',
+        },
+        {
+          name: 'Ландшафтный дизайн',
+          href: '/',
+        },
+      ],
+    },
+    {
+      name: 'Технологии',
+      href: '/',
+    },
+    {
+      name: 'Три топора',
+      href: '/',
+    },
+  ],
+  address = 'г.&nbsp;Пермь, ул.&nbsp;1-я Красноармейская 3, 2&nbsp;этаж с&nbsp;10:00&nbsp;до&nbsp;19:00&nbsp;по&nbsp;будням сб&nbsp;и&nbsp;вс&nbsp;— выходной',
+  phone,
+  social,
+} = Astro.props
+---
+
+<header class="header">
+  <Logo
+    class="header__logo"
+    src={logo}
+  />
+
+  <Contact
+    class="header__phone"
+    value={phone}
+  />
+
+  <e-popover-button
+    target="menu"
+    class="header__menu-button"
+  ></e-popover-button>
+
+  <e-popover
+    id="menu"
+    class="header__menu"
+  >
+    <div class="header__menu__inner">
+      <Logo
+        class="header__menu__logo"
+        src={logo}
+      />
+
+      <nav class="header__nav">
+        {
+          nav.map((item) => {
+            return item.sub ? (
+              <div class="header__nav__group">
+                <a
+                  class="header__nav__link"
+                  href={item.href}
+                >
+                  <span>{item.name}</span>
+                </a>
+
+                <div class="header__nav__sub">
+                  <div class="header__nav__sub__inner">
+                    {item.sub.map((subItem) => {
+                      return (
+                        <a
+                          class="header__nav__link"
+                          href={subItem.href}
+                        >
+                          <span>{subItem.name}</span>
+                        </a>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a
+                class="header__nav__link"
+                href={item.href}
+              >
+                <span>{item.name}</span>
+              </a>
+            )
+          })
+        }
+      </nav>
+
+      <Contact
+        class="header__address"
+        value={address}
+      />
+
+      <Social
+        class="header__social"
+        {...social}
+      />
+    </div>
+  </e-popover>
+</header>
+
+<style is:global>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: var(--header-height);
+    padding: 0 var(--screen-horisontal-padding);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    z-index: var(--z-header);
+  }
+
+  .header__logo {
+  }
+
+  .header__phone {
+    @media (min-width: 769px) {
+      order: 3;
+      margin-right: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      margin-left: auto;
+    }
+  }
+
+  .header__menu-button {
+    --type: toggle;
+
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      --size: 1.2rem;
+
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 2.3rem;
+      height: var(--size);
+
+      margin-left: 2.2rem;
+
+      &::before,
+      &::after {
+        content: '';
+
+        position: absolute;
+
+        width: 100%;
+        height: 0.2rem;
+        border-radius: 100rem;
+
+        background-color: var(--color-white-1);
+
+        transition: transform var(--duration-button);
+      }
+
+      &::before {
+        transform: translateY(calc(var(--size) / 2 * -1 + 100%)) rotate(0deg);
+      }
+
+      &::after {
+        transform: translateY(calc(var(--size) / 2 * 1 - 100%)) rotate(0deg);
+      }
+
+      &.opened::before {
+        transform: translateY(0px) rotate(135deg);
+      }
+
+      &.opened::after {
+        transform: translateY(0px) rotate(-135deg);
+      }
+    }
+  }
+
+  .header__menu {
+    @media (min-width: 769px) {
+      display: contents !important;
+    }
+
+    @media (max-width: 768px) {
+      position: fixed;
+      top: 0;
+      right: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: none;
+      opacity: 1 !important;
+      transition: opacity var(--duration-button);
+
+      &::before {
+        content: '';
+
+        position: absolute;
+
+        z-index: -1;
+
+        width: 100%;
+        height: 100%;
+
+        background-color: rgba(0, 0, 0, 0.45);
+
+        transition: opacity var(--duration-button);
+
+        opacity: 0;
+      }
+
+      &.opened::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  .header__menu__inner {
+    @media (min-width: 769px) {
+      display: contents !important;
+    }
+
+    @media (max-width: 768px) {
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      width: 25.2rem;
+      height: 100%;
+
+      padding: 2.4rem 2rem 4rem 2rem;
+
+      background-color: var(--color-grey-4);
+
+      transition: transform var(--duration-button);
+      transform: translateX(101%);
+
+      overflow: hidden auto;
+
+      .header__menu.opened & {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .header__menu__logo {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      width: 8.3rem;
+      height: 6.5rem;
+
+      margin-bottom: 4rem;
+    }
+  }
+
+  .header__nav {
+    display: flex;
+
+    @media (min-width: 769px) {
+      align-items: center;
+      gap: 8rem;
+      margin-left: auto;
+      margin-right: 17.6rem;
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2.4rem;
+
+      margin-bottom: auto;
+    }
+  }
+
+  .header__nav__link {
+    position: relative;
+
+    font-size: 2.2rem;
+    line-height: 1.41;
+
+    display: inline-flex;
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      z-index: 1;
+
+      left: -4rem;
+      top: 50%;
+
+      transform: translateY(-25%);
+
+      display: block;
+
+      width: 0.6rem;
+      height: 0.6rem;
+
+      border-radius: 50%;
+      background-color: var(--color-white-1);
+    }
+
+    .header__nav > &:first-child::before {
+      content: none;
+    }
+
+    .header__nav__sub &::before {
+      content: none;
+    }
+
+    @media (hover: hover) {
+      & span {
+        transition: opacity var(--duration-button);
+      }
+
+      &:hover span {
+        opacity: 0.5;
+      }
+    }
+
+    @media (max-width: 768px) {
+      &::before {
+        content: none;
+      }
+    }
+  }
+
+  .header__nav__group {
+    position: relative;
+  }
+
+  .header__nav__sub {
+    position: absolute;
+    top: 100%;
+    left: -4.6rem;
+
+    width: 39.7rem;
+    padding-top: 2.05rem;
+
+    transition: opacity var(--duration-button);
+
+    opacity: 0;
+    pointer-events: none;
+
+    .header__nav__group:hover & {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .header__nav__sub__inner {
+    width: 100%;
+
+    display: grid;
+    gap: 1.6rem;
+
+    padding: 1.6rem;
+
+    border-radius: 0.8rem;
+
+    background-color: rgba(58, 58, 58, 0.69);
+  }
+
+  .header__address {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+      margin-top: 2.4rem;
+    }
+  }
+
+  .header__social {
+    @media (min-width: 769px) {
+      order: 4;
+    }
+  }
+</style>

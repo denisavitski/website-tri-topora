@@ -1,0 +1,28 @@
+{
+  "name": "website-tri-topora",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "optimize": "tsx ./optimize/index.ts"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@types/node": "^22.8.6",
+    "astro": "^4.16.8",
+    "automizer": "^0.3.5",
+    "postcss-preset-env": "^10.0.9",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "aptechka": "^0.42.8"
+  }
+}

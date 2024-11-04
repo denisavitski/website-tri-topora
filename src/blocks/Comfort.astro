@@ -1,0 +1,244 @@
+---
+import type { ImageDataProps } from '@elements/Image.astro'
+import Image from '@elements/Image.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+
+export interface ConfortListItem {
+  image: ImageDataProps
+  title: string
+  description: string
+}
+
+export interface Props {
+  heading?: string
+  list1?: Array<ConfortListItem>
+  list2?: Array<ConfortListItem>
+}
+
+const {
+  heading = 'комфортная стройка',
+  list1 = [
+    {
+      image: { src: '/images/comfort/1.svg', alt: '' },
+      title: 'Персональный менеджер',
+      description:
+        'Все вопросы решаются в рамках одного контактного лица компании',
+    },
+    {
+      image: { src: '/images/comfort/2.svg', alt: '' },
+      title: 'Online коммуникация',
+      description:
+        'Фото и видео отчеты о строительстве. Видеоконференции со специалистом',
+    },
+    {
+      image: { src: '/images/comfort/3.svg', alt: '' },
+      title: 'Экономия ресурсов',
+      description: 'У вас есть время на работу и семью',
+    },
+  ],
+  list2 = [
+    {
+      image: { src: '/images/comfort/4.svg', alt: '' },
+      title: 'Культура и оптимизация строительного процесса',
+      description:
+        'Высокая скорость при наилучшем качестве. Порядок на стротельной площадке',
+    },
+    {
+      image: { src: '/images/comfort/5.svg', alt: '' },
+      title: 'Авторский и технический надзор',
+      description:
+        'Соответствие проектной работы конечному продукту. Контроль качества строительного процесса',
+    },
+    {
+      image: { src: '/images/comfort/6.svg', alt: '' },
+      title: 'Сервисное обслуживание согласно графику',
+      description: 'Мы заботимся о доме, который построили для вас',
+    },
+  ],
+} = Astro.props
+
+const lists = [list1, list2]
+---
+
+<section class="comfort">
+  <SectionHeading
+    class="comfort__heading"
+    text={heading}
+  />
+
+  {
+    lists.map((list) => {
+      return (
+        <ul class="comfort__list">
+          {list.map((item) => {
+            return (
+              <li class="comfort__item">
+                <Image
+                  class="comfort__item__image"
+                  {...item.image}
+                  lazy
+                  contain
+                />
+                <div
+                  class="comfort__item__title"
+                  set:html={item.title}
+                />
+                <div
+                  class="comfort__item__description"
+                  set:html={item.description}
+                />
+              </li>
+            )
+          })}
+        </ul>
+      )
+    })
+  }
+</section>
+
+<style is:global>
+  .comfort {
+    --list-padding: 2.5rem;
+
+    position: relative;
+
+    padding: calc(var(--section-vertical-padding) - var(--list-padding)) 0;
+    padding-bottom: 10.4rem;
+
+    background-color: var(--color-white-1);
+    color: var(--color-grey-1);
+
+    overflow: hidden;
+
+    @media (min-width: 769px) {
+      &::before {
+        content: '';
+
+        position: absolute;
+        right: 20.8rem;
+        top: -3.7rem;
+
+        z-index: 1;
+
+        display: block;
+
+        width: 0.1rem;
+        height: 45.3rem;
+
+        background-color: var(--color-white-2);
+
+        transform: rotate(33.13deg);
+      }
+
+      &::after {
+        content: '';
+
+        position: absolute;
+        left: 21.4rem;
+        bottom: -4.7rem;
+
+        z-index: 1;
+
+        display: block;
+
+        width: 0.1rem;
+        height: 53.3rem;
+
+        background-color: var(--color-white-2);
+
+        transform: rotate(053.15deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      --list-padding: 0rem;
+      padding-bottom: 2.4rem;
+    }
+  }
+
+  .comfort__heading {
+    margin-bottom: 3.2rem;
+    padding: 0 var(--screen-horisontal-padding);
+
+    @media (max-width: 768px) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .comfort__list {
+    display: flex;
+    gap: 2.4rem;
+    flex-wrap: wrap;
+
+    padding: var(--list-padding) var(--screen-horisontal-padding);
+
+    &:nth-child(even) {
+      justify-content: flex-start;
+    }
+
+    &:nth-child(odd) {
+      justify-content: flex-end;
+    }
+
+    @media (min-width: 769px) {
+      &:not(:last-child) {
+        border-bottom: 0.1rem solid var(--color-white-2);
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 0;
+
+      &:not(:last-child) {
+        margin-bottom: 2.4rem;
+      }
+    }
+  }
+
+  .comfort__item {
+    width: 38.4rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+
+      padding: 0 var(--screen-horisontal-padding);
+      padding-bottom: 0.8rem;
+
+      border-bottom: 0.1rem solid var(--color-white-2);
+    }
+  }
+
+  .comfort__item__image {
+    width: 6rem;
+    height: 6rem;
+
+    margin-bottom: 0.8rem;
+
+    @media (max-width: 768px) {
+      width: 4.2rem;
+      height: 4.2rem;
+
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .comfort__item__title {
+    font-size: 2.2rem;
+    text-transform: uppercase;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .comfort__item__description {
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>

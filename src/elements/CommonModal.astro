@@ -1,0 +1,100 @@
+---
+export const modal = '#common-modal'
+
+export interface Props {
+  tag?: string
+  id?: string
+  class?: string
+}
+
+const {
+  tag = 'e-popover',
+  id = 'common-modal',
+  class: className,
+  ...rest
+} = Astro.props
+
+const Tag = tag as any
+---
+
+<Tag
+  class:list={['common-modal', className]}
+  {id}
+  {...rest}
+>
+  <div class="common-modal__inner">
+    <div class="common-modal__content">
+      <slot />
+    </div>
+  </div>
+</Tag>
+
+<style is:global>
+  .common-modal {
+    --escape: true;
+    --click-outside: true;
+
+    --duration: 0.3s;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: var(--z-common-modal);
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    opacity: 0;
+
+    transition: opacity var(--duration);
+
+    pointer-events: none;
+  }
+
+  .common-modal::before {
+    content: '';
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    background-color: rgba(0, 0, 0, 0.45);
+  }
+
+  .common-modal__inner {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .common-modal__content {
+    position: relative;
+
+    transform: translateY(10%);
+    transition: transform var(--duration);
+
+    pointer-events: auto;
+
+    max-height: 100%;
+
+    overflow: hidden auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .common-modal.opened .common-modal__content,
+  .common-modal.closing .common-modal__content {
+    transform: translateY(0%);
+  }
+</style>

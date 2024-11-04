@@ -1,0 +1,300 @@
+@font-face {
+  font-family: 'Code';
+  font-weight: 400;
+  src: url('/fonts/code-next-trial/regular.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM';
+  font-weight: 300;
+  src: url('/fonts/ibm-plex-sans/light.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM';
+  font-weight: 400;
+  src: url('/fonts/ibm-plex-sans/regular.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM';
+  font-weight: 500;
+  src: url('/fonts/ibm-plex-sans/medium.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM';
+  font-weight: 600;
+  src: url('/fonts/ibm-plex-sans/semibold.ttf');
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+:root {
+  --color-white-1: #f5f5f5;
+  --color-white-2: #e1e1e1;
+  --color-white-3: #ececec;
+
+  --color-grey-1: #2c2c2c;
+  --color-grey-2: #222222;
+  --color-grey-3: #232323;
+  --color-grey-4: #353535;
+  --color-grey-5: #898989;
+  --color-grey-6: #696969;
+  --color-grey-7: #000000;
+  --color-red: #f40000;
+
+  --screen-horisontal-padding: 15.6rem;
+  --section-vertical-padding: 8rem;
+
+  --z-form-answer: 102;
+  --z-common-modal: 101;
+  --z-header: 100;
+
+  --header-height: 10.2rem;
+
+  --duration-button: 0.25s;
+
+  --viewport-height: var(--inner-height, 100vh);
+  --viewport-width: var(--inner-width, 100vw);
+
+  @media (max-width: 768px) {
+    --header-height: 6.8rem;
+
+    --section-vertical-padding: 4rem;
+    --screen-horisontal-padding: 1.6rem;
+  }
+
+  @supports (height: 100dvh) {
+    :root {
+      --viewport-height: 100dvh;
+    }
+  }
+}
+
+html {
+  font-size: calc(100vw / 1920 * 10);
+
+  background-color: var(--color-grey-2);
+  color: var(--color-white-1);
+
+  @media (max-width: 768px) {
+    font-size: calc(100vw / 500 * 10);
+  }
+
+  @media (max-width: 600px) {
+    font-size: calc(100vw / 375 * 10);
+  }
+}
+
+body {
+  font-family: 'IBM', sans-serif;
+
+  background-color: var(--color-1);
+  color: var(--color-4);
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+  font-family: inherit;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+a {
+  font-family: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+a,
+button,
+e-scroll-set-button,
+e-scroll-step-button,
+e-popover-button {
+  cursor: pointer;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  max-width: 100%;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+picture {
+  display: contents;
+}
+
+.visually-hidden {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+button,
+e-popover-button {
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  display: block;
+}
+
+image-cloak {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+image-cloak {
+  --clear-duration: 1.2s;
+}
+
+image-cloak img {
+  opacity: 0;
+}
+
+image-cloak.loaded img {
+  transition: opacity var(--clear-duration);
+  opacity: 1;
+}
+
+image-cloak[cover] img {
+  object-fit: cover;
+}
+
+image-cloak[contain] img {
+  object-fit: contain;
+}
+
+image-cloak[lazy-background]::before {
+  content: '';
+
+  position: absolute;
+
+  z-index: -1;
+
+  width: 100%;
+  height: 100%;
+
+  background: var(--lazy-background, var(--color-white-3));
+
+  animation: media-loading 2s infinite ease-in-out;
+
+  will-change: opacity;
+}
+
+image-cloak[lazy-background].clear::before {
+  content: unset;
+}
+
+@keyframes media-loading {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.word,
+.letter {
+  display: inline-flex;
+}
+
+.wspw {
+  white-space: pre-wrap;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-4) var(--color-3);
+}
+
+.custom-scrollbar-x {
+  padding-bottom: 0.5rem;
+}
+
+.custom-scrollbar-y {
+  padding-right: 0.5rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 0.2rem;
+  width: 0.2rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: var(--color-concrete);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-cod-gray);
+}
+
+[data-bolder] {
+  position: relative;
+
+  &::after {
+    content: attr(data-bolder);
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    font-weight: var(--target-font-weight, 600);
+    opacity: var(--bolder, 0);
+    transform: translateX(-0.01em);
+
+    transition: opacity var(--duration-button);
+  }
+
+  & > span {
+    transition: opacity var(--duration-button);
+    opacity: calc(1 - var(--bolder, 0));
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      --bolder: 1;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+---
+import { getHref } from '@utils/url'
+
+export interface ImageDataProps {
+  src?: string | undefined
+  alt?: string | undefined
+}
+
+export interface Props extends ImageDataProps {
+  class?: string | undefined
+  lazy?: boolean | undefined
+  cover?: boolean | undefined
+  contain?: boolean | undefined
+  lazyBackground?: boolean | undefined
+}
+
+const {
+  src = '/images/dev.jpg',
+  alt = 'Альтернативный текст',
+  lazy,
+  cover,
+  contain,
+  lazyBackground,
+  ...rest
+} = Astro.props
+---
+
+<image-cloak
+  {...rest}
+  {cover}
+  {contain}
+  lazy-background={lazyBackground}
+>
+  <img
+    src={getHref(src)}
+    {alt}
+    decoding="async"
+    loading={lazy ? 'lazy' : 'eager'}
+  /></image-cloak
+>

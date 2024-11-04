@@ -1,0 +1,47 @@
+---
+export interface Props {
+  class?: string
+  text?: string
+}
+
+const { class: className, text = 'Смотреть', ...rest } = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['look-circle', className]}
+>
+  <span
+    class="look-circle__text"
+    set:html={text}
+  />
+</div>
+
+<style is:global>
+  .look-circle {
+    --size: 12rem;
+
+    width: var(--size);
+    height: var(--size);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0.1rem solid var(--color-white-1);
+    border-radius: 50%;
+
+    @media (max-width: 768px) {
+      --size: 9.4rem;
+    }
+  }
+
+  .look-circle__text {
+    font-size: 2rem;
+    color: var(--color-white-1);
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+</style>

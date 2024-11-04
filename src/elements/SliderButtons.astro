@@ -1,0 +1,33 @@
+---
+import SliderButton from './SliderButton.astro'
+
+export interface Props {
+  class?: string
+  slot?: string
+}
+
+const { class: className, slot, ...rest } = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['slider-buttons', className]}
+  slot={slot}
+>
+  <SliderButton type={'prev'} />
+  <SliderButton type={'next'} />
+</div>
+
+<style is:global>
+  .slider-buttons {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+
+    user-select: none;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+</style>

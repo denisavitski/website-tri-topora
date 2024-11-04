@@ -1,0 +1,374 @@
+---
+import type { ImageDataProps } from '@elements/Image.astro'
+import Image from '@elements/Image.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import SliderButtons from '@elements/SliderButtons.astro'
+
+export interface Props {
+  heading?: string
+  description?: string
+  types?: Array<{
+    name: string
+    image: ImageDataProps
+  }>
+}
+
+const {
+  heading = 'что мы строим',
+  description = 'Каменная архитектура, дома с панорамными окнами, дизайнерские планировки и безупречное качество',
+  types = [
+    {
+      name: 'Дома из бревна',
+      image: {
+        src: '/images/b-types/1.png',
+        alt: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дома из бруса',
+      image: {
+        src: '/images/b-types/1.png',
+        alt: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Бани и СПА-комплексы',
+      image: {
+        src: '/images/b-types/1.png',
+        alt: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Коммерческая недвижимость',
+      image: {
+        src: '/images/b-types/1.png',
+        alt: 'Коммерческая недвижимость',
+      },
+    },
+  ],
+} = Astro.props
+---
+
+<b-types class="b-types">
+  <div class="b-types__left">
+    <SectionHeading
+      class="b-types__heading"
+      text={heading}
+    />
+    <p
+      class="b-types__description"
+      set:html={description}
+    />
+    <div class="b-types__list">
+      <div class="b-types__list__inner">
+        {
+          types.map((item) => {
+            return (
+              <button class="b-types__list__button">
+                <span>{item.name}</span>
+              </button>
+            )
+          })
+        }
+      </div>
+    </div>
+  </div>
+
+  <e-scroll class="b-types__slider">
+    <div
+      class="b-types__slider__static"
+      slot={'static'}
+    >
+      <div class="b-types__slider__info">
+        Фотографии (<span class="b-types__slider__info__current"></span> из <span
+          class="b-types__slider__info__total"></span>)
+      </div>
+      <SliderButtons class="b-types__slider__buttons" />
+    </div>
+
+    {
+      types.map((item) => {
+        return (
+          <Image
+            {...item.image}
+            class="b-types__slider__image"
+            cover
+          />
+        )
+      })
+    }
+  </e-scroll>
+</b-types>
+
+<style is:global>
+  .b-types {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+
+    display: flex;
+    gap: 5.7rem;
+
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      padding: var(--section-vertical-padding) 0;
+    }
+  }
+
+  .b-types__left {
+    flex-shrink: 0;
+    width: 52rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0 var(--screen-horisontal-padding);
+    }
+  }
+
+  .b-types__heading {
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .b-types__description {
+    font-size: 2.2rem;
+    font-weight: 300;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .b-types__list {
+    --height: 22.7rem;
+    --item-per-view: 4;
+    --item-height: calc(var(--height) / var(--item-per-view));
+
+    position: relative;
+
+    width: 33.6rem;
+    height: var(--height);
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      --height: 15.6rem;
+    }
+  }
+
+  .b-types__list__inner {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+
+    transition: transform var(--duration-button);
+    transform: translateY(calc(var(--counter) * var(--item-height) * -1));
+  }
+
+  .b-types__list::after {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-image: linear-gradient(
+      to bottom,
+      rgba(34, 34, 34, 0) 20%,
+      rgba(34, 34, 34, 1) 100%
+    );
+
+    pointer-events: none;
+  }
+
+  .b-types__list__button {
+    font-size: 2.4rem;
+    text-align: start;
+
+    height: var(--item-height);
+
+    color: var(--color-grey-5);
+
+    transition: color var(--duration-button);
+
+    &.current {
+      color: var(--color-white-1);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--color-white-1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .b-types__slider {
+    --axis: x;
+    --gap: 3rem;
+    --overflow: hidden;
+    --sectional: true;
+    --classes: true;
+
+    display: flex;
+    gap: var(--gap);
+
+    width: 122rem;
+    height: 59.2rem;
+
+    @media (max-width: 768px) {
+      --gap: 1.7rem;
+      width: 100%;
+      height: 28.1rem;
+    }
+  }
+
+  .b-types__slider__image {
+    width: 92.4rem;
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    opacity: 0.6;
+
+    transition: opacity var(--duration-button);
+
+    &.current {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      width: 34.3rem;
+    }
+  }
+
+  .b-types__slider__static {
+    position: absolute;
+    z-index: 1;
+    right: calc(100% + 2.4rem);
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 19rem;
+
+    @media (max-width: 768px) {
+      width: 14rem;
+      right: unset;
+      left: var(--screen-horisontal-padding);
+      bottom: calc(100% + 1.6rem);
+    }
+  }
+
+  .b-types__slider__info {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+      margin-bottom: unset;
+    }
+  }
+
+  .b-types__slider__buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+</style>
+
+<script>
+  import type { ScrollElement } from 'aptechka/scroll'
+
+  export class BTypesElement extends HTMLElement {
+    #scrollElement: ScrollElement | null = null
+    #listButtonElements: Array<HTMLElement> = []
+    #currentSlideInfoElement: HTMLElement | null = null
+    #totalSlidesInfoElement: HTMLElement | null = null
+
+    protected connectedCallback() {
+      this.#listButtonElements = [
+        ...this.querySelectorAll<HTMLElement>('.b-types__list__button'),
+      ]
+
+      this.#listButtonElements.forEach((element) =>
+        element.addEventListener('click', this.#buttonClickListener),
+      )
+
+      this.#scrollElement = this.querySelector('.b-types__slider')
+
+      customElements.whenDefined('e-scroll').then(() => {
+        setTimeout(() => {
+          if (this.isConnected) {
+            this.#scrollElement?.counter.subscribe(this.#scrollCounterListener)
+          }
+        }, 10)
+      })
+
+      this.#currentSlideInfoElement = document.querySelector(
+        '.b-types__slider__info__current',
+      )
+      this.#totalSlidesInfoElement = document.querySelector(
+        '.b-types__slider__info__total',
+      )
+    }
+
+    protected disconnectedCallback() {
+      this.#listButtonElements.forEach((element) =>
+        element.removeEventListener('click', this.#buttonClickListener),
+      )
+    }
+
+    #buttonClickListener = (e: Event) => {
+      const ct = e.currentTarget as HTMLElement
+      const index = this.#listButtonElements.findIndex((e) => e === ct)
+
+      if (index >= 0) {
+        this.#scrollElement?.scrollToSection(index)
+      }
+    }
+
+    #scrollCounterListener = () => {
+      const length = this.#scrollElement?.sections.length || 0
+      const counter = this.#scrollElement?.counter.current || 0
+
+      this.style.setProperty('--counter', counter.toString())
+
+      this.#listButtonElements.forEach((element, i) => {
+        if (i === counter) {
+          element.classList.add('current')
+        } else {
+          element.classList.remove('current')
+        }
+      })
+
+      if (this.#currentSlideInfoElement) {
+        this.#currentSlideInfoElement.textContent = (counter + 1).toString()
+      }
+
+      if (this.#totalSlidesInfoElement) {
+        this.#totalSlidesInfoElement.textContent = length.toString()
+      }
+    }
+  }
+
+  if (!customElements.get('b-types')) {
+    customElements.define('b-types', BTypesElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'b-types': BTypesElement
+    }
+  }
+</script>
