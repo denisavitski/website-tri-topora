@@ -8,6 +8,7 @@ import '@globals/main.css'
 
 import '@lib/SegmentElement'
 import '@lib/ImageCloak'
+import '@lib/SwipePopoverElement'
 
 import './dev'
 import './page'

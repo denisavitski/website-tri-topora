@@ -43,7 +43,7 @@ const {
         emptyError: 'Заполните поле',
         type: 'text',
         staticError: 'mobile',
-        // required: true,
+        required: true,
       },
       {
         name: 'phone',
@@ -52,7 +52,7 @@ const {
         fillError: 'Заполните телефон полностью',
         type: 'phone',
         staticError: 'mobile',
-        // required: true,
+        required: true,
       },
       {
         name: 'comment',
@@ -74,6 +74,7 @@ const {
 } = Astro.props
 ---
 
+<!-- BLOCK -->
 <section class="feedback">
   <div class="feedback__inner">
     <div class="feedback__left">

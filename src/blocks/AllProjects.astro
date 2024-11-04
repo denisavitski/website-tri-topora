@@ -1,0 +1,1876 @@
+---
+import Filter, { type Props as FilterProps } from '@elements/Filter.astro'
+import Icon from '@elements/Icon.astro'
+import ProjectCard, {
+  type Props as ProjectCardProps,
+} from '@elements/ProjectCard.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import SimpleButton from '@elements/SimpleButton.astro'
+
+export interface Props {
+  heading?: string
+  filter?: FilterProps
+  projects?: Array<
+    ProjectCardProps & {
+      filter?: { type: string; area: string; floors: string; bedrooms: string }
+    }
+  >
+}
+
+const {
+  heading = 'проекты',
+  projects = [
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '100 м²',
+        },
+      ],
+      filter: {
+        area: '100',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '100 м²',
+        },
+      ],
+      filter: {
+        area: '100',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '100 м²',
+        },
+      ],
+      filter: {
+        area: '100',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '100 м²',
+        },
+      ],
+      filter: {
+        area: '100',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '100 м²',
+        },
+      ],
+      filter: {
+        area: '100',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '2 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '40 м²',
+        },
+      ],
+      filter: {
+        area: '40',
+        bedrooms: '2',
+        floors: '2',
+        type: 'Дома из бревна',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '3 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '3',
+        type: 'Дома из бруса',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '1 спальня',
+        },
+        {
+          icon: 'bath',
+          name: '1 санузел',
+        },
+        {
+          icon: 'size',
+          name: '240 м²',
+        },
+      ],
+      filter: {
+        area: '240',
+        bedrooms: '1',
+        floors: '1',
+        type: 'Бани и СПА-комплексы',
+      },
+    },
+    {
+      name: 'Дом Макдональд',
+      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      stats: [
+        {
+          icon: 'bed',
+          name: '3 спальни',
+        },
+        {
+          icon: 'bath',
+          name: '2 санузла',
+        },
+        {
+          icon: 'size',
+          name: '140 м²',
+        },
+      ],
+      filter: {
+        area: '140',
+        bedrooms: '3',
+        floors: '1',
+        type: 'Коммерческая недвижимость',
+      },
+    },
+  ],
+  filter,
+} = Astro.props
+---
+
+<!-- BLOCK --><!-- 
+  Предполагается, что все карточки будут на странице сразу.
+  Если карточки будут загружаться по API, то вам нужно будет заменить all-projects 
+  на div и сделать фильтрацию и пагинацию самостоятельно.
+-->
+<all-projects class="all-projects">
+  <SectionHeading
+    class="all-projects__heading"
+    text={heading}
+  />
+
+  <e-popover-button
+    class="all-projects__filter-button"
+    target="filter"
+  >
+    <span class="all-projects__filter-button__name">Фильтр</span>
+    <Icon
+      name="settings"
+      class="all-projects__filter-button__icon"
+    />
+  </e-popover-button>
+
+  <div class="all-projects__content">
+    <Filter
+      class="all-projects__filter"
+      {...filter}
+    />
+
+    <div class="all-projects__sheet">
+      <!-- 
+        Все data-[name] атрибуты должны соотвествовать названиями инпутов в фильтре.
+      -->
+      <div class="all-projects__list">
+        {
+          projects.map((project, i) => {
+            return (
+              <ProjectCard
+                class={`all-projects__project`}
+                aria-hidden={i >= 8}
+                data-type={project.filter?.type}
+                data-area={project.filter?.area}
+                data-floors={project.filter?.floors}
+                data-bedrooms={project.filter?.bedrooms}
+                href={project.href}
+                image={project.image}
+                name={project.name}
+                stats={project.stats}
+              />
+            )
+          })
+        }
+      </div>
+
+      <div
+        class="all-projects__reset"
+        aria-hidden="true"
+      >
+        <div class="all-projects__reset__title">Ничего не найдено</div>
+        <SimpleButton class="all-projects__reset__button"
+          >Очистить фильтры</SimpleButton
+        >
+      </div>
+
+      <SimpleButton class="all-projects__more">Смотреть ещё</SimpleButton>
+    </div>
+  </div>
+</all-projects>
+
+<style is:global>
+  .all-projects {
+    display: block;
+    position: relative;
+    padding: 0 var(--screen-horisontal-padding);
+    padding-bottom: var(--section-vertical-padding);
+  }
+
+  .all-projects__heading {
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .all-projects__filter-button {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      height: 4.5rem;
+
+      margin: 0 var(--screen-horisontal-padding);
+      margin-bottom: 2.4rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.6rem;
+
+      border-radius: 4rem;
+      background-color: var(--color-white-1);
+      color: var(--color-grey-1);
+    }
+  }
+
+  .all-projects__filter-button__name {
+    font-size: 1.6rem;
+  }
+
+  .all-projects__filter-button__icon {
+    width: 2rem;
+    height: 1rem;
+    fill: var(--color-grey-1);
+  }
+
+  .all-projects__content {
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .all-projects__filter {
+  }
+
+  .all-projects__sheet {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .all-projects__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.4rem;
+
+    margin-bottom: 4.8rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+    }
+  }
+
+  .all-projects__project {
+    &[aria-hidden='true'] {
+      display: none;
+    }
+  }
+
+  .all-projects__reset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &[aria-hidden='true'] {
+      display: none;
+    }
+  }
+
+  .all-projects__reset__title {
+    font-size: 4.2rem;
+    margin-bottom: 4rem;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      font-size: 3.6rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .all-projects__reset__button {
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .all-projects__more {
+    &[aria-hidden='true'] {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import type { FilterElement } from '@elements/Filter.astro.0.mjs'
+
+  export interface AllProjectsAPIEmulationPagination {
+    totalItems: number
+    totalPages: number
+    currentPage: number
+  }
+
+  export interface AllProjectsAPIEmulationParameters {
+    filter?: Record<string, string> | undefined
+    page?: number | undefined
+    itemsPerPage?: number | undefined
+  }
+
+  export class AllProjectsElement extends HTMLElement {
+    #projectElements: Array<HTMLElement> = []
+    #moreButtonElement: HTMLElement | null = null
+    #filterElement: FilterElement | null = null
+    #resetElement: HTMLElement | null = null
+    #resetButtonElement: HTMLElement | null = null
+    #itemsPerPage = 8
+    #page = 1
+
+    protected connectedCallback() {
+      this.#projectElements = [
+        ...this.querySelectorAll<HTMLElement>('.all-projects__project'),
+      ]
+
+      this.#moreButtonElement = this.querySelector('.all-projects__more')
+      this.#moreButtonElement?.addEventListener(
+        'click',
+        this.#moreButtonListener,
+      )
+
+      this.#filterElement = this.querySelector('e-filter')
+      this.#filterElement?.addEventListener(
+        'filterChange',
+        this.#filterListener,
+      )
+
+      this.#resetElement = this.querySelector('.all-projects__reset')
+
+      this.#resetButtonElement =
+        this.#resetElement?.querySelector('.all-projects__reset__button') ||
+        null
+
+      this.#resetButtonElement?.addEventListener('click', this.#resetListener)
+    }
+
+    protected disconnectedCallback() {
+      this.#moreButtonElement?.removeEventListener(
+        'click',
+        this.#moreButtonListener,
+      )
+
+      this.#filterElement?.removeEventListener(
+        'filterChange',
+        this.#filterListener,
+      )
+
+      this.#resetButtonElement?.removeEventListener(
+        'click',
+        this.#resetListener,
+      )
+    }
+
+    #moreButtonListener = () => {
+      this.#page++
+
+      const values = this.#filterElement?.values
+      const { elements, pagination } = this.#apiEmulation({
+        filter: values,
+        page: this.#page,
+        itemsPerPage: this.#itemsPerPage,
+      })
+
+      elements.forEach((element) => {
+        element.ariaHidden = 'false'
+      })
+
+      this.#toggleMoreButton(pagination)
+      this.#toggleResetButton(pagination)
+
+      window.dispatchEvent(new Event('resize'))
+    }
+
+    #filterListener = () => {
+      this.#page = 1
+
+      const values = this.#filterElement?.values
+
+      const { elements, pagination } = this.#apiEmulation({
+        filter: values,
+        page: this.#page,
+        itemsPerPage: this.#itemsPerPage,
+      })
+
+      this.#projectElements.forEach((element) => {
+        if (elements.includes(element)) {
+          element.ariaHidden = 'false'
+        } else {
+          element.ariaHidden = 'true'
+        }
+      })
+
+      this.#toggleMoreButton(pagination)
+      this.#toggleResetButton(pagination)
+
+      window.dispatchEvent(new Event('resize'))
+
+      this.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+      })
+    }
+
+    #resetListener = () => {
+      this.#filterElement?.reset()
+    }
+
+    #toggleMoreButton(pagination: AllProjectsAPIEmulationPagination) {
+      if (this.#moreButtonElement) {
+        if (
+          !pagination.totalPages ||
+          pagination.totalPages === pagination.currentPage
+        ) {
+          this.#moreButtonElement.ariaHidden = 'true'
+        } else {
+          this.#moreButtonElement.ariaHidden = 'false'
+        }
+      }
+    }
+
+    #toggleResetButton(pagination: AllProjectsAPIEmulationPagination) {
+      if (this.#resetElement) {
+        if (!pagination.totalPages) {
+          this.#resetElement.ariaHidden = 'false'
+        } else {
+          this.#resetElement.ariaHidden = 'true'
+        }
+      }
+    }
+
+    #apiEmulation({
+      page = 1,
+      filter,
+      itemsPerPage = 8,
+    }: AllProjectsAPIEmulationParameters) {
+      const filteredElements = this.#projectElements.filter((project) => {
+        let errors = 0
+
+        for (const key in filter) {
+          const value = filter[key]
+          const projectValue = project.getAttribute(`data-${key}`)
+
+          if (value && projectValue) {
+            if (value.startsWith('range:')) {
+              const splitted = value.split('range:')[1]?.split('-')
+              const min = splitted?.[0]
+              const max = splitted?.[1]
+
+              if (min && max) {
+                const minFloat = parseFloat(min)
+                const maxFloat = parseFloat(max)
+                const valueFloat = parseFloat(projectValue)
+
+                if (
+                  !isNaN(valueFloat) &&
+                  !isNaN(minFloat) &&
+                  !isNaN(maxFloat)
+                ) {
+                  if (valueFloat < minFloat || valueFloat > maxFloat) {
+                    errors++
+                  }
+                }
+              }
+            } else {
+              if (value && projectValue !== value) {
+                errors++
+              }
+            }
+          }
+        }
+
+        return errors === 0
+      })
+
+      const start = (page - 1) * itemsPerPage
+      const end = start + itemsPerPage
+      const elements = filteredElements.slice(start, end)
+
+      const pagination: AllProjectsAPIEmulationPagination = {
+        totalItems: filteredElements.length,
+        totalPages: Math.ceil(filteredElements.length / itemsPerPage),
+        currentPage: page,
+      }
+
+      return {
+        elements,
+        pagination,
+      }
+    }
+  }
+
+  if (!customElements.get('all-projects')) {
+    customElements.define('all-projects', AllProjectsElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'all-projects': AllProjectsElement
+    }
+  }
+</script>

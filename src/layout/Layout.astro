@@ -1,10 +1,12 @@
 ---
-import Header from '@blocks/Header.astro'
-import Footer from '@blocks/Footer.astro'
+import Header from '@singletons/Header.astro'
+import Footer from '@singletons/Footer.astro'
+
+import FormAnswer from '@singletons/FormAnswer.astro'
+import Scrollbar from '@singletons/Scrollbar.astro'
 
 import Head from './Head.astro'
-import FormAnswer from '@blocks/FormAnswer.astro'
-import Scrollbar from '@elements/Scrollbar.astro'
+import { type Props as SeoProps } from './Seo.astro'
 
 export interface Props {
   header?: boolean
@@ -14,13 +16,14 @@ export interface Props {
   formResultModal?: boolean
   ctaModal?: boolean
   partnerModal?: boolean
+  seo?: SeoProps | undefined
 }
 
-const { header = true, footer = true } = Astro.props
+const { header = true, footer = true, seo } = Astro.props
 ---
 
 <html lang="ru">
-  <Head />
+  <Head {seo} />
 
   <body>
     <div class="page">
@@ -28,7 +31,7 @@ const { header = true, footer = true } = Astro.props
 
       <FormAnswer />
 
-      <div class="scroll">
+      <div class="scroll hidden-scrollbar">
         <Scrollbar />
 
         <main>
@@ -65,16 +68,9 @@ const { header = true, footer = true } = Astro.props
 
     overflow: hidden auto;
 
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
     .dragging & {
       overflow: hidden;
     }
-  }
-
-  .scroll::-webkit-scrollbar {
-    display: none;
   }
 </style>
 

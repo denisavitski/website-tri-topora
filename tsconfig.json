@@ -9,6 +9,7 @@
       "@layout/*": ["src/layout/*"],
       "@lib/*": ["src/lib/*"],
       "@pages/*": ["src/pages/*"],
+      "@singletons/*": ["src/singletons/*"],
       "@utils/*": ["src/utils/*"]
     }
   }

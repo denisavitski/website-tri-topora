@@ -1,0 +1,82 @@
+---
+import CardInfo, { type Props as CardInfoProps } from '@elements/CardInfo.astro'
+import type { ImageDataProps } from './Image.astro'
+import Image from './Image.astro'
+
+export type ProjectProps = Omit<CardInfoProps, 'size' | 'class'> & {}
+
+export interface Props extends Omit<CardInfoProps, 'size' | 'class'> {
+  class?: string
+  href?: string | undefined
+  image?: ImageDataProps | undefined
+}
+
+const {
+  class: className,
+  href = '/',
+  name = 'Дом Макдональд',
+  image = { src: '/images/projects-section/1.jpg', alt: '' },
+  stats = [
+    {
+      icon: 'bed',
+      name: '3 спальни',
+    },
+    {
+      icon: 'bath',
+      name: '3 санузла',
+    },
+    {
+      icon: 'size',
+      name: '472 м²',
+    },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<a
+  {...rest}
+  {href}
+  class:list={['project-card', className]}
+>
+  <Image
+    class="project-card__image"
+    {...image}
+    lazy
+    lazyBackground
+    cover
+  />
+  <CardInfo
+    class="project-card__info"
+    name={name}
+    stats={stats}
+    size={'normal'}
+  />
+</a>
+
+<style>
+  .project-card {
+    width: 100%;
+  }
+
+  .project-card__image {
+    height: 42rem;
+
+    margin-bottom: 1.6rem;
+
+    border-radius: 0.8rem;
+
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      border-radius: 0rem;
+      height: 31.5rem;
+    }
+  }
+
+  .project-card__info {
+    @media (max-width: 768px) {
+      padding: 0 var(--screen-horisontal-padding);
+    }
+  }
+</style>

@@ -1,0 +1,672 @@
+---
+import Icon from './Icon.astro'
+import SimpleButton from './SimpleButton.astro'
+
+export const modal = '#filter'
+
+export interface Props {
+  class?: string
+  folders?: Array<{
+    type: string
+    name: string
+    opened?: boolean | undefined
+    items: Array<{
+      name: string
+      value?: string
+      checked?: boolean | undefined
+    }>
+  }>
+}
+
+const {
+  class: className,
+  folders = [
+    {
+      type: 'type',
+      name: 'Тип дома',
+      opened: true,
+      items: [
+        { name: 'Все дома', checked: true, value: '' },
+        { name: 'Дома из бревна' },
+        { name: 'Дома из бруса' },
+        { name: 'Бани и СПА-комплексы' },
+        { name: 'Коммерческая недвижимость' },
+      ],
+    },
+    {
+      type: 'area',
+      name: 'Плащадь м²',
+      opened: true,
+      items: [
+        { name: 'до 50', value: 'range: 0-50' },
+        { name: '50-100', value: 'range: 50-100' },
+        { name: '100-150', value: 'range: 100-150' },
+        { name: 'более 150', value: 'range: 150-9999999999' },
+      ],
+    },
+    {
+      type: 'floors',
+      name: 'Кол-во этажей',
+      items: [
+        { name: '3 этажа', value: '3' },
+        { name: '2 этажа', value: '2' },
+        { name: '1 этаж', value: '1' },
+      ],
+    },
+    {
+      type: 'bedrooms',
+      name: 'Кол-во спален',
+      items: [
+        { name: '3 спальни', value: '3' },
+        { name: '2 спальни', value: '2' },
+        { name: '1 спальня', value: '1' },
+      ],
+    },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<!-- 
+  После изменений, фильтр генерирует событие filterChange.
+
+  // Кастомные элементы готовы к работе
+  addEventListener('load', () => {
+    const filterElement = document.querySelector("e-filter")
+
+    filterElement.addEventListener('filterChange', (e) => {
+      // Карта со значениями
+      console.log(e.detail, filterElement.values)
+    })
+
+    // Сбрасывает все значения.
+    filterElement.reset()
+  })
+-->
+<e-filter
+  {...rest}
+  class:list={['filter', className]}
+  id="filter"
+>
+  <div class="filter__inner hidden-scrollbar">
+    <div
+      class="filter__swipe hidden-scrollbar"
+      data-swipe
+    >
+      <div class="filter__content">
+        <div
+          class="filter__swipe__top"
+          data-swipe-knob
+        >
+          <div class="filter__swipe__top__decoration"></div>
+          <div class="filter__swipe__top__buttons">
+            <e-popover-button
+              class="filter__back"
+              target="filter"
+            >
+              <Icon
+                class="filter__back__arrow"
+                name="tail-arrow"
+              />
+              <span class="filter__back__name">Назад</span>
+            </e-popover-button>
+            <button class="filter__reset"> Очистить фильтры </button>
+          </div>
+        </div>
+        <e-accordion
+          class="filter__accordion"
+          multiple
+        >
+          {
+            folders.map((folder) => {
+              return (
+                <div
+                  class="filter__folder"
+                  data-opened={folder.opened}
+                >
+                  <div class="filter__folder__head">
+                    <div
+                      class="filter__folder__name"
+                      set:html={folder.name}
+                    />
+                    <Icon
+                      class="filter__folder__icon"
+                      name="tail-arrow"
+                    />
+                  </div>
+                  <div class="filter__folder__body">
+                    <div class="filter__folder__content">
+                      {folder.items.map((item) => {
+                        return (
+                          <label class="filter__item">
+                            <input
+                              class="visually-hidden"
+                              type="radio"
+                              name={folder.type}
+                              value={
+                                typeof item.value === 'string'
+                                  ? item.value
+                                  : item.name
+                              }
+                              checked={item.checked}
+                              data-checked-default={item.checked}
+                            />
+                            <span
+                              class="filter__item__name"
+                              set:html={item.name}
+                            />
+                          </label>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </e-accordion>
+
+        <SimpleButton class="filter__reset filter__reset-desktop"
+          >Очистить фильтры</SimpleButton
+        >
+      </div>
+      <div class="filter__apply">
+        <e-popover-button
+          class="filter__apply__button"
+          target="filter"
+          >Применить</e-popover-button
+        >
+      </div>
+    </div>
+  </div>
+</e-filter>
+
+<style is:global>
+  .filter {
+    --escape: true;
+    --click-outside: true;
+
+    --modal-duration: 0.4s;
+    --accordion-duration: 0.3s;
+
+    @media (min-width: 769px) {
+      position: sticky;
+      top: 0;
+
+      height: calc(var(--viewport-height) - var(--header-height));
+
+      opacity: 1 !important;
+      display: block !important;
+    }
+
+    @media (max-width: 768px) {
+      --swipe-enabled: true;
+
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      z-index: var(--z-filter);
+
+      width: 100%;
+      height: 100%;
+
+      opacity: 0;
+      display: none;
+
+      transition: opacity var(--modal-duration);
+
+      pointer-events: none;
+
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .filter__inner {
+    @media (min-width: 769px) {
+      height: 100%;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      overflow: hidden auto;
+
+      transform: translateY(101%);
+      transition: transform var(--modal-duration);
+
+      .filter.opened & {
+        transform: translateY(0%);
+      }
+
+      .filter.closing & {
+        transform: translateY(101%);
+      }
+    }
+  }
+
+  .filter__swipe {
+    @media (min-width: 769px) {
+      overscroll-behavior: contain;
+
+      overflow: hidden auto;
+      height: 100%;
+    }
+
+    @media (max-width: 768px) {
+      position: relative;
+
+      max-height: 85vh;
+
+      pointer-events: auto;
+      overflow: hidden auto;
+
+      border-top-left-radius: 0.8rem;
+      border-top-right-radius: 0.8rem;
+    }
+  }
+
+  .filter__swipe__top {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      position: sticky;
+      top: 0;
+      left: 0;
+
+      z-index: 1;
+
+      background-color: var(--color-grey-1);
+    }
+  }
+
+  .filter__swipe__top__decoration {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-grey-1);
+
+    &::after {
+      content: '';
+
+      display: block;
+
+      width: 4rem;
+      height: 0.2rem;
+
+      border-radius: 100rem;
+
+      background-color: var(--color-white-1);
+    }
+  }
+
+  .filter__content {
+    @media (min-width: 769px) {
+      width: 38.4rem;
+    }
+
+    @media (max-width: 768px) {
+      padding: 0rem var(--screen-horisontal-padding)
+        var(--screen-horisontal-padding) var(--screen-horisontal-padding);
+
+      background-color: var(--color-grey-1);
+    }
+  }
+
+  .filter__accordion {
+    width: 100%;
+
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: 2.4rem;
+
+    @media (min-width: 769px) {
+      margin-bottom: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      gap: 1.6rem;
+      width: 100%;
+    }
+  }
+
+  .filter__folder {
+    width: 100%;
+  }
+
+  .filter__folder__head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    cursor: default;
+  }
+
+  .filter__folder__name {
+    font-size: 2.4rem;
+    font-weight: 500;
+
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+    }
+  }
+
+  .filter__folder__icon {
+    width: 2.2rem;
+    height: 2.2rem;
+
+    fill: var(--color-white-1);
+
+    transition: transform var(--accordion-duration);
+
+    .filter__folder.opened & {
+      transform: rotate(45deg);
+    }
+
+    @media (max-width: 768px) {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  }
+
+  .filter__folder__body {
+    transition: height var(--accordion-duration);
+  }
+
+  .filter__folder__content {
+    padding-top: 1.6rem;
+  }
+
+  .filter__item {
+    position: relative;
+
+    display: block;
+    width: 100%;
+
+    cursor: default;
+  }
+
+  .filter__item__name {
+    font-size: 2rem;
+
+    display: block;
+    width: 100%;
+
+    height: 5.8rem;
+    padding: 1.6rem 2.4rem;
+
+    border-radius: 4rem;
+
+    input:checked ~ & {
+      background-color: var(--color-white-1);
+      color: var(--color-grey-1);
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+
+      height: 4.5rem;
+      padding: 1.2rem 1.6rem;
+    }
+  }
+
+  .filter__reset-desktop {
+    width: 100%;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .filter__apply {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      position: sticky;
+      bottom: -1px;
+
+      width: 100%;
+      height: 9.3rem;
+
+      padding: 0 var(--screen-horisontal-padding);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: var(--color-grey-1);
+
+      filter: drop-shadow(0 -0.3rem 0.4rem rgba(63, 63, 63, 0.25));
+    }
+  }
+
+  .filter__apply__button {
+    --type: close;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      text-transform: uppercase;
+
+      width: 100%;
+      height: 4.5rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--color-grey-1);
+      border-radius: 4rem;
+      background-color: var(--color-white-1);
+
+      cursor: pointer;
+    }
+  }
+
+  .filter__swipe__top__buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 3rem;
+  }
+
+  .filter__back {
+    --type: close;
+    display: flex;
+    align-items: center;
+  }
+
+  .filter__back__arrow {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-right: 0.8rem;
+
+    fill: var(--color-white-1);
+    transform: rotate(-180deg);
+  }
+
+  .filter__back__name {
+    font-size: 1.6rem;
+  }
+
+  .filter__reset {
+    font-size: 1.6rem;
+  }
+</style>
+
+<script>
+  import { scrollElement } from '@globals/page'
+  import { SwipePopoverElement } from '@lib/SwipePopoverElement'
+  import { dispatchEvent, getCumulativeOffsetTop } from 'aptechka/utils'
+
+  export interface FilterEvents {
+    filterChange: CustomEvent<Record<string, string>>
+  }
+
+  export class FilterElement extends SwipePopoverElement {
+    #inputElements: Array<HTMLInputElement> = []
+    #resetButtonElements: Array<HTMLElement> = []
+    #swipeElement: HTMLElement | null = null
+
+    #values: Record<string, string> = {}
+
+    #currentScrollValue = 0
+    #currentDirection = 0
+    #lastPageScroll = 0
+    #lastScrollTop = 0
+
+    constructor() {
+      super()
+
+      this.addEventListener('popoverOpened', () => {
+        window.dispatchEvent(new Event('resize'))
+      })
+    }
+
+    public get values() {
+      return this.#values
+    }
+
+    public reset() {
+      this.#inputElements.forEach((input) => {
+        if (input.hasAttribute('data-checked-default')) {
+          input.checked = true
+        } else {
+          input.checked = false
+        }
+      })
+
+      this.#updateValues()
+
+      dispatchEvent(this, 'filterChange', {
+        custom: true,
+        detail: this.#values,
+      })
+    }
+
+    protected override connectedCallback() {
+      super.connectedCallback()
+
+      this.#inputElements = [
+        ...this.querySelectorAll<HTMLInputElement>('input'),
+      ]
+
+      this.#updateValues()
+
+      this.#inputElements.forEach((input) => {
+        input.addEventListener('change', this.#inputListener)
+      })
+
+      this.#resetButtonElements = [
+        ...this.querySelectorAll<HTMLElement>('.filter__reset'),
+      ]
+
+      this.#resetButtonElements.forEach((element) => {
+        element?.addEventListener('click', this.#resetListener)
+      })
+
+      this.#swipeElement = this.querySelector('.filter__swipe')
+
+      scrollElement.current.addEventListener(
+        'scroll',
+        this.#parentScrollListener,
+      )
+    }
+
+    protected override disconnectedCallback() {
+      super.disconnectedCallback()
+
+      this.#inputElements.forEach((input) => {
+        input.removeEventListener('change', this.#inputListener)
+      })
+
+      this.#resetButtonElements.forEach((element) => {
+        element?.removeEventListener('click', this.#resetListener)
+      })
+
+      scrollElement.current.removeEventListener(
+        'scroll',
+        this.#parentScrollListener,
+      )
+    }
+
+    #resetListener = () => {
+      this.reset()
+    }
+
+    #inputListener = () => {
+      this.#updateValues()
+
+      dispatchEvent(this, 'filterChange', {
+        custom: true,
+        detail: this.#values,
+      })
+    }
+
+    #parentScrollListener = () => {
+      if (this.#swipeElement && matchMedia('(min-width: 769px)').matches) {
+        const scrollDirection = Math.sign(
+          scrollElement.current.scrollTop - this.#currentScrollValue,
+        )
+
+        const containerTop = getCumulativeOffsetTop(this.parentElement!)
+
+        const pageScroll = scrollElement.current.scrollTop - containerTop
+
+        if (scrollDirection !== this.#currentDirection) {
+          this.#lastPageScroll = pageScroll
+        }
+
+        const delta = pageScroll - this.#lastPageScroll
+
+        if (scrollDirection !== this.#currentDirection) {
+          this.#lastScrollTop = this.#swipeElement.scrollTop
+        }
+
+        this.#swipeElement.scrollTop = this.#lastScrollTop + delta
+
+        this.#currentScrollValue = scrollElement.current.scrollTop
+        this.#currentDirection = scrollDirection
+      }
+    }
+
+    #updateValues() {
+      this.#values = {}
+
+      this.#inputElements.forEach((input) => {
+        if (!this.#values[input.name]) {
+          this.#values[input.name] = ''
+        }
+
+        if (input.checked && input.value) {
+          this.#values[input.name] = input.value
+        }
+      })
+    }
+  }
+
+  if (!customElements.get('e-filter')) {
+    customElements.define('e-filter', FilterElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'e-filter': FilterElement
+    }
+
+    interface HTMLElementEventMap extends FilterEvents {}
+  }
+</script>

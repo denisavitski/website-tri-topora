@@ -27,7 +27,7 @@ const {
   nav = [
     {
       name: 'Проекты',
-      href: '/',
+      href: '/projects',
     },
     {
       name: 'Услуги',
@@ -56,6 +56,7 @@ const {
 } = Astro.props
 ---
 
+<!-- SINGLETON -->
 <footer class="footer">
   <div class="footer__top">
     <Logo
@@ -199,6 +200,14 @@ const {
   .footer__nav__link {
     font-size: 2rem;
 
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      &:hover {
+        opacity: var(--opacity-hover);
+      }
+    }
+
     @media (max-width: 768px) {
       font-size: 1.6rem;
     }
@@ -246,6 +255,14 @@ const {
     text-decoration: underline;
     text-decoration-skip-ink: none;
     text-underline-offset: 0.2em;
+
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      &:hover {
+        opacity: var(--opacity-hover);
+      }
+    }
 
     @media (max-width: 768px) {
       font-size: 1.6rem;

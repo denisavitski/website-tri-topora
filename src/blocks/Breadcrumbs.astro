@@ -1,0 +1,98 @@
+---
+export interface Props {
+  class?: string
+  links?: Array<{ name: string; href: string }>
+}
+
+const {
+  class: className,
+  links = [
+    { name: 'Главная', href: '/' },
+    { name: 'Проекты', href: '/projects' },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<div
+  {...rest}
+  class:list={['breadcrumbs', className]}
+>
+  {
+    links.map((link, i, arr) => {
+      return (
+        <a
+          href={link.href}
+          class:list={[
+            'breadcrumbs__link',
+            { breadcrumbs__link_current: i === arr.length - 1 },
+          ]}
+        >
+          <span
+            class="breadcrumbs__link__name"
+            set:html={link.name}
+          />
+        </a>
+      )
+    })
+  }
+</div>
+
+<style is:global>
+  .breadcrumbs {
+    --gap: 0.8rem;
+
+    padding: 4.8rem var(--screen-horisontal-padding) 4rem
+      var(--screen-horisontal-padding);
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+
+    @media (max-width: 768px) {
+      padding: 1.6rem var(--screen-horisontal-padding) 2.4rem
+        var(--screen-horisontal-padding);
+    }
+  }
+
+  .breadcrumbs__link {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+
+    &:not(:first-child):before {
+      content: '';
+
+      width: 0.6rem;
+      height: 0.6rem;
+
+      background-color: var(--color-white-1);
+      border-radius: 50%;
+    }
+  }
+
+  .breadcrumbs__link__name {
+    font-size: 1.8rem;
+
+    color: var(--color-grey-5);
+
+    .breadcrumbs__link_current & {
+      color: var(--color-white-1);
+    }
+
+    @media (hover: hover) {
+      transition: color var(--duration-button);
+
+      .breadcrumbs__link:hover & {
+        color: var(--color-white-1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
+  }
+</style>

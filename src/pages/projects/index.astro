@@ -1,0 +1,29 @@
+---
+import AllProjects from '@blocks/AllProjects.astro'
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: проекты',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Projects',
+        href: '/projects',
+      },
+    ]}
+  />
+  <AllProjects />
+</Layout>

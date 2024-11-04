@@ -83,7 +83,7 @@ const Tag = tag
         }
 
         &:hover::before {
-          opacity: 0.4;
+          opacity: var(--opacity-hover);
         }
       }
     }
@@ -115,7 +115,7 @@ const Tag = tag
     }
 
     &[disabled] {
-      opacity: 0.4;
+      opacity: var(--opacity-hover);
       pointer-events: none;
     }
 

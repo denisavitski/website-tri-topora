@@ -43,6 +43,14 @@ const icon = href
   .contact {
     display: inline-flex;
     align-items: center;
+
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      &:hover {
+        opacity: var(--opacity-hover);
+      }
+    }
   }
 
   .contact__icon {

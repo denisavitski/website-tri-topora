@@ -38,11 +38,12 @@ addEventListener('load', () => {
   document.documentElement.classList.add('page-loaded')
 
   updateSize()
-  updateScrollElement()
 
   setTimeout(() => {
     dispatchEvent(new Event('resize'))
   }, 0)
 })
+
+updateScrollElement()
 
 addEventListener('resize', updateSize)
