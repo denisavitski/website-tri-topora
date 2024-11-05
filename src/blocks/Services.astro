@@ -1,0 +1,102 @@
+---
+import SectionHeading from '@elements/SectionHeading.astro'
+import ServiceCard, {
+  type Props as ServiceCardProps,
+} from '@elements/ServiceCard.astro'
+
+export interface Props {
+  heading?: string
+  list?: Array<ServiceCardProps>
+}
+
+const {
+  heading = 'Услуги',
+  list = [
+    {
+      href: '/',
+      image: { src: '/images/services/1.png', alt: '' },
+      name: 'Плотницкое дело',
+    },
+    {
+      href: '/',
+      image: { src: '/images/services/2.png', alt: '' },
+      name: 'Стройка под ключ',
+    },
+    {
+      href: '/',
+      image: { src: '/images/services/3.png', alt: '' },
+      name: 'Архитектурное проектирование',
+    },
+    {
+      href: '/',
+      image: { src: '/images/services/4.png', alt: '' },
+      name: 'Дизайн интерьера',
+    },
+    {
+      href: '/',
+      image: { src: '/images/services/5.png', alt: '' },
+      name: 'Деревянная скульптура',
+    },
+  ],
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<div class="services">
+  <SectionHeading
+    class="services__heading"
+    text={heading}
+  />
+
+  <ul class="services__list">
+    {
+      list.map((item) => {
+        return (
+          <li class="services__list__item">
+            <ServiceCard {...item} />
+          </li>
+        )
+      })
+    }
+  </ul>
+</div>
+
+<style>
+  .services {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+    padding-top: 0;
+
+    @media (max-width: 768px) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .services__heading {
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      padding: 0 var(--screen-horisontal-padding);
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .services__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      gap: 0.8rem;
+    }
+  }
+
+  .services__list__item {
+    height: 42rem;
+
+    @media (max-width: 768px) {
+      height: 31.5rem;
+    }
+  }
+</style>

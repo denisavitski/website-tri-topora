@@ -82,7 +82,8 @@ const Tag = tag
           backdrop-filter: blur(0.8rem);
         }
 
-        &:hover::before {
+        &:hover::before,
+        .button-owner:hover &::before {
           opacity: var(--opacity-hover);
         }
       }
@@ -150,7 +151,8 @@ const Tag = tag
     transition-duration: var(--duration-button);
 
     @media (hover: hover) {
-      .arrow-button:hover & {
+      .arrow-button:hover &,
+      .button-owner:hover & {
         transform: rotate(0deg);
       }
     }
