@@ -1,0 +1,64 @@
+---
+import Image, { type ImageDataProps } from './Image.astro'
+import LookCircle from './LookCircle.astro'
+
+export interface Props {
+  class?: string
+  circleText?: string
+  image?: ImageDataProps
+  modal?: string
+  value?: string
+}
+
+const {
+  class: className,
+  circleText = 'Смотреть',
+  image = {
+    src: '/images/dev.jpg',
+    lazy: true,
+    lazyBackground: true,
+  },
+  modal = 'iframe-modal',
+  value = '<iframe width="720" height="405" src="https://rutube.ru/play/embed/b7e0591f6db752377c55cffed709908b/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['look-card', className]}
+>
+  <Image
+    {...image}
+    cover
+    lazy
+    lazyBackground
+    class="look-card__image"
+  />
+
+  <LookCircle
+    text={circleText}
+    class="look-card__circle"
+    tag="e-popover-button"
+    target={modal}
+    data-value={value}
+  />
+</div>
+
+<style is:global>
+  .look-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .look-card__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .look-card__circle {
+    position: absolute;
+    z-index: 1;
+  }
+</style>

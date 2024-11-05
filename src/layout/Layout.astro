@@ -1,12 +1,13 @@
 ---
 import Header from '@singletons/Header.astro'
 import Footer from '@singletons/Footer.astro'
-
+import IframeModal from '@singletons/IframeModal.astro'
 import FormAnswer from '@singletons/FormAnswer.astro'
 import Scrollbar from '@singletons/Scrollbar.astro'
 
 import Head from './Head.astro'
 import { type Props as SeoProps } from './Seo.astro'
+import Consultation from '@singletons/Consultation.astro'
 
 export interface Props {
   header?: boolean
@@ -30,6 +31,8 @@ const { header = true, footer = true, seo } = Astro.props
       {header && <Header />}
 
       <FormAnswer />
+      <IframeModal />
+      <Consultation />
 
       <div class="scroll hidden-scrollbar">
         <Scrollbar />

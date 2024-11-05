@@ -1,7 +1,7 @@
 ---
-import Form from '@elements/Form.astro'
+import Form, { type CommmonFormProps } from '@elements/Form.astro'
 import Image, { type ImageDataProps } from '@elements/Image.astro'
-import Input, { type Props as InputProps } from '@elements/Input.astro'
+import Input from '@elements/Input.astro'
 import ArrowButton from '@elements/ArrowButton.astro'
 
 export interface Props {
@@ -13,14 +13,7 @@ export interface Props {
       position: string
     }>
   }
-  form?: {
-    inputs: Array<InputProps>
-    submitButton?: string
-    terms?: string
-    successTitle?: string
-    successMessage?: string
-    errorMessage?: string
-  }
+  form?: CommmonFormProps
 }
 
 const {

@@ -23,7 +23,7 @@ const Tag = tag as any
   {...rest}
 >
   <div class="common-modal__inner">
-    <div class="common-modal__content">
+    <div class="common-modal__content hidden-scrollbar">
       <slot />
     </div>
   </div>
@@ -64,7 +64,7 @@ const Tag = tag as any
 
     pointer-events: none;
 
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: rgba(0, 0, 0, 0.85);
   }
 
   .common-modal__inner {
@@ -79,7 +79,7 @@ const Tag = tag as any
   .common-modal__content {
     position: relative;
 
-    transform: translateY(10%);
+    transform: translateY(5%);
     transition: transform var(--duration);
 
     pointer-events: auto;
@@ -90,6 +90,8 @@ const Tag = tag as any
 
     @media (max-width: 768px) {
       width: 100%;
+      display: flex;
+      justify-content: center;
     }
   }
 

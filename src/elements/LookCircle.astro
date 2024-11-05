@@ -1,13 +1,23 @@
 ---
-export interface Props {
+import type { HTMLAttributes } from 'astro/types'
+
+export interface Props extends HTMLAttributes<any> {
   class?: string
   text?: string
+  tag?: string
 }
 
-const { class: className, text = 'Смотреть', ...rest } = Astro.props
+const {
+  class: className,
+  text = 'Смотреть',
+  tag = 'div',
+  ...rest
+} = Astro.props
+
+const Tag = tag
 ---
 
-<div
+<Tag
   {...rest}
   class:list={['look-circle', className]}
 >
@@ -15,7 +25,7 @@ const { class: className, text = 'Смотреть', ...rest } = Astro.props
     class="look-circle__text"
     set:html={text}
   />
-</div>
+</Tag>
 
 <style is:global>
   .look-circle {

@@ -1,5 +1,6 @@
 ---
 import { getHref } from '@utils/url'
+import MediaWrapper from './MediaWrapper.astro'
 
 export interface ImageDataProps {
   src?: string | undefined
@@ -15,6 +16,7 @@ export interface Props extends ImageDataProps {
 }
 
 const {
+  class: className,
   src = '/images/dev.jpg',
   alt = 'Альтернативный текст',
   lazy,
@@ -25,10 +27,12 @@ const {
 } = Astro.props
 ---
 
-<image-cloak
+<MediaWrapper
+  class:list={['media-wrapper', className]}
+  tag={'image-cloak'}
   {...rest}
-  {cover}
-  {contain}
+  cover={cover}
+  contain={contain}
   lazy-background={lazyBackground}
 >
   <img
@@ -36,5 +40,5 @@ const {
     {alt}
     decoding="async"
     loading={lazy ? 'lazy' : 'eager'}
-  /></image-cloak
+  /></MediaWrapper
 >

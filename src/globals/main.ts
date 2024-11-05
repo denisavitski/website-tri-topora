@@ -3,6 +3,7 @@ import 'aptechka/popover'
 import 'aptechka/custom-scrollbar'
 import 'aptechka/slicer'
 import 'aptechka/scroll'
+import 'aptechka/iframe'
 
 import '@globals/main.css'
 

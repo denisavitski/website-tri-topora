@@ -1,6 +1,17 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
+import { type Props as InputProps } from '@elements/Input.astro'
+
+export interface CommmonFormProps {
+  inputs: Array<InputProps>
+  submitButton?: string
+  terms?: string
+  successTitle?: string
+  successMessage?: string
+  errorMessage?: string
+}
+
 export interface Props extends HTMLAttributes<'div'> {
   name?: string
   url?: string
@@ -131,13 +142,9 @@ const {
 
         const answerElement = document.querySelector('e-form-answer')
 
-        console.log(answerElement)
-
         if (answerElement) {
           const successTitle = this.getAttribute('success-title')
           const successMessage = this.getAttribute('success-message')
-
-          console.log(successTitle, successMessage)
 
           if (successTitle && successMessage) {
             answerElement.setText(successTitle, successMessage)

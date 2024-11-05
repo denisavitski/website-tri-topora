@@ -1,0 +1,116 @@
+---
+export const modal = 'iframe-modal'
+
+import CommonModal from '@elements/CommonModal.astro'
+import MediaWrapper from '@elements/MediaWrapper.astro'
+import TextCloseButton from '@elements/TextCloseButton.astro'
+---
+
+<!-- SINGLETON --><!-- 
+  У элемента который открывает эту модалку должен быть атрибут data-value 
+ в котором должен находиться код айфрейма
+ -->
+<CommonModal
+  id="iframe-modal"
+  class="iframe-modal"
+  tag="iframe-modal"
+>
+  <div class="iframe-modal__content">
+    <TextCloseButton
+      class="iframe-modal__close-button"
+      modal="iframe-modal"
+      theme={'light'}
+    />
+
+    <MediaWrapper
+      class="iframe-modal__iframe"
+      tag="e-iframe"
+      lazy
+      lazyBackground
+      reloadSource
+    />
+  </div>
+</CommonModal>
+
+<style is:global>
+  .iframe-modal {
+    --lazy-background: var(--color-grey-4);
+  }
+
+  .iframe-modal__content {
+    width: 119.6rem;
+    height: max-content;
+
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 768px) {
+      width: calc(100% - var(--screen-horisontal-padding) * 2);
+    }
+  }
+
+  .iframe-modal__close-button {
+    margin-left: auto;
+    margin-bottom: 1.2rem;
+  }
+
+  .iframe-modal__iframe {
+    display: block;
+    width: 100%;
+    height: 67.9rem;
+
+    @media (max-width: 768px) {
+      height: 19.5rem;
+    }
+  }
+</style>
+
+<script>
+  import type { IFrameElement } from 'aptechka/iframe'
+  import { PopoverElement } from 'aptechka/popover'
+
+  export class IframeModalElement extends PopoverElement {
+    #iframeMedia: IFrameElement | null = null
+
+    constructor() {
+      super()
+
+      this.addEventListener('popoverOpened', (e) => {
+        const trigger = e.detail.trigger
+
+        if (trigger instanceof HTMLElement && this.#iframeMedia) {
+          const value = trigger.getAttribute('data-value')
+
+          if (value) {
+            this.#iframeMedia.sourceManager.updateSource({
+              srcset: value,
+              sourceSetOptions: {
+                mediaBuckets: false,
+              },
+            })
+          }
+        }
+      })
+    }
+
+    protected override connectedCallback() {
+      super.connectedCallback()
+
+      this.#iframeMedia = this.querySelector('e-iframe')
+    }
+
+    protected override disconnectedCallback() {
+      super.connectedCallback()
+    }
+  }
+
+  if (!customElements.get('iframe-modal')) {
+    customElements.define('iframe-modal', IframeModalElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'iframe-modal': IframeModalElement
+    }
+  }
+</script>

@@ -1,0 +1,70 @@
+---
+import Icon from './Icon.astro'
+
+export interface Props {
+  class?: string
+  tag?: string
+  modal?: string
+  theme?: 'light' | 'dark'
+}
+
+const { class: className, tag, modal, theme = 'light', ...rest } = Astro.props
+
+const Tag = tag || ((modal ? 'e-popover-button' : 'button') as any)
+---
+
+<Tag
+  {...rest}
+  class:list={['text-close-button', className]}
+  target={modal}
+  data-theme={theme}
+>
+  <span class="text-close-button__name"> Закрыть </span>
+  <Icon
+    class="text-close-button__icon"
+    name="cross"
+  />
+</Tag>
+
+<style is:global>
+  .text-close-button {
+    --type: close;
+
+    display: flex;
+    align-items: center;
+
+    &[data-theme='dark'] {
+      --color: var(--color-grey-1);
+    }
+
+    &[data-theme='light'] {
+      --color: var(--color-white-1);
+    }
+  }
+
+  .text-close-button__name {
+    font-weight: 300;
+    font-size: 2rem;
+    margin-right: 0.8rem;
+
+    color: var(--color);
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  .text-close-button__icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-top: 0.1rem;
+
+    fill: var(--color);
+
+    @media (max-width: 768px) {
+      width: 1rem;
+      height: 1rem;
+      margin-top: 0rem;
+    }
+  }
+</style>

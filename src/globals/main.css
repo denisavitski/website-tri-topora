@@ -184,60 +184,6 @@ img {
   display: block;
 }
 
-image-cloak {
-  position: relative;
-  z-index: 1;
-  display: block;
-}
-
-image-cloak {
-  --clear-duration: 1.2s;
-}
-
-image-cloak img {
-  opacity: 0;
-}
-
-image-cloak.loaded img {
-  transition: opacity var(--clear-duration);
-  opacity: 1;
-}
-
-image-cloak[cover] img {
-  object-fit: cover;
-}
-
-image-cloak[contain] img {
-  object-fit: contain;
-}
-
-image-cloak[lazy-background]::before {
-  content: '';
-
-  position: absolute;
-
-  z-index: -1;
-
-  width: 100%;
-  height: 100%;
-
-  background: var(--lazy-background, var(--color-white-3));
-
-  animation: media-loading 2s infinite ease-in-out;
-
-  will-change: opacity;
-}
-
-image-cloak[lazy-background].clear::before {
-  content: unset;
-}
-
-@keyframes media-loading {
-  50% {
-    opacity: 0.4;
-  }
-}
-
 .word,
 .letter {
   display: inline-flex;

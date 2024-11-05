@@ -23,7 +23,13 @@ const {
   heading = 'Строительство из дерева, стекла и камня сравнимо <span>с исскуством</span>',
   buttons = [
     { name: 'Каталог проектов', href: '/', theme: 'light' },
-    { name: 'Обсудить проект', href: '/', theme: 'light', transparent: true },
+    {
+      name: 'Обсудить проект',
+      target: 'consultation',
+      tag: 'e-popover-button',
+      theme: 'light',
+      transparent: true,
+    },
   ],
 } = Astro.props
 ---

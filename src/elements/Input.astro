@@ -168,6 +168,8 @@ const {
     }
 
     @media (max-width: 768px) {
+      font-size: 1rem;
+
       &[data-static='mobile'] {
         display: none;
         position: unset;
@@ -269,8 +271,6 @@ const {
           this.classList.remove('has-data')
         }
 
-        this.#nativeInputElement.dispatchEvent(new Event('input'))
-
         if (this.#nativeInputElement && this.#isPhoneInput) {
           if (this.#nativeInputElement.value.length < 18) {
             this.#nativeInputElement.setCustomValidity(this.#fillErrorText)
@@ -278,6 +278,8 @@ const {
             this.#nativeInputElement.setCustomValidity('')
           }
         }
+
+        this.#nativeInputElement.dispatchEvent(new Event('input'))
 
         if (this.#isError && value) {
           this.#hideError()

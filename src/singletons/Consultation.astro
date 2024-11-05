@@ -1,0 +1,200 @@
+---
+import ArrowButton from '@elements/ArrowButton.astro'
+import CommonModal from '@elements/CommonModal.astro'
+import type { CommmonFormProps } from '@elements/Form.astro'
+import Form from '@elements/Form.astro'
+import Input from '@elements/Input.astro'
+import TextCloseButton from '@elements/TextCloseButton.astro'
+
+export const modal = '#consultation'
+
+export interface Props {
+  heading?: string
+  description?: string
+  form?: CommmonFormProps
+}
+
+const {
+  heading = 'проконсультируем вас по любому вопросу',
+  description = 'Оставьте свои контакты и мы свяжемся с вами в ближайшее время',
+  form = {
+    inputs: [
+      {
+        name: 'name',
+        placeholder: 'Имя',
+        emptyError: 'Заполните поле',
+        type: 'text',
+        staticError: 'mobile',
+        required: true,
+      },
+      {
+        name: 'phone',
+        placeholder: 'Телефон',
+        emptyError: 'Заполните поле',
+        fillError: 'Заполните телефон полностью',
+        type: 'phone',
+        staticError: 'mobile',
+        required: true,
+      },
+    ],
+    submitButton: 'Отправить',
+    terms:
+      'Нажимая на&nbsp;кнопку «отправить», вы&nbsp;даёте согласие на&nbsp;обработку персональных данных',
+    successTitle: 'Спасибо',
+    successMessage:
+      'Заявка отправлена, наш&nbsp;менеджер в&nbsp;близжайшее время свяжется с&nbsp;вами',
+    errorMessage:
+      '"При отправке форма произошла ошибка. Попробуйте повтроить попытку позже.',
+  },
+} = Astro.props
+---
+
+<!-- SINGLETON -->
+<CommonModal
+  id="consultation"
+  class="consultation"
+>
+  <div class="consultation__content">
+    <TextCloseButton
+      class="consultation__close-button"
+      modal="consultation"
+      theme={'dark'}
+    />
+
+    <h3
+      class="consultation__heading"
+      set:html={heading}
+    />
+
+    <p
+      class="consultation__description"
+      set:html={description}
+    />
+
+    <Form
+      name="consultation"
+      class="consultation__form"
+      successTitle={form.successTitle}
+      successMessage={form.successMessage}
+      errorMessage={form.errorMessage}
+    >
+      <div class="consultation__form__inputs">
+        {
+          form.inputs.map((input) => {
+            return (
+              <Input
+                class="consultation__form__input"
+                {...input}
+              />
+            )
+          })
+        }
+      </div>
+      <ArrowButton
+        theme="dark"
+        type="submit"
+        class="consultation__form__submit-button"
+        >{form.submitButton}</ArrowButton
+      >
+      <p
+        class="consultation__form__terms"
+        set:html={form.terms}
+      />
+    </Form>
+  </div>
+</CommonModal>
+
+<style is:global>
+  .consultation {
+    color: var(--color-grey-1);
+  }
+
+  .consultation__content {
+    width: 61.7rem;
+    height: max-content;
+    padding: 4rem;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 0.8rem;
+    background-color: var(--color-white-1);
+
+    @media (max-width: 768px) {
+      padding: 1.6rem;
+      width: calc(100% - var(--screen-horisontal-padding) * 2);
+    }
+  }
+
+  .consultation__close-button {
+    margin-left: auto;
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 1.8rem;
+    }
+  }
+
+  .consultation__heading {
+    font-family: 'Code', sans-serif;
+    font-size: 4rem;
+    line-height: 120%;
+    text-transform: uppercase;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      font-size: 2.6rem;
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .consultation__description {
+    font-size: 2.2rem;
+    font-weight: 300;
+
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .consultation__form {
+  }
+
+  .consultation__form__inputs {
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: 2.4rem;
+
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      gap: 1.6rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .consultation__form__input {
+  }
+
+  .consultation__form__submit-button {
+    width: 100%;
+    margin-bottom: 1.6rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .consultation__form__terms {
+    font-size: 1.8rem;
+    font-weight: 300;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+</style>

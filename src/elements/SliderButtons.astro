@@ -26,6 +26,10 @@ const { class: className, slot, ...rest } = Astro.props
 
     user-select: none;
 
+    e-scroll:not(.has-overflow) & {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       display: none;
     }

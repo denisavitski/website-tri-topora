@@ -11,7 +11,12 @@ modules.forEach((module) => {
   const splitted = path.slice(1).split('/')
   const folder = splitted[0]
 
-  if (folder === 'elements' || folder === 'blocks' || folder === 'pages') {
+  if (
+    folder === 'elements' ||
+    folder === 'blocks' ||
+    folder === 'pages' ||
+    folder === 'singletons'
+  ) {
     let folderArray = components.get(folder)
 
     if (!folderArray) {

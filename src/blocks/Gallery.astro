@@ -1,40 +1,51 @@
 ---
-import type { ImageDataProps } from '@elements/Image.astro'
-import LookImage from '@elements/LookImage.astro'
+import LookCard, { type Props as LookCardProps } from '@elements/LookCard.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import SliderButtons from '@elements/SliderButtons.astro'
 
 export interface Props {
   heading?: string
-  images?: Array<ImageDataProps>
+  cards?: Array<Omit<LookCardProps, 'class'>>
 }
 
 const {
   heading = 'Галерея',
-  images = [
+  cards = [
     {
-      src: '/images/gallery/1.jpg',
-      alt: '',
+      image: {
+        src: '/images/gallery/1.jpg',
+        alt: '',
+      },
+      modal: 'iframe-modal',
+      value:
+        '<iframe width="720" height="405" src="https://rutube.ru/play/embed/0582a6af0f552c80b6a3dee7181bdebc/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
     },
     {
-      src: '/images/gallery/2.jpg',
-      alt: '',
+      image: {
+        src: '/images/gallery/2.jpg',
+        alt: '',
+      },
+      modal: 'iframe-modal',
+      value:
+        '<iframe width="720" height="405" src="https://rutube.ru/play/embed/4eed460095fe7d0d84c1bebe6fbe4ded/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
     },
     {
-      src: '/images/gallery/3.jpg',
-      alt: '',
+      image: {
+        src: '/images/gallery/3.jpg',
+        alt: '',
+      },
+      modal: 'iframe-modal',
+      value:
+        '<iframe width="720" height="405" src="https://rutube.ru/play/embed/b7e0591f6db752377c55cffed709908b/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
     },
     {
-      src: '/images/gallery/1.jpg',
-      alt: '',
-    },
-    {
-      src: '/images/gallery/2.jpg',
-      alt: '',
-    },
-    {
-      src: '/images/gallery/3.jpg',
-      alt: '',
+      image: {
+        src: '/images/gallery/1.jpg',
+        alt: '',
+      },
+      modal: 'iframe-modal',
+      value:
+        '<iframe width="720" height="405" src="https://rutube.ru/play/embed/dba9cafefcb2799872e1e9ce3a334a2c/" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
     },
   ],
 } = Astro.props
@@ -54,16 +65,11 @@ const {
     />
 
     {
-      images.map((image) => {
+      cards.map((card) => {
         return (
-          <LookImage
-            class="gallery__slider__image"
-            image={{
-              lazy: true,
-              lazyBackground: true,
-              cover: true,
-              ...image,
-            }}
+          <LookCard
+            class="gallery__slider__card"
+            {...card}
           />
         )
       })
@@ -118,7 +124,7 @@ const {
     bottom: calc(100% + 5rem);
   }
 
-  .gallery__slider__image {
+  .gallery__slider__card {
     width: 65.6rem;
     height: 100%;
 
