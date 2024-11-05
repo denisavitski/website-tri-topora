@@ -1,0 +1,148 @@
+---
+import ArrowButton from '@elements/ArrowButton.astro'
+import type { ImageDataProps } from '@elements/Image.astro'
+import Image from '@elements/Image.astro'
+import Social, { type Props as SocialProps } from '@elements/Social.astro'
+
+export interface Props {
+  background?: ImageDataProps
+  heading?: string
+  button?: string
+  socialTitle?: string
+  social?: SocialProps
+}
+
+const {
+  background = {
+    src: '/images/contact-us/background.png',
+    alt: '',
+  },
+  heading = 'Остались вопросы? Свяжись с нами.',
+  button = 'Связаться с нами',
+  social,
+  socialTitle = 'Или напишите нам в мессенджерах',
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<section class="contact-us">
+  <div class="contact-us__inner">
+    <Image
+      class="contact-us__background"
+      {...background}
+      lazy
+      lazyBackground
+      cover
+    />
+
+    <div class="contact-us__left">
+      <h2
+        class="contact-us__heading"
+        set:html={heading}
+      />
+      <ArrowButton
+        class="contact-us__button"
+        name={button}
+      />
+    </div>
+
+    <div class="contact-us__social">
+      <h4
+        class="contact-us__social__title"
+        set:html={socialTitle}
+      />
+      <Social {...social} />
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .contact-us {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+
+    @media (max-width: 768px) {
+      padding: var(--section-vertical-padding) 0;
+    }
+  }
+
+  .contact-us__inner {
+    position: relative;
+
+    padding: 4rem;
+    height: 55rem;
+
+    display: flex;
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      padding: 1.6rem;
+      height: 55rem;
+      flex-direction: column-reverse;
+    }
+  }
+
+  .contact-us__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  .contact-us__left {
+    width: 78.3rem;
+    align-self: flex-end;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .contact-us__heading {
+    font-family: 'Code', sans-serif;
+    font-size: 4.8rem;
+    text-transform: uppercase;
+    line-height: 120%;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      font-size: 2.4rem;
+
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .contact-us__button {
+  }
+
+  .contact-us__social {
+    align-items: flex-start;
+
+    @media (max-width: 768px) {
+      margin-left: auto;
+
+      .social {
+        gap: 1.6rem;
+      }
+    }
+  }
+
+  .contact-us__social__title {
+    font-family: 'Code', sans-serif;
+    font-size: 2.4rem;
+
+    width: 25.1rem;
+    margin-bottom: 1.6rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+      width: 18.4rem;
+    }
+  }
+</style>

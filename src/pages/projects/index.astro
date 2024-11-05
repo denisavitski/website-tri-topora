@@ -1,6 +1,7 @@
 ---
 import AllProjects from '@blocks/AllProjects.astro'
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import ContactUs from '@blocks/ContactUs.astro'
 import Layout from '@layout/Layout.astro'
 import { getHref } from '@utils/url'
 ---
@@ -20,10 +21,11 @@ import { getHref } from '@utils/url'
         href: '/',
       },
       {
-        name: 'Projects',
+        name: 'Проекты',
         href: '/projects',
       },
     ]}
   />
   <AllProjects />
+  <ContactUs />
 </Layout>
