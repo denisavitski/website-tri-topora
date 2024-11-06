@@ -5,7 +5,7 @@ import SliderButtons from '@elements/SliderButtons.astro'
 
 export interface Props {
   heading?: string
-  cards?: Array<LookCardProps>
+  cards?: Array<Pick<LookCardProps, 'circleText' | 'image' | 'value'>>
 }
 
 const {
@@ -14,73 +14,64 @@ const {
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/interiors/1.jpg',
+        src: '/images/dev/light/1.jpg',
         lazy: true,
         lazyBackground: true,
       },
-      modal: 'images-modal',
-      value: '/images/interiors/1.jpg',
-      group: 'interiors',
+      value: '/images/dev/light/1.jpg',
+
     },
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/interiors/2.jpg',
+        src: '/images/dev/light/2.jpg',
         lazy: true,
         lazyBackground: true,
       },
       modal: 'images-modal',
-      value: '/images/interiors/2.jpg',
-      group: 'interiors',
+      value: '/images/dev/light/2.jpg',
     },
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/interiors/1.jpg',
+        src: '/images/dev/light/3.jpg',
         lazy: true,
         lazyBackground: true,
       },
-      modal: 'images-modal',
-      value: '/images/interiors/1.jpg',
-      group: 'interiors',
+      value: '/images/dev/light/3.jpg',
     },
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/interiors/1.jpg',
+        src: '/images/dev/light/4.jpg',
         lazy: true,
         lazyBackground: true,
       },
-      modal: 'images-modal',
-      value: '/images/interiors/1.jpg',
-      group: 'interiors',
+      value: '/images/dev/light/4.jpg',
     },
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/interiors/2.jpg',
+        src: '/images/dev/light/5.jpg',
         lazy: true,
         lazyBackground: true,
       },
-      modal: 'images-modal',
-      value: '/images/interiors/2.jpg',
-      group: 'interiors',
+      value: '/images/dev/light/5.jpg',
     },
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/interiors/1.jpg',
+        src: '/images/dev/light/6.jpg',
         lazy: true,
         lazyBackground: true,
       },
-      modal: 'images-modal',
-      value: '/images/interiors/1.jpg',
-      group: 'interiors',
+      value: '/images/dev/light/6.jpg',
     },
   ],
 } = Astro.props
 ---
 
+<!-- BLOCK -->
 <section class="interiors">
   <SectionHeading
     class="interiors__heading"
@@ -97,6 +88,8 @@ const {
         return (
           <LookCard
             class="interiors__slider__card"
+            modal='images-modal',
+            group='interiors',
             {...card}
           />
         )
