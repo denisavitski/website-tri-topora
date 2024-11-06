@@ -39,13 +39,15 @@ const {
   {href}
   class:list={['project-card', className]}
 >
-  <Image
-    class="project-card__image"
-    {...image}
-    lazy
-    lazyBackground
-    cover
-  />
+  <div class="project-card__image-box">
+    <Image
+      class="project-card__image"
+      {...image}
+      lazy
+      lazyBackground
+      cover
+    />
+  </div>
   <CardInfo
     class="project-card__info"
     name={name}
@@ -59,18 +61,29 @@ const {
     width: 100%;
   }
 
-  .project-card__image {
+  .project-card__image-box {
     height: 42rem;
-
     margin-bottom: 1.6rem;
 
     border-radius: 0.8rem;
-
     overflow: hidden;
 
     @media (max-width: 768px) {
       border-radius: 0rem;
       height: 31.5rem;
+    }
+  }
+
+  .project-card__image {
+    width: 100%;
+    height: 100%;
+
+    @media (hover: hover) {
+      transition: transform var(--duration-button);
+
+      .project-card:hover & {
+        transform: scale(1.01);
+      }
     }
   }
 
