@@ -1,7 +1,8 @@
 ---
+import type { HTMLAttributes } from 'astro/types'
 import Icon from './Icon.astro'
 
-export interface Props {
+export interface Props extends HTMLAttributes<any> {
   type?: 'prev' | 'next'
   theme?: 'light' | 'dark'
   class?: string
@@ -17,7 +18,7 @@ const {
 
 <e-scroll-step-button
   {...rest}
-  class="slider-button"
+  class:list={['slider-button', className]}
   data-type={type}
   data-theme={theme}
 >
@@ -29,6 +30,9 @@ const {
 
 <style is:global>
   .slider-button {
+    --tween-duration: 300;
+    --tween-easing: easeInOutCubic;
+
     width: 8.1rem;
     height: 3.4rem;
 
@@ -38,6 +42,7 @@ const {
 
     border-radius: 3.2rem;
     border: 0.1rem solid var(--color);
+    user-select: none;
 
     transition: opacity var(--duration-button);
 
@@ -59,7 +64,8 @@ const {
     }
 
     &[disabled] {
-      opacity: 0.6;
+      opacity: var(--disabled-opacity, 0.6);
+      pointer-events: none;
     }
   }
 

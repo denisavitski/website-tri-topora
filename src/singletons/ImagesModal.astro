@@ -1,0 +1,290 @@
+---
+export const modal = 'images-modal'
+
+import CommonModal from '@elements/CommonModal.astro'
+import SliderButton from '@elements/SliderButton.astro'
+import TextCloseButton from '@elements/TextCloseButton.astro'
+---
+
+<!-- SINGLETON --><!-- 
+  У элемента который открывает эту модалку должен быть атрибут data-value 
+ в котором должен находиться код айфрейма
+ -->
+<CommonModal
+  id="images-modal"
+  class="images-modal"
+  tag="images-modal"
+>
+  <div class="images-modal__content">
+    <TextCloseButton
+      class="images-modal__close-button"
+      modal="images-modal"
+      theme={'light'}
+    />
+
+    <div class="images-modal__slider-wrapper">
+      <template class="images-modal__slider-template">
+        <e-scroll
+          class="images-modal__slider"
+          data-popover-content
+        >
+          <SliderButton
+            class="images-modal__slider__button images-modal__slider__button_prev"
+            slot="static"
+            type={'prev'}
+            theme={'dark'}
+            disabled
+          />
+          <SliderButton
+            class="images-modal__slider__button images-modal__slider__button_next"
+            slot="static"
+            type={'next'}
+            theme={'dark'}
+          />
+        </e-scroll>
+      </template>
+    </div>
+
+    <div class="images-modal__info">
+      Фотографии (<span class="images-modal__info__current">0</span> из <span
+        class="images-modal__info__total">0</span
+      >)
+    </div>
+  </div>
+</CommonModal>
+
+<style is:global>
+  .images-modal {
+    --lazy-background: var(--color-grey-4);
+  }
+
+  .images-modal__content {
+    width: 117.7rem;
+    height: max-content;
+
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 768px) {
+      --height: 26.2rem;
+      --max-height: 70vh;
+      width: calc(100% - var(--screen-horisontal-padding) * 2);
+      max-width: calc(var(--height) * 1.3129770992);
+    }
+  }
+
+  .images-modal__close-button {
+    margin-left: auto;
+    margin-bottom: 1.2rem;
+  }
+
+  .images-modal__slider-wrapper {
+    width: 100%;
+    height: 67.9rem;
+    margin-bottom: 1.2rem;
+
+    display: flex;
+    justify-content: center;
+
+    backdrop-filter: blur(0.8rem);
+
+    background-color: rgba(44, 44, 44, 0.45);
+
+    @media (max-width: 768px) {
+      max-height: var(--max-height);
+      height: var(--height);
+      margin-bottom: 1.2rem;
+    }
+  }
+
+  .images-modal__slider {
+    --axis: x;
+    --gap: 7.4rem;
+    --overflow: hidden;
+    --sectional: true;
+    --classes: true;
+    --auto-size: true;
+
+    width: 102.8rem;
+    height: 100%;
+
+    background-color: var(--color-grey-4);
+
+    @media (max-width: 768px) {
+      --gap: var(--screen-horisontal-padding);
+      width: 100%;
+    }
+
+    e-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  .images-modal__slider__button {
+    --disabled-opacity: 0;
+
+    position: absolute;
+    top: 50%;
+
+    z-index: 1;
+
+    transform: scaleX(var(--sx, 1)) translate(90%, -50%) !important;
+
+    background-color: var(--color-white-1);
+    border: none;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .images-modal__slider__button_prev {
+    --sx: -1;
+
+    left: 0;
+  }
+
+  .images-modal__slider__button_next {
+    right: 0;
+  }
+
+  .images-modal__info {
+    font-size: 2rem;
+    font-weight: 300;
+
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+</style>
+
+<script>
+  import { ImageCloakElement } from '@lib/ImageCloak'
+  import { PopoverElement } from 'aptechka/popover'
+  import type { ScrollElement } from 'aptechka/scroll'
+  import { cloneTemplateContent } from 'aptechka/utils'
+
+  export class ImagesModalElement extends PopoverElement {
+    #sliderContainerElement: HTMLElement | null = null
+    #sliderTemplateElement: HTMLTemplateElement | null = null
+    #currentSliderElement: ScrollElement | null = null
+
+    #currentElement: HTMLElement | null = null
+    #totalElement: HTMLElement | null = null
+
+    constructor() {
+      super()
+
+      this.addEventListener('popoverOpened', (e) => {
+        const trigger = e.detail.trigger
+
+        if (
+          this.#sliderContainerElement &&
+          this.#sliderTemplateElement &&
+          trigger instanceof HTMLElement
+        ) {
+          const group = trigger.getAttribute('data-group')
+
+          if (group) {
+            const groupElements = document.querySelectorAll(
+              `[data-group="${group}"]`,
+            )
+
+            cloneTemplateContent<ScrollElement>(
+              this.#sliderTemplateElement,
+              (sliderElement) => {
+                this.#currentSliderElement = sliderElement
+
+                const sources: Array<string> = []
+
+                groupElements.forEach((element) => {
+                  const value = element.getAttribute('data-value')
+
+                  if (value) {
+                    if (trigger === element) {
+                      sources.unshift(value)
+                    } else {
+                      sources.push(value)
+                    }
+                  }
+                })
+
+                sources.forEach((source) => {
+                  const cloack = new ImageCloakElement()
+                  cloack.classList.add('media-wrapper')
+                  cloack.setAttribute('lazy-background', '')
+                  cloack.setAttribute('cover', '')
+
+                  const image = new Image()
+                  image.src = source
+
+                  cloack.appendChild(image)
+
+                  this.#currentSliderElement!.appendChild(cloack)
+                })
+
+                this.#sliderContainerElement!.appendChild(
+                  this.#currentSliderElement,
+                )
+
+                this.#currentSliderElement.counter.subscribe((e) => {
+                  if (this.#currentElement) {
+                    this.#currentElement.textContent = (
+                      e.current + 1
+                    ).toString()
+                  }
+
+                  if (this.#totalElement) {
+                    this.#totalElement.textContent = sources.length.toString()
+                  }
+                })
+              },
+            )
+          }
+        }
+
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'))
+        }, 100)
+      })
+
+      this.addEventListener('popoverClosed', () => {
+        this.#currentSliderElement?.remove()
+      })
+    }
+
+    protected override connectedCallback() {
+      super.connectedCallback()
+
+      this.#sliderTemplateElement = this.querySelector(
+        '.images-modal__slider-template',
+      )
+
+      this.#sliderContainerElement =
+        this.#sliderTemplateElement?.parentElement || null
+
+      this.#sliderTemplateElement?.remove()
+
+      this.#currentElement = this.querySelector('.images-modal__info__current')
+      this.#totalElement = this.querySelector('.images-modal__info__total')
+    }
+
+    protected override disconnectedCallback() {
+      super.connectedCallback()
+    }
+  }
+
+  if (!customElements.get('images-modal')) {
+    customElements.define('images-modal', ImagesModalElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'images-modal': ImagesModalElement
+    }
+  }
+</script>

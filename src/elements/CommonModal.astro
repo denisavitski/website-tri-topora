@@ -34,7 +34,7 @@ const Tag = tag as any
     --escape: true;
     --click-outside: true;
 
-    --duration: 0.3s;
+    --duration: 0.4s;
 
     position: fixed;
     top: 0;
@@ -79,12 +79,12 @@ const Tag = tag as any
   .common-modal__content {
     position: relative;
 
-    transform: translateY(5%);
-    transition: transform var(--duration);
-
     pointer-events: auto;
 
     max-height: 100%;
+
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+    transition: clip-path var(--duration);
 
     overflow: hidden auto;
 
@@ -93,10 +93,14 @@ const Tag = tag as any
       display: flex;
       justify-content: center;
     }
-  }
 
-  .common-modal.opened .common-modal__content,
-  .common-modal.closing .common-modal__content {
-    transform: translateY(0%);
+    .common-modal.opened & {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .common-modal.closing & {
+      transition-duration: calc(var(--duration) / 2);
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
   }
 </style>
