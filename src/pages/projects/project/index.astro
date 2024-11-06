@@ -7,21 +7,11 @@ import Layouts from '@blocks/Layouts.astro'
 import Interiors from '@blocks/Interiors.astro'
 import Feedback from '@blocks/Feedback.astro'
 import ProjectIntro from '@blocks/ProjectIntro.astro'
-
-export const getStaticPaths: GetStaticPaths = () => {
-  return [
-    {
-      params: { slug: 'project' },
-    },
-  ]
-}
-
-const { slug } = Astro.params
 ---
 
 <Layout
   seo={{
-    title: `Три топора: ${slug}`,
+    title: `Три топора: Название проекта`,
     description:
       'Строительство из дерева, стекла и камня сравнимо с исскуством',
     cover: getHref('/images/seo/home.jpg'),
@@ -38,8 +28,8 @@ const { slug } = Astro.params
         href: '/projects',
       },
       {
-        name: `${slug}`,
-        href: `/projects/${slug}`,
+        name: `Название проекта`,
+        href: `/projects/project`,
       },
     ]}
   />

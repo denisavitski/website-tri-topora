@@ -158,7 +158,8 @@ const {
     }
 
     @media (max-width: 768px) {
-      width: 100%;
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
       height: 43.7rem;
 
       padding: 1.6rem;
