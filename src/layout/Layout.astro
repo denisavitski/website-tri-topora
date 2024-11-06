@@ -9,6 +9,7 @@ import Head from './Head.astro'
 import { type Props as SeoProps } from './Seo.astro'
 import Consultation from '@singletons/Consultation.astro'
 import ImagesModal from '@singletons/ImagesModal.astro'
+import FounderLetter from '@singletons/FounderLetter.astro'
 
 export interface Props {
   header?: boolean
@@ -33,6 +34,7 @@ const { header = true, footer = true, seo } = Astro.props
 
       <IframeModal />
       <ImagesModal />
+      <FounderLetter />
       <Consultation />
       <FormAnswer />
 

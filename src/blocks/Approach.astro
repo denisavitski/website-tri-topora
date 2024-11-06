@@ -1,0 +1,257 @@
+---
+import ArrowButton from '@elements/ArrowButton.astro'
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+
+export interface Props {
+  heading?: string
+  founder?: {
+    title: string
+    image: ImageDataProps
+    name: string
+    position: string
+  }
+  subtitle?: string
+  paragraph1?: string
+  paragraph2?: string
+}
+
+const {
+  heading = 'Наш подход',
+  founder = {
+    title: 'Руководитель направления',
+    image: { src: '/images/team/1.jpg', alt: 'Деменев Пётр Андреевич' },
+    name: 'Деменев Пётр Андреевич',
+    position: 'Управляющий ООО Три Топора ',
+  },
+  subtitle = 'Здравствуйте, меня зовут Пётр Деменев. Я&nbsp;основатель и&nbsp;управляющий строительной компании Три&nbsp;Топора',
+  paragraph1 = 'Мы&nbsp;специализируемся на&nbsp;производстве и&nbsp;стройке из&nbsp;дерева. Деревянное домостроение, как&nbsp;искусство наша миссия. Возвести усадьбы, которые простоят более сотни лет&nbsp;в&nbsp;каждом регионе России наша цель. К&nbsp;ней&nbsp;мы успешно идём с&nbsp;2013&nbsp;года. Мы&nbsp;стремимся к&nbsp;комплексной стройке «под&nbsp;ключ» и&nbsp;стараемся сделать этот процесс длязаказчика максимально комфортным. Исповедуем принцип от&nbsp;котлована до&nbsp;меблировки одним подрядчиком. Руководитель проекта с&nbsp;вами с&nbsp;момента проектирования до&nbsp;новоселья. Сервисное обслуживание от&nbsp;компании в&nbsp;дальнейшем.',
+  paragraph2 = 'Строим дома, бани, усадьбы в&nbsp;которые всегда хочется возвращаться. Курорты, базы отдыха, гостиницы и&nbsp;эко-отели, банные комплексы, рестораны и&nbsp;гостевые дома которые могут приносить вам&nbsp;доход и&nbsp;одновременно быть отдушиной и&nbsp;местом силы для&nbsp;подзарядки и&nbsp;достижения новых высот в&nbsp;бизнесе. Обратитесь к&nbsp;нам, и&nbsp;мы&nbsp;подготовим для&nbsp;вас&nbsp;проект дома, бани или&nbsp;концепцию объекта коммерческой недвижимости, а&nbsp;в&nbsp;дельнейшем будем рады спроектировать и&nbsp;реализовать всё&nbsp;«под&nbsp;ключ»',
+} = Astro.props
+---
+
+<div class="approach">
+  <SectionHeading
+    class="approach__heading"
+    text={heading}
+  />
+  <div class="approach__content">
+    <div class="approach__founder">
+      <div
+        class="approach__founder__title"
+        set:html={founder.title}
+      />
+      <div class="approach__founder__picture">
+        <Image
+          class="approach__founder__image"
+          cover
+          lazy
+          lazyBackground
+          {...founder.image}
+        />
+        <div
+          class="approach__founder__name"
+          set:html={founder.name}
+        />
+        <div
+          class="approach__founder__position"
+          set:html={founder.position}
+        />
+      </div>
+    </div>
+    <div class="approach__texts">
+      <h3
+        class="approach__subtitle"
+        set:html={subtitle}
+      />
+      <div class="approach__paragraphs">
+        <p
+          class="approach__paragraph"
+          set:html={paragraph1}
+        />
+        <p
+          class="approach__paragraph"
+          set:html={paragraph2}
+        />
+      </div>
+      <ArrowButton
+        class="approach__letter-button"
+        target="founder-letter"
+        tag="e-popover-button"
+        >Написать управляющему</ArrowButton
+      >
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .approach {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+    padding-top: 0;
+  }
+
+  .approach__heading {
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .approach__content {
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .approach__founder {
+    flex-shrink: 0;
+  }
+
+  .approach__founder__title {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .approach__founder__picture {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    width: 51.9rem;
+    height: 58.6rem;
+    padding: 2.4rem;
+
+    border-radius: 0.8rem;
+
+    overflow: hidden;
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      z-index: -1;
+
+      width: 100%;
+      height: 100%;
+
+      background-image: linear-gradient(
+        to bottom,
+        rgba(44, 44, 44, 0),
+        rgba(58, 58, 58, 1) 160%
+      );
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 43.7rem;
+
+      padding: 1.6rem;
+    }
+  }
+
+  .approach__founder__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: -2;
+
+    width: 100%;
+    height: 100%;
+
+    img {
+      object-position: top;
+    }
+  }
+
+  .approach__founder__name {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+
+    margin-bottom: 0.4rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .approach__founder__position {
+    font-size: 2rem;
+    text-transform: uppercase;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  .approach__texts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .approach__subtitle {
+    font-family: 'Code', sans-serif;
+    font-size: 2.4rem;
+    text-indent: 6.3rem;
+    text-transform: uppercase;
+
+    width: 79.2rem;
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      text-align: 4.2rem;
+
+      width: 100%;
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .approach__paragraphs {
+    display: flex;
+    gap: 2.3rem;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+  }
+
+  .approach__paragraph {
+    font-size: 2.4rem;
+    font-weight: 300;
+
+    width: 52.1rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      width: 100%;
+    }
+  }
+
+  .approach__letter-button {
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+</style>
