@@ -13,7 +13,10 @@ export interface Props {
     name: string
   }
   projects?: Array<
-    Omit<CardInfoProps, 'size' | 'class'> & { image?: ImageDataProps }
+    Omit<CardInfoProps, 'size' | 'class'> & {
+      image?: ImageDataProps
+      href?: string
+    }
   >
 }
 
@@ -25,11 +28,12 @@ const {
   heading = 'проекты',
   button = {
     name: 'смотреть все',
-    href: '/',
+    href: '/projects',
   },
   projects = [
     {
       name: 'Дом Макдональд',
+      href: '/projects/project',
       image: { src: '/images/projects-section/1.jpg', alt: '' },
       stats: [
         {
@@ -48,6 +52,7 @@ const {
     },
     {
       name: 'Дом Гарда',
+      href: '/projects/project',
       image: { src: '/images/projects-section/2.jpg', alt: '' },
       stats: [
         {
@@ -66,6 +71,7 @@ const {
     },
     {
       name: 'Дом Атитлан',
+      href: '/projects/project',
       image: { src: '/images/projects-section/3.jpg', alt: '' },
       stats: [
         {
@@ -84,6 +90,7 @@ const {
     },
     {
       name: 'Дом Аннеси',
+      href: '/projects/project',
       image: { src: '/images/projects-section/4.jpg', alt: '' },
       stats: [
         {
@@ -142,6 +149,8 @@ const {
             />
             <ArrowButton
               class="projects__card__explore-button"
+              tag="a"
+              href={project.href}
               transparent
             >
               Перейти
