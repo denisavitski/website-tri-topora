@@ -20,28 +20,28 @@ const {
     {
       name: 'Дома из бревна',
       image: {
-        src: '/images/b-types/1.png',
+        src: '/images/variants/1.png',
         alt: 'Дома из бревна',
       },
     },
     {
       name: 'Дома из бруса',
       image: {
-        src: '/images/b-types/1.png',
+        src: '/images/variants/1.png',
         alt: 'Дома из бруса',
       },
     },
     {
       name: 'Бани и СПА-комплексы',
       image: {
-        src: '/images/b-types/1.png',
+        src: '/images/variants/1.png',
         alt: 'Бани и СПА-комплексы',
       },
     },
     {
       name: 'Коммерческая недвижимость',
       image: {
-        src: '/images/b-types/1.png',
+        src: '/images/variants/1.png',
         alt: 'Коммерческая недвижимость',
       },
     },
@@ -50,22 +50,22 @@ const {
 ---
 
 <!-- BLOCK -->
-<b-types class="b-types">
-  <div class="b-types__left">
+<e-variants class="variants">
+  <div class="variants__left">
     <SectionHeading
-      class="b-types__heading"
+      class="variants__heading"
       text={heading}
     />
     <p
-      class="b-types__description"
+      class="variants__description"
       set:html={description}
     />
-    <div class="b-types__list">
-      <div class="b-types__list__inner">
+    <div class="variants__list">
+      <div class="variants__list__inner">
         {
           types.map((item) => {
             return (
-              <button class="b-types__list__button">
+              <button class="variants__list__button">
                 <span>{item.name}</span>
               </button>
             )
@@ -75,16 +75,16 @@ const {
     </div>
   </div>
 
-  <e-scroll class="b-types__slider">
+  <e-scroll class="variants__slider">
     <div
-      class="b-types__slider__static"
+      class="variants__slider__static"
       slot={'static'}
     >
-      <div class="b-types__slider__info">
-        Фотографии (<span class="b-types__slider__info__current"></span> из <span
-          class="b-types__slider__info__total"></span>)
+      <div class="variants__slider__info">
+        Фотографии (<span class="variants__slider__info__current"></span> из <span
+          class="variants__slider__info__total"></span>)
       </div>
-      <SliderButtons class="b-types__slider__buttons" />
+      <SliderButtons class="variants__slider__buttons" />
     </div>
 
     {
@@ -92,17 +92,17 @@ const {
         return (
           <Image
             {...item.image}
-            class="b-types__slider__image"
+            class="variants__slider__image"
             cover
           />
         )
       })
     }
   </e-scroll>
-</b-types>
+</e-variants>
 
 <style is:global>
-  .b-types {
+  .variants {
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
 
     display: flex;
@@ -116,7 +116,7 @@ const {
     }
   }
 
-  .b-types__left {
+  .variants__left {
     flex-shrink: 0;
     width: 52rem;
 
@@ -126,7 +126,7 @@ const {
     }
   }
 
-  .b-types__heading {
+  .variants__heading {
     margin-bottom: 3.2rem;
 
     @media (max-width: 768px) {
@@ -134,7 +134,7 @@ const {
     }
   }
 
-  .b-types__description {
+  .variants__description {
     font-size: 2.2rem;
     font-weight: 300;
 
@@ -145,7 +145,7 @@ const {
     }
   }
 
-  .b-types__list {
+  .variants__list {
     --height: 22.7rem;
     --item-per-view: 4;
     --item-height: calc(var(--height) / var(--item-per-view));
@@ -162,7 +162,7 @@ const {
     }
   }
 
-  .b-types__list__inner {
+  .variants__list__inner {
     display: flex;
     flex-direction: column;
     height: max-content;
@@ -171,7 +171,7 @@ const {
     transform: translateY(calc(var(--counter) * var(--item-height) * -1));
   }
 
-  .b-types__list::after {
+  .variants__list::after {
     content: '';
 
     position: absolute;
@@ -190,7 +190,7 @@ const {
     pointer-events: none;
   }
 
-  .b-types__list__button {
+  .variants__list__button {
     font-size: 2.4rem;
     text-align: start;
 
@@ -215,7 +215,7 @@ const {
     }
   }
 
-  .b-types__slider {
+  .variants__slider {
     --axis: x;
     --gap: 3rem;
     --overflow: hidden;
@@ -235,7 +235,7 @@ const {
     }
   }
 
-  .b-types__slider__image {
+  .variants__slider__image {
     width: 92.4rem;
     border-radius: 0.8rem;
     overflow: hidden;
@@ -253,7 +253,7 @@ const {
     }
   }
 
-  .b-types__slider__static {
+  .variants__slider__static {
     position: absolute;
     z-index: 1;
     right: calc(100% + 2.4rem);
@@ -271,7 +271,7 @@ const {
     }
   }
 
-  .b-types__slider__info {
+  .variants__slider__info {
     font-size: 2rem;
     font-weight: 300;
     margin-bottom: 2.4rem;
@@ -282,7 +282,7 @@ const {
     }
   }
 
-  .b-types__slider__buttons {
+  .variants__slider__buttons {
     width: 100%;
     justify-content: space-between;
   }
@@ -291,7 +291,7 @@ const {
 <script>
   import type { ScrollElement } from 'aptechka/scroll'
 
-  export class BTypesElement extends HTMLElement {
+  export class VariantsElement extends HTMLElement {
     #scrollElement: ScrollElement | null = null
     #listButtonElements: Array<HTMLElement> = []
     #currentSlideInfoElement: HTMLElement | null = null
@@ -299,14 +299,14 @@ const {
 
     protected connectedCallback() {
       this.#listButtonElements = [
-        ...this.querySelectorAll<HTMLElement>('.b-types__list__button'),
+        ...this.querySelectorAll<HTMLElement>('.variants__list__button'),
       ]
 
       this.#listButtonElements.forEach((element) =>
         element.addEventListener('click', this.#buttonClickListener),
       )
 
-      this.#scrollElement = this.querySelector('.b-types__slider')
+      this.#scrollElement = this.querySelector('.variants__slider')
 
       customElements.whenDefined('e-scroll').then(() => {
         setTimeout(() => {
@@ -317,10 +317,10 @@ const {
       })
 
       this.#currentSlideInfoElement = document.querySelector(
-        '.b-types__slider__info__current',
+        '.variants__slider__info__current',
       )
       this.#totalSlidesInfoElement = document.querySelector(
-        '.b-types__slider__info__total',
+        '.variants__slider__info__total',
       )
     }
 
@@ -363,13 +363,13 @@ const {
     }
   }
 
-  if (!customElements.get('b-types')) {
-    customElements.define('b-types', BTypesElement)
+  if (!customElements.get('e-variants')) {
+    customElements.define('e-variants', VariantsElement)
   }
 
   declare global {
     interface HTMLElementTagNameMap {
-      'b-types': BTypesElement
+      'e-variants': VariantsElement
     }
   }
 </script>
