@@ -5,28 +5,35 @@ import Icon from './Icon.astro'
 export interface Props extends HTMLAttributes<any> {
   type?: 'prev' | 'next'
   theme?: 'light' | 'dark'
+  background?: boolean
   class?: string
+  tag?: string
 }
 
 const {
   class: className,
   theme = 'light',
   type = 'next',
+  background,
+  tag = 'e-scroll-step-button',
   ...rest
 } = Astro.props
+
+const Tag = tag
 ---
 
-<e-scroll-step-button
+<Tag
   {...rest}
   class:list={['slider-button', className]}
   data-type={type}
   data-theme={theme}
+  data-background={background}
 >
   <Icon
     class="slider-button__arrow"
     name="tail-arrow"
   />
-</e-scroll-step-button>
+</Tag>
 
 <style is:global>
   .slider-button {
@@ -41,17 +48,29 @@ const {
     justify-content: center;
 
     border-radius: 3.2rem;
-    border: 0.1rem solid var(--color);
+
     user-select: none;
 
     transition: opacity var(--duration-button);
 
+    &:not([data-background]) {
+      border: 0.1rem solid var(--color);
+    }
+
     &[data-theme='light'] {
       --color: var(--color-white-1);
+
+      &[data-background] {
+        background-color: var(--color-grey-1);
+      }
     }
 
     &[data-theme='dark'] {
       --color: var(--color-grey-1);
+
+      &[data-background] {
+        background-color: var(--color-white-1);
+      }
     }
 
     &[data-type='prev'] {
@@ -67,6 +86,11 @@ const {
       opacity: var(--disabled-opacity, 0.6);
       pointer-events: none;
     }
+
+    @media (max-width: 768px) {
+      width: 5rem;
+      height: 2.3rem;
+    }
   }
 
   .slider-button__arrow {
@@ -74,5 +98,10 @@ const {
     height: 1.8rem;
 
     fill: var(--color);
+
+    @media (max-width: 768px) {
+      width: 1.8rem;
+      height: 0.7rem;
+    }
   }
 </style>

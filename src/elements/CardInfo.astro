@@ -1,15 +1,10 @@
 ---
-import Icon from './Icon.astro'
-
-export interface CardInfoStat {
-  icon: string
-  name: string
-}
+import Stats, { type StatsItem } from './Stats.astro'
 
 export interface Props {
   class?: string | undefined
   name?: string | undefined
-  stats?: Array<CardInfoStat> | undefined
+  stats?: Array<StatsItem> | undefined
   size?: 'normal' | 'large' | undefined
 }
 
@@ -45,24 +40,11 @@ const {
     set:html={name}
   />
 
-  <ul class="card-info__stats">
-    {
-      stats.map((stat) => {
-        return (
-          <li class="card-info__stat">
-            <Icon
-              class="card-info__icon"
-              name={stat.icon}
-            />
-            <span
-              class="card-info__stat__name"
-              set:html={stat.name}
-            />
-          </li>
-        )
-      })
-    }
-  </ul>
+  <Stats
+    class="card-info__stats"
+    {size}
+    {...stats}
+  />
 </div>
 
 <style is:global>
@@ -89,62 +71,6 @@ const {
       .card-info[data-size='large'] & {
         font-size: 1.6rem;
         margin-bottom: 0.8rem;
-      }
-    }
-  }
-
-  .card-info__stats {
-    display: flex;
-    align-items: center;
-    gap: 2.4rem;
-
-    @media (max-width: 768px) {
-      gap: 1.6rem;
-    }
-  }
-
-  .card-info__stat {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .card-info__icon {
-    fill: none;
-    stroke: var(--color, var(--color-white-1));
-
-    .card-info[data-size='normal'] & {
-      width: 2rem;
-      height: 2rem;
-    }
-
-    .card-info[data-size='large'] & {
-      width: 2.4rem;
-      height: 2.4rem;
-    }
-
-    @media (max-width: 768px) {
-      .card-info[data-size='normal'] &,
-      .card-info[data-size='large'] & {
-        width: 1.8rem;
-        height: 1.8rem;
-      }
-    }
-  }
-
-  .card-info__stat__name {
-    .card-info[data-size='normal'] & {
-      font-size: 1.8rem;
-    }
-
-    .card-info[data-size='large'] & {
-      font-size: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .card-info[data-size='normal'] &,
-      .card-info[data-size='large'] & {
-        font-size: 1.4rem;
       }
     }
   }

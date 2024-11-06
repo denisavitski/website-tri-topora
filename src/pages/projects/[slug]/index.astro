@@ -1,0 +1,48 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+import Layouts from '@blocks/Layouts.astro'
+import Interiors from '@blocks/Interiors.astro'
+import Feedback from '@blocks/Feedback.astro'
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return [
+    {
+      params: { slug: 'project' },
+    },
+  ]
+}
+
+const { slug } = Astro.params
+---
+
+<Layout
+  seo={{
+    title: `Три топора: ${slug}`,
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Проекты',
+        href: '/projects',
+      },
+      {
+        name: `${slug}`,
+        href: `/projects/${slug}`,
+      },
+    ]}
+  />
+  <Interiors />
+  <Layouts />
+  <Feedback />
+</Layout>

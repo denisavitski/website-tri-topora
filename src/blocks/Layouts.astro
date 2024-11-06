@@ -1,0 +1,110 @@
+---
+import type { ImageDataProps } from '@elements/Image.astro'
+import Image from '@elements/Image.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import SliderButtons from '@elements/SliderButtons.astro'
+
+export interface Props {
+  heading?: string
+  images?: Array<ImageDataProps>
+}
+
+const {
+  heading = 'Интерьеры',
+  images = [
+    {
+      src: '/images/layouts/1.jpg',
+      alt: '',
+    },
+    {
+      src: '/images/layouts/2.jpg',
+      alt: '',
+    },
+    {
+      src: '/images/layouts/1.jpg',
+      alt: '',
+    },
+    {
+      src: '/images/layouts/2.jpg',
+      alt: '',
+    },
+  ],
+} = Astro.props
+---
+
+<section class="layouts">
+  <SectionHeading
+    class="layouts__heading"
+    text={heading}
+  />
+
+  <e-scroll class="layouts__slider">
+    <SliderButtons
+      class="layouts__slider__buttons"
+      slot="static"
+    />
+    {
+      images.map((image) => {
+        return (
+          <Image
+            class="layouts__slider__image"
+            {...image}
+            lazy
+            lazyBackground
+          />
+        )
+      })
+    }
+  </e-scroll>
+</section>
+
+<style is:global>
+  .layouts {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+
+    @media (max-width: 768px) {
+      padding: var(--section-vertical-padding) 0;
+    }
+  }
+
+  .layouts__heading {
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      padding: 0 var(--screen-horisontal-padding);
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .layouts__slider {
+    --axis: x;
+    --gap: 2.4rem;
+    --classes: true;
+    --overflow: hidden;
+    --sectional: true;
+    --sections-in-view: 2;
+    --auto-size: true;
+
+    display: flex;
+    gap: var(--gap);
+
+    height: 67.6rem;
+
+    @media (max-width: 768px) {
+      --gap: 0.8rem;
+      --sections-in-view: 1.1;
+      height: 30rem;
+    }
+  }
+
+  .layouts__slider__image {
+    border-radius: 0.8rem;
+    overflow: hidden;
+  }
+
+  .layouts__slider__buttons {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 4.4rem);
+  }
+</style>

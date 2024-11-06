@@ -2,6 +2,13 @@ export class ImageCloakElement extends HTMLElement {
   #imageElement: HTMLImageElement | null = null
   #clearTimeoutId: ReturnType<typeof setTimeout> | undefined
 
+  public updateImage(src: string, alt?: string | undefined | null) {
+    if (this.#imageElement) {
+      this.#imageElement.src = src
+      this.#imageElement.alt = alt || ''
+    }
+  }
+
   protected connectedCallback() {
     this.#imageElement = this.querySelector('img')
 

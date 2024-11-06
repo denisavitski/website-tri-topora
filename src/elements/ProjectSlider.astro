@@ -1,0 +1,451 @@
+---
+import Image from './Image.astro'
+import SectionHeading from './SectionHeading.astro'
+import SliderButton from './SliderButton.astro'
+import Stats, { type StatsItem } from './Stats.astro'
+
+export interface Props {
+  class?: string
+  name?: string
+  stats?: Array<StatsItem>
+  items?: Array<{
+    miniature: string
+    full: string
+    alt: string
+  }>
+}
+
+const {
+  class: className,
+  name = 'Йосемити - лафет',
+  stats = [
+    {
+      icon: 'bed',
+      name: '3 спальни',
+    },
+    {
+      icon: 'bath',
+      name: '3 санузла',
+    },
+    {
+      icon: 'size',
+      name: '472 м²',
+    },
+  ],
+  items = [
+    {
+      miniature: '/images/dev/light/1.jpg',
+      full: '/images/dev/light/1.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/2.jpg',
+      full: '/images/dev/light/2.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/3.jpg',
+      full: '/images/dev/light/3.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/4.jpg',
+      full: '/images/dev/light/4.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/5.jpg',
+      full: '/images/dev/light/5.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/6.jpg',
+      full: '/images/dev/light/6.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/7.jpg',
+      full: '/images/dev/light/7.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/8.jpg',
+      full: '/images/dev/light/8.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/9.jpg',
+      full: '/images/dev/light/9.jpg',
+      alt: '',
+    },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<project-slider
+  {...rest}
+  class:list={['project-slider', className]}
+>
+  <div class="project-slider__main-window">
+    <SectionHeading
+      class="project-slider__heading"
+      text={name}
+      tag="h1"
+    />
+    <Stats
+      stats={stats}
+      class="project-slider__stats"
+    />
+    <Image
+      class="project-slider__current-image"
+      src={items[0]?.miniature}
+      alt={items[0]?.alt}
+      lazy
+      lazyBackground
+      cover
+    />
+    <SliderButton
+      class="project-slider__button project-slider__button_prev"
+      theme={'dark'}
+      background
+      type={'prev'}
+      tag="button"
+    />
+    <SliderButton
+      class="project-slider__button project-slider__button_next"
+      theme={'dark'}
+      background
+      type={'next'}
+      tag="button"
+    />
+  </div>
+
+  <div class="project-slider__minuatures-wrapper">
+    <e-scroll class="project-slider__minuatures">
+      {
+        items.map((item) => {
+          return (
+            <div
+              class="project-slider__minuature"
+              data-full-src={item.full}
+            >
+              <Image
+                class="project-slider__minuature__image"
+                src={item.miniature}
+                alt={item.alt}
+                lazy
+                lazyBackground
+                cover
+              />
+            </div>
+          )
+        })
+      }
+    </e-scroll>
+  </div>
+</project-slider>
+
+<style is:global>
+  .project-slider {
+    display: grid;
+    grid-template-columns: 1fr 13.8rem;
+    grid-template-rows: 66rem;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      grid-template-rows: 29.5rem 8rem;
+      gap: 0.8rem;
+    }
+  }
+
+  .project-slider__main-window {
+    position: relative;
+    height: 100%;
+
+    padding: 4rem;
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      z-index: -1;
+
+      width: 100%;
+      height: 100%;
+
+      background-image: linear-gradient(
+        to bottom,
+        rgba(44, 44, 44, 1) -20%,
+        rgba(58, 58, 58, 0)
+      );
+    }
+
+    @media (max-width: 768px) {
+      padding: 1.6rem;
+    }
+  }
+
+  .project-slider__heading {
+    @media (max-width: 768px) {
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .project-slider__stats {
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  .project-slider__current-image {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    z-index: -2;
+
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: 769px) {
+      border-radius: 0.8rem;
+    }
+  }
+
+  .project-slider__button {
+    --disabled-opacity: 0;
+
+    position: absolute;
+    top: 50%;
+  }
+
+  .project-slider__button_prev {
+    @media (min-width: 769px) {
+      left: 0;
+      transform: scaleX(-1) translate(0.3rem, -50%) !important;
+    }
+
+    @media (max-width: 768px) {
+      left: var(--screen-horisontal-padding);
+      transform: scaleX(-1) translate(0, -50%) !important;
+    }
+  }
+
+  .project-slider__button_next {
+    @media (min-width: 769px) {
+      right: 0;
+      transform: scaleX(1) translate(0.3rem, -50%) !important;
+    }
+
+    @media (max-width: 768px) {
+      right: var(--screen-horisontal-padding);
+      transform: scaleX(1) translate(0, -50%) !important;
+    }
+  }
+
+  .project-slider__minuatures-wrapper {
+    @media (max-width: 768px) {
+      padding: 0 var(--screen-horisontal-padding);
+    }
+  }
+
+  .project-slider__minuatures {
+    --axis: y;
+    --gap: 1.6rem;
+    --overflow: hidden;
+    --sectional: true;
+    --sections-in-view: 5;
+    --auto-size: true;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+
+    height: 100%;
+
+    @media (max-width: 768px) {
+      --axis: x;
+      --sections-in-view: 4.2;
+      --gap: 0.8rem;
+      --overflow: unset;
+    }
+  }
+
+  .project-slider__minuature {
+    width: 100%;
+  }
+
+  .project-slider__minuature__image {
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    transition-duration: var(--duration-button);
+    transition-property: transform, opacity;
+
+    transform: scale(0.85);
+    opacity: 0.5;
+
+    .project-slider__minuature.current & {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      transform: scale(0.95);
+    }
+  }
+</style>
+
+<script>
+  import type { ImageCloakElement } from '@lib/ImageCloak'
+  import type { ScrollElement } from 'aptechka/scroll'
+  import { clamp } from 'aptechka/utils'
+
+  export class ProjectSliderElement extends HTMLElement {
+    #miniaturesSliderElement: ScrollElement | null = null
+    #miniatureElements: Array<ImageCloakElement> = []
+    #currentImageElement: ImageCloakElement | null = null
+    #prevButtonElement: HTMLElement | null = null
+    #nextButtonElement: HTMLElement | null = null
+
+    #counter = 0
+
+    public set(value: number) {
+      this.#counter = clamp(value, 0, this.#miniatureElements.length - 1)
+
+      this.#miniaturesSliderElement?.scrollToSection(this.#counter, {
+        tween: { easing: 'easeInOutCubic', duration: 300 },
+      })
+
+      this.#miniatureElements.forEach((element, i) => {
+        if (i === this.#counter) {
+          element.classList.add('current')
+          this.#updateCurrentImage(element)
+        } else {
+          element.classList.remove('current')
+        }
+      })
+
+      if (this.#counter === 0) {
+        this.#prevButtonElement?.setAttribute('disabled', '')
+      } else {
+        this.#prevButtonElement?.removeAttribute('disabled')
+      }
+
+      if (this.#counter === this.#miniatureElements.length - 1) {
+        this.#nextButtonElement?.setAttribute('disabled', '')
+      } else {
+        this.#nextButtonElement?.removeAttribute('disabled')
+      }
+    }
+
+    public shift(value: number) {
+      this.set(this.#counter + value)
+    }
+
+    protected connectedCallback() {
+      this.#miniaturesSliderElement = this.querySelector(
+        '.project-slider__minuatures',
+      )
+
+      this.#miniatureElements = [
+        ...this.querySelectorAll<ImageCloakElement>(
+          '.project-slider__minuature',
+        ),
+      ]
+
+      this.#miniatureElements.forEach((element) =>
+        element.addEventListener('click', this.#miniatureListener),
+      )
+
+      this.#currentImageElement = this.querySelector(
+        '.project-slider__current-image',
+      )
+
+      this.#prevButtonElement = this.querySelector(
+        '.project-slider__button_prev',
+      )
+
+      this.#prevButtonElement?.addEventListener(
+        'click',
+        this.#prevButtonListener,
+      )
+
+      this.#nextButtonElement = this.querySelector(
+        '.project-slider__button_next',
+      )
+
+      this.#nextButtonElement?.addEventListener(
+        'click',
+        this.#nextButtonListener,
+      )
+
+      customElements.whenDefined('e-scroll').then(() => {
+        if (this.isConnected) {
+          this.set(0)
+
+          this.#miniaturesSliderElement?.counter.subscribe((e) => {
+            this.#counter = e.current
+          })
+        }
+      })
+    }
+
+    protected disconnectedCallback() {
+      this.#miniatureElements.forEach((element) =>
+        element.removeEventListener('click', this.#miniatureListener),
+      )
+
+      this.#prevButtonElement?.removeEventListener(
+        'click',
+        this.#prevButtonListener,
+      )
+
+      this.#nextButtonElement?.removeEventListener(
+        'click',
+        this.#nextButtonListener,
+      )
+    }
+
+    #prevButtonListener = () => {
+      this.shift(-1)
+    }
+
+    #nextButtonListener = () => {
+      this.shift(1)
+    }
+
+    #miniatureListener = (e: Event) => {
+      const ct = e.currentTarget as HTMLElement
+      this.set(this.#miniatureElements.findIndex((e) => e === ct))
+    }
+
+    #updateCurrentImage(miniature: HTMLElement) {
+      const fullSrc = miniature.getAttribute('data-full-src')
+      const alt = miniature.querySelector('img')?.getAttribute('alt')
+
+      if (fullSrc) {
+        this.#currentImageElement?.updateImage(fullSrc, alt)
+      }
+    }
+  }
+
+  if (!customElements.get('project-slider')) {
+    customElements.define('project-slider', ProjectSliderElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'project-slider': ProjectSliderElement
+    }
+  }
+</script>

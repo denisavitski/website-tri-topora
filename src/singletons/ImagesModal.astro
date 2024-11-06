@@ -34,12 +34,14 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
             type={'prev'}
             theme={'dark'}
             disabled
+            background
           />
           <SliderButton
             class="images-modal__slider__button images-modal__slider__button_next"
             slot="static"
             type={'next'}
             theme={'dark'}
+            background
           />
         </e-scroll>
       </template>
@@ -131,9 +133,6 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
     z-index: 1;
 
     transform: scaleX(var(--sx, 1)) translate(90%, -50%) !important;
-
-    background-color: var(--color-white-1);
-    border: none;
 
     @media (max-width: 768px) {
       display: none;

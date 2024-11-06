@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro'
+
+export interface StatsItem {
+  icon: string
+  name: string
+}
+
+export interface Props {
+  class?: string | undefined
+  stats?: Array<StatsItem> | undefined
+  size?: 'normal' | 'large' | undefined
+}
+
+const {
+  class: className,
+  stats = [
+    {
+      icon: 'bed',
+      name: '3 спальни',
+    },
+    {
+      icon: 'bath',
+      name: '3 санузла',
+    },
+    {
+      icon: 'size',
+      name: '472 м²',
+    },
+  ],
+  size = 'normal',
+  ...rest
+} = Astro.props
+---
+
+<ul
+  {...rest}
+  class:list={['stats', className]}
+  data-size={size}
+>
+  {
+    stats.map((stat) => {
+      return (
+        <li class="stats__stat">
+          <Icon
+            class="stats__icon"
+            name={stat.icon}
+          />
+          <span
+            class="stats__stat__name"
+            set:html={stat.name}
+          />
+        </li>
+      )
+    })
+  }
+</ul>
+
+<style is:global>
+  .stats {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      gap: 1.6rem;
+    }
+  }
+
+  .stats__stat {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .stats__icon {
+    fill: none;
+    stroke: var(--color, var(--color-white-1));
+
+    .stats[data-size='normal'] & {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .stats[data-size='large'] & {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+
+    @media (max-width: 768px) {
+      .stats[data-size='normal'] &,
+      .stats[data-size='large'] & {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+    }
+  }
+
+  .stats__stat__name {
+    .stats[data-size='normal'] & {
+      font-size: 1.8rem;
+    }
+
+    .stats[data-size='large'] & {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .stats[data-size='normal'] &,
+      .stats[data-size='large'] & {
+        font-size: 1.4rem;
+      }
+    }
+  }
+</style>
