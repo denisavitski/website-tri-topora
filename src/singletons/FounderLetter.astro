@@ -6,7 +6,7 @@ import Form from '@elements/Form.astro'
 import Input from '@elements/Input.astro'
 import TextCloseButton from '@elements/TextCloseButton.astro'
 
-export const modal = '#consultation'
+export const modal = '#founder-letter'
 
 export interface Props {
   heading?: string
@@ -15,8 +15,8 @@ export interface Props {
 }
 
 const {
-  heading = 'проконсультируем вас по любому вопросу',
-  description = 'Оставьте свои контакты и мы свяжемся с вами в ближайшее время',
+  heading = 'Напишите письмо управляющему',
+  description = 'Оставьте свои контакты и&nbsp;мы&nbsp;свяжемся с&nbsp;вами в&nbsp;ближайшее время',
   form = {
     inputs: [
       {
@@ -41,76 +41,78 @@ const {
     terms:
       'Нажимая на&nbsp;кнопку «отправить», вы&nbsp;даёте согласие на&nbsp;обработку персональных данных',
     successTitle: 'Спасибо',
-    successMessage:
-      'Заявка отправлена, наш&nbsp;менеджер в&nbsp;близжайшее время свяжется с&nbsp;вами',
+    successMessage: 'Письмо отправлено, в близжайшее время мы с вами свяжемся.',
     errorMessage:
-      '"При отправке форма произошла ошибка. Попробуйте повтроить попытку позже.',
+      '"При отправке формы произошла ошибка. Попробуйте повтроить попытку позже.',
   },
 } = Astro.props
 ---
 
 <!-- SINGLETON -->
 <CommonModal
-  id="consultation"
-  class="consultation"
+  id="founder-letter"
+  class="founder-letter"
 >
-  <div class="consultation__content">
+  <div class="founder-letter__content">
     <TextCloseButton
-      class="consultation__close-button"
-      modal="consultation"
+      class="founder-letter__close-button"
+      modal="founder-letter"
       theme={'dark'}
     />
 
-    <h3
-      class="consultation__heading"
-      set:html={heading}
-    />
+    <div class="founder-letter__flex">
+      <div class="founder-letter__text">
+        <h3
+          class="founder-letter__heading"
+          set:html={heading}
+        />
 
-    <p
-      class="consultation__description"
-      set:html={description}
-    />
-
-    <Form
-      name="consultation"
-      class="consultation__form"
-      successTitle={form.successTitle}
-      successMessage={form.successMessage}
-      errorMessage={form.errorMessage}
-    >
-      <div class="consultation__form__inputs">
-        {
-          form.inputs.map((input) => {
-            return (
-              <Input
-                class="consultation__form__input"
-                {...input}
-              />
-            )
-          })
-        }
+        <p
+          class="founder-letter__description"
+          set:html={description}
+        />
       </div>
-      <ArrowButton
-        theme="dark"
-        type="submit"
-        class="consultation__form__submit-button"
-        >{form.submitButton}</ArrowButton
+      <Form
+        name="founder-letter"
+        class="founder-letter__form"
+        successTitle={form.successTitle}
+        successMessage={form.successMessage}
+        errorMessage={form.errorMessage}
       >
-      <p
-        class="consultation__form__terms"
-        set:html={form.terms}
-      />
-    </Form>
+        <div class="founder-letter__form__inputs">
+          {
+            form.inputs.map((input) => {
+              return (
+                <Input
+                  class="founder-letter__form__input"
+                  {...input}
+                />
+              )
+            })
+          }
+        </div>
+        <ArrowButton
+          theme="dark"
+          type="submit"
+          class="founder-letter__form__submit-button"
+          >{form.submitButton}</ArrowButton
+        >
+        <p
+          class="founder-letter__form__terms"
+          set:html={form.terms}
+        />
+      </Form>
+    </div>
   </div>
 </CommonModal>
 
 <style is:global>
-  .consultation {
+  .founder-letter {
     color: var(--color-grey-1);
   }
 
-  .consultation__content {
-    width: 61.7rem;
+  .founder-letter__content {
+    width: 96.8rem;
     height: max-content;
     padding: 4rem;
 
@@ -126,16 +128,32 @@ const {
     }
   }
 
-  .consultation__close-button {
+  .founder-letter__close-button {
     margin-left: auto;
-    margin-bottom: 4rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .founder-letter__flex {
+    width: 100%;
+    display: flex;
+    gap: 4rem;
 
     @media (max-width: 768px) {
-      margin-bottom: 1.8rem;
+      flex-direction: column;
+      gap: 2.4rem;
     }
   }
 
-  .consultation__heading {
+  .founder-letter__text {
+    flex-shrink: 0;
+    width: 42.8rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .founder-letter__heading {
     font-family: 'Code', sans-serif;
     font-size: 4rem;
     line-height: 120%;
@@ -149,22 +167,19 @@ const {
     }
   }
 
-  .consultation__description {
+  .founder-letter__description {
     font-size: 2.2rem;
     font-weight: 300;
 
-    margin-bottom: 4rem;
-
     @media (max-width: 768px) {
       font-size: 1.6rem;
-      margin-bottom: 2.4rem;
     }
   }
 
-  .consultation__form {
+  .founder-letter__form {
   }
 
-  .consultation__form__inputs {
+  .founder-letter__form__inputs {
     display: grid;
     grid-auto-rows: max-content;
     gap: 2.4rem;
@@ -177,10 +192,10 @@ const {
     }
   }
 
-  .consultation__form__input {
+  .founder-letter__form__input {
   }
 
-  .consultation__form__submit-button {
+  .founder-letter__form__submit-button {
     width: 100%;
     margin-bottom: 1.6rem;
 
@@ -189,7 +204,7 @@ const {
     }
   }
 
-  .consultation__form__terms {
+  .founder-letter__form__terms {
     font-size: 1.8rem;
     font-weight: 300;
 
