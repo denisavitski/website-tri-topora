@@ -1,0 +1,180 @@
+---
+import Icon from './Icon.astro'
+import Image from './Image.astro'
+
+export interface Props {
+  class?: string
+  image?: string
+  name?: string
+  position?: string
+  description?: string
+}
+
+const {
+  class: className,
+  image = '/images/team/1.jpg',
+  name = 'Пётр Деменев',
+  position = 'Управляющий',
+  description = 'Руководить&nbsp;— это&nbsp;значит не&nbsp;мешать хорошим людям работать. В&nbsp;нашем деле один в&nbsp;поле не&nbsp;воин. Ключ к&nbsp;успеху это&nbsp;слаженная, воодушевлённая одним делом команда, сберегать и&nbsp;развивать которую моя&nbsp;основная задача',
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['team-card', className]}
+>
+  <Image
+    class="team-card__image"
+    src={image}
+    lazy
+    lazyBackground
+    cover
+  />
+
+  <div class="team-card__text">
+    <div class="team-card__name-box">
+      <div
+        class="team-card__name"
+        set:html={name}
+      />
+      <div
+        class="team-card__position"
+        set:html={position}
+      />
+    </div>
+    <p class="team-card__description">
+      <Icon
+        class="team-card__description__quote team-card__description__quote_1"
+        name="quote"
+      />
+      <span set:html={description} />
+      <Icon
+        class="team-card__description__quote team-card__description__quote_2"
+        name="quote"
+      />
+    </p>
+  </div>
+</div>
+
+<style is:global>
+  .team-card {
+    width: 79.2rem;
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      width: 29.6rem;
+      gap: 0.8rem;
+      flex-direction: column;
+    }
+  }
+
+  .team-card__image {
+    flex-shrink: 0;
+    width: 38.4rem;
+    height: 48rem;
+
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 37.1rem;
+    }
+  }
+
+  .team-card__text {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+
+    @media (min-width: 769px) {
+      .team-card:nth-of-type(odd) & {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      height: 100%;
+      flex-direction: column;
+    }
+  }
+
+  .team-card__name-box {
+    @media (max-width: 768px) {
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .team-card__name {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  .team-card__position {
+    font-size: 2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  .team-card__description {
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 120%;
+
+    position: relative;
+
+    padding: 2.4rem;
+
+    overflow: hidden;
+
+    color: var(--color-grey-1);
+    background-color: var(--color-white-1);
+    border-radius: 0.8rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      padding: 1.6rem;
+      min-height: 17.8rem;
+      height: 100%;
+    }
+  }
+
+  .team-card__description__quote {
+    position: absolute;
+
+    z-index: 1;
+
+    width: 12.4rem;
+    height: 8.9rem;
+
+    fill: rgba(97, 97, 97, 1);
+
+    @media (max-width: 768px) {
+      width: 8.4rem;
+      height: 6.1rem;
+    }
+  }
+
+  .team-card__description__quote_1 {
+    top: -1.2rem;
+    left: 0;
+    transform: scale(-1, -1);
+  }
+
+  .team-card__description__quote_2 {
+    bottom: -3.3rem;
+    right: 1rem;
+  }
+</style>
