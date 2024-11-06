@@ -1,0 +1,288 @@
+---
+import ArrowButton from '@elements/ArrowButton.astro'
+import ProjectSlider, {
+  type Props as ProjectSliderProps,
+} from '@elements/ProjectSlider.astro'
+import type { StatsItem } from '@elements/Stats.astro'
+
+export interface Props extends ProjectSliderProps {
+  name?: string
+  stats?: Array<StatsItem>
+  items?: Array<{
+    miniature: string
+    full: string
+    alt: string
+  }>
+  title?: string
+  description?: string
+  consultationButton?: string
+  infoStats?: Array<{
+    title: string
+    value: string
+  }>
+}
+
+const {
+  name = 'Йосемити - лафет',
+  stats = [
+    {
+      icon: 'bed',
+      name: '3 спальни',
+    },
+    {
+      icon: 'bath',
+      name: '3 санузла',
+    },
+    {
+      icon: 'size',
+      name: '472 м²',
+    },
+  ],
+  items = [
+    {
+      miniature: '/images/dev/light/1.jpg',
+      full: '/images/dev/light/1.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/2.jpg',
+      full: '/images/dev/light/2.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/3.jpg',
+      full: '/images/dev/light/3.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/4.jpg',
+      full: '/images/dev/light/4.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/5.jpg',
+      full: '/images/dev/light/5.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/6.jpg',
+      full: '/images/dev/light/6.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/7.jpg',
+      full: '/images/dev/light/7.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/8.jpg',
+      full: '/images/dev/light/8.jpg',
+      alt: '',
+    },
+    {
+      miniature: '/images/dev/light/9.jpg',
+      full: '/images/dev/light/9.jpg',
+      alt: '',
+    },
+  ],
+  title = 'Йосемити — это дом выполненный по технологии норвежский лафет.',
+  description = 'Если&nbsp;вам&nbsp;нравятся строгие прямые линии, ровные стены, но&nbsp;ценитель экологичного подхода в&nbsp;стройке лафет будет достойной заменой клеёного бруса.<br><br>Особенно выигрышно лафет смотрится в&nbsp;интерьере',
+  consultationButton = 'Получить консультацию',
+  infoStats = [
+    {
+      title: 'Площадь помещений',
+      value: '223 м2',
+    },
+    {
+      title: 'Площадь террас',
+      value: '96 м2',
+    },
+    {
+      title: 'Общая площадь дома',
+      value: '319 м2',
+    },
+  ],
+} = Astro.props
+---
+
+<div class="project-intro">
+  <ProjectSlider
+    class="project-intro__slider"
+    {name}
+    {stats}
+    {items}
+  />
+
+  <div class="project-intro__info">
+    <div class="project-intro__info__left">
+      <h3
+        class="project-intro__info__title"
+        set:html={title}
+      />
+      <ul class="project-intro__info__stats">
+        {
+          infoStats.map((stat) => {
+            return (
+              <li class="project-intro__info__stat">
+                <div
+                  class="project-intro__info__stat__title"
+                  set:html={stat.title}
+                />
+                <div
+                  class="project-intro__info__stat__value"
+                  set:html={stat.value}
+                />
+              </li>
+            )
+          })
+        }
+      </ul>
+    </div>
+    <div class="project-intro__info__right">
+      <p
+        class="project-intro__info__description"
+        set:html={description}
+      />
+      <ArrowButton
+        target="consultation"
+        tag="e-popover-button"
+        class="project-intro__info__consultation-button"
+        >{consultationButton}</ArrowButton
+      >
+    </div>
+  </div>
+</div>
+
+<style>
+  .project-intro {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+    padding-top: 0;
+
+    @media (max-width: 768px) {
+      padding: 0;
+      padding-bottom: var(--screen-horisontal-padding);
+    }
+  }
+
+  .project-intro__slider {
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .project-intro__info {
+    display: flex;
+    gap: 4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2.4rem;
+      padding: 0 var(--screen-horisontal-padding);
+    }
+  }
+
+  .project-intro__info__left {
+    flex-shrink: 0;
+    width: 91.2rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .project-intro__info__title {
+    font-family: 'Code', sans-serif;
+    font-size: 4rem;
+    line-height: 120%;
+    text-transform: uppercase;
+    font-weight: 400;
+
+    text-indent: 8.1rem;
+
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      font-size: 2.2rem;
+      text-indent: 4.8rem;
+
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .project-intro__info__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      gap: 1rem;
+    }
+  }
+
+  .project-intro__info__stat {
+    flex-shrink: 0;
+
+    width: 20.1rem;
+    height: 20.1rem;
+    padding: 2.4rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: 0.1rem solid var(--color-white-1);
+
+    @media (max-width: 768px) {
+      padding: 1.2rem;
+      width: 10.7rem;
+      height: 10.7rem;
+    }
+  }
+
+  .project-intro__info__stat__title {
+    font-size: 2.2rem;
+    text-align: center;
+
+    margin-bottom: 0.8rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  .project-intro__info__stat__value {
+    font-size: 2.2rem;
+    font-weight: 600;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  .project-intro__info__right {
+  }
+
+  .project-intro__info__description {
+    font-size: 2.4rem;
+    font-weight: 300;
+    white-space: pre-wrap;
+
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .project-intro__info__consultation-button {
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+</style>

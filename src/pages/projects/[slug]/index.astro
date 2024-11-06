@@ -6,6 +6,7 @@ import { getHref } from '@utils/url'
 import Layouts from '@blocks/Layouts.astro'
 import Interiors from '@blocks/Interiors.astro'
 import Feedback from '@blocks/Feedback.astro'
+import ProjectIntro from '@blocks/ProjectIntro.astro'
 
 export const getStaticPaths: GetStaticPaths = () => {
   return [
@@ -42,6 +43,7 @@ const { slug } = Astro.params
       },
     ]}
   />
+  <ProjectIntro />
   <Interiors />
   <Layouts />
   <Feedback />
