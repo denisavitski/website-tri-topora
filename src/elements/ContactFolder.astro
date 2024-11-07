@@ -1,0 +1,126 @@
+---
+import { tryCreateHrefFromContact } from '@utils/href'
+
+export interface Props {
+  class?: string
+  title?: string
+  items?: Array<{
+    title?: string
+    value: string
+  }>
+}
+
+const {
+  class: className,
+  title = 'Отдел маркетинга',
+  items = [
+    {
+      value: 'belyana.demeneva@sk-tritopora.ru',
+    },
+    {
+      title: 'Единая справочная',
+      value: '8 (800) 444-16-49',
+    },
+    {
+      title: 'Отдел продаж',
+      value: '8 (499) 495-19-14',
+    },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['contacts-folder', className]}
+>
+  <div
+    class="contacts-folder__title"
+    set:html={title}
+  />
+
+  <div class="contacts-folder__body">
+    {
+      items.map((item) => {
+        const href = tryCreateHrefFromContact(item.value)
+
+        return (
+          <div class="contacts-folder__item">
+            {item.title && <div set:html={item.title} />}
+            {href.href ? (
+              <a
+                href={href.href}
+                set:html={item.value}
+                data-type={href.type}
+              />
+            ) : (
+              <div set:html={item.value} />
+            )}
+          </div>
+        )
+      })
+    }
+  </div>
+</div>
+
+<style is:global>
+  .contacts-folder {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    &:not(:last-child) {
+      margin-bottom: 2.4rem;
+
+      @media (max-width: 768px) {
+        margin-bottom: 1.6rem;
+      }
+    }
+  }
+
+  .contacts-folder__title {
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 120%;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .contacts-folder__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+
+  .contacts-folder__item {
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 120%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+
+    a {
+      &[data-type='phone'] {
+        text-decoration: underline;
+        text-decoration-skip-ink: none;
+        text-underline-offset: 0.2em;
+      }
+
+      @media (hover: hover) {
+        transition: opacity var(--duration-button);
+
+        &:hover {
+          opacity: var(--opacity-hover);
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>

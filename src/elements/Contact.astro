@@ -12,9 +12,9 @@ const { class: className, value = '+7 (800) 444-16-49', ...rest } = Astro.props
 const href = tryCreateHrefFromContact(value)
 const Tag = href ? 'a' : 'div'
 const icon = href
-  ? href.includes('@')
+  ? href.type === 'email'
     ? 'mail'
-    : href.includes('+')
+    : href.type === 'phone'
       ? 'phone'
       : ''
   : ''
@@ -22,7 +22,7 @@ const icon = href
 
 <Tag
   {...rest}
-  {href}
+  href={href.href}
   class:list={['contact', className]}
 >
   {

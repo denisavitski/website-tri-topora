@@ -1,0 +1,334 @@
+---
+import ArrowButton from '@elements/ArrowButton.astro'
+import type { ImageDataProps } from '@elements/Image.astro'
+import Image from '@elements/Image.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import ContactFolder, {
+  type Props as ContactFolderProps,
+} from '@elements/ContactFolder.astro'
+import Icon from '@elements/Icon.astro'
+
+export interface Props {
+  heading?: string
+  headOffice?: ContactFolderProps
+  schedule?: ContactFolderProps
+  messengers?: { title: string; list: Array<{ icon: string; href: string }> }
+  supplyDepartment?: ContactFolderProps
+  marketingDepartment?: ContactFolderProps
+  manufacturers?: Array<{
+    logo: ImageDataProps
+    address: string
+  }>
+}
+
+const {
+  heading = 'Контакты',
+  headOffice = {
+    title: 'Адрес головного офиса',
+    items: [
+      {
+        value: 'г. Пермь',
+      },
+      {
+        value: '8 (342) 248-57-77',
+      },
+      {
+        value: 'ул. Окулова, дом 27 Бизнес-центр Сфера офисы 103; 104',
+      },
+    ],
+  },
+  schedule = {
+    title: 'График работы',
+    items: [
+      {
+        value: 'ПН-ПТ 9:00-19:00',
+      },
+    ],
+  },
+  messengers = {
+    title: 'Менеджеры',
+    list: [
+      {
+        icon: 'wa',
+        href: 'https://google.com',
+      },
+      {
+        icon: 'tg',
+        href: 'https://google.com',
+      },
+    ],
+  },
+  supplyDepartment = {
+    title: 'Отдел снабжения',
+    items: [
+      {
+        value: 'snab@srub777.ru',
+      },
+    ],
+  },
+  marketingDepartment = {
+    title: 'Отдел маркетинга',
+    items: [
+      {
+        value: 'belyana.demeneva@sk-tritopora.ru',
+      },
+      {
+        title: 'Единая справочная',
+        value: '8 (800) 444-16-49',
+      },
+      {
+        title: 'Отдел продаж',
+        value: '8 (499) 495-19-14',
+      },
+    ],
+  },
+  manufacturers = [
+    {
+      logo: {
+        src: '/images/common/tri-topora.png',
+        alt: 'Логотип Три Топора',
+      },
+      address:
+        'Производство Пермь деревня Болгары, Пермский муниципальный округ',
+    },
+    {
+      logo: {
+        src: '/images/common/lw-group.png',
+        alt: 'Логотип LW Gropup',
+      },
+      address: 'Производство Томск деревня Кандинка, Октябрьская улица, 1-1,',
+    },
+  ],
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<section class="contacts">
+  <SectionHeading
+    class="contacts__heading"
+    text={heading}
+  />
+
+  <div class="contacts__content">
+    <div class="contacts__col-1">
+      <ContactFolder
+        class="contacts__folder"
+        {...headOffice}
+      />
+      <ContactFolder
+        class="contacts__folder"
+        {...schedule}
+      />
+      <div class="contacts__messengers">
+        <div
+          class="contacts__messengers__title"
+          set:html={messengers.title}
+        />
+        <div class="contacts__messengers__list">
+          {
+            messengers.list.map((messenger) => {
+              return (
+                <a
+                  class="contacts__messenger"
+                  href={messenger.href}
+                  target="_blank"
+                >
+                  <Icon
+                    class="contacts__messenger__icon"
+                    name={messenger.icon}
+                  />
+                </a>
+              )
+            })
+          }
+        </div>
+      </div>
+    </div>
+    <div class="contacts__col-2">
+      <ContactFolder
+        class="contacts__folder"
+        {...supplyDepartment}
+      />
+      <ContactFolder
+        class="contacts__folder"
+        {...marketingDepartment}
+      />
+    </div>
+    <div class="contacts__col-3">
+      {
+        manufacturers.map((item) => {
+          return (
+            <div class="contacts__manufacturer">
+              <Image
+                {...item.logo}
+                lazy
+                contain
+                class="contacts__manufacturer__logo"
+              />
+              <div
+                class="contacts__manufacturer__address"
+                set:html={item.address}
+              />
+            </div>
+          )
+        })
+      }
+    </div>
+    <div class="contacts__col-4">
+      <ArrowButton
+        tag="e-popover-button"
+        target="Открыть Реквизиты"
+        class="contacts__details-button"
+        >Открыть Реквизиты</ArrowButton
+      >
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .contacts {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+  }
+
+  .contacts__heading {
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .contacts__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: max-content;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+    }
+  }
+
+  .contacts__col-1 {
+    .contacts-folder__body {
+      gap: 0.8rem;
+    }
+  }
+
+  .contacts__folder {
+  }
+
+  .contacts__messengers {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      gap: 1.6rem;
+    }
+  }
+
+  .contacts__messengers__title {
+    font-size: 2.2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .contacts__messengers__list {
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      gap: 1.6rem;
+    }
+  }
+
+  .contacts__messenger {
+    flex-shrink: 0;
+
+    display: block;
+
+    width: 4rem;
+    height: 4rem;
+
+    border-radius: 50%;
+    background-color: rgba(236, 236, 236, 0.4);
+
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      &:hover {
+        opacity: var(--opacity-hover);
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 3.4rem;
+      height: 3.4rem;
+    }
+  }
+
+  .contacts__messenger__icon {
+    width: 100%;
+    height: 100%;
+
+    fill: var(--color-white-1);
+  }
+
+  .contacts__col-2 {
+  }
+
+  .contacts__col-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+  .contacts__manufacturer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contacts__manufacturer__logo {
+    width: max-content;
+    max-width: 27.9rem;
+    height: 7.3rem;
+    margin-bottom: 0.1rem;
+
+    @media (max-width: 768px) {
+      max-width: 23.1rem;
+      height: 6rem;
+    }
+  }
+
+  .contacts__manufacturer__address {
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 120%;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .contacts__col-4 {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .contacts__details-button {
+    width: max-content;
+    margin-top: auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+</style>
