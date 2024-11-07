@@ -1,0 +1,104 @@
+---
+import ArrowButton from './ArrowButton.astro'
+import type { ImageDataProps } from './Image.astro'
+import Image from './Image.astro'
+
+export interface Props {
+  class?: string
+  image?: ImageDataProps
+  href?: string
+  title?: string
+  description?: string
+}
+
+const {
+  class: className,
+  image = {
+    src: '/images/dev/light/1.jpg',
+  },
+  href = 'https://google.com',
+  title = 'Материал “Деловой квартал”',
+  description = '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['media-card', className]}
+>
+  <Image
+    class="media-card__image"
+    {...image}
+    cover
+    lazy
+    lazyBackground
+  />
+
+  <div
+    class="media-card__title"
+    set:html={title}
+  />
+  <div
+    class="media-card__description"
+    set:html={description}
+  />
+  <ArrowButton
+    class="media-card__link"
+    tag="a"
+    href={href}
+    target="_blank"
+    >Перейти</ArrowButton
+  >
+</div>
+
+<style>
+  .media-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .media-card__image {
+    width: 100%;
+    height: 29.5rem;
+    margin-bottom: 2.4rem;
+
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      height: 24rem;
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .media-card__title {
+    font-size: 2.2rem;
+    font-weight: 300;
+
+    margin-bottom: 1.6rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .media-card__description {
+    font-size: 2.4rem;
+    font-weight: 500;
+
+    margin-bottom: 5.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .media-card__link {
+    width: max-content;
+    margin-top: auto;
+  }
+</style>

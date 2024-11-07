@@ -1,0 +1,124 @@
+---
+import SectionHeading from '@elements/SectionHeading.astro'
+import SliderButtons from '@elements/SliderButtons.astro'
+import MediaCard, {
+  type Props as MediaCardProps,
+} from '@elements/MediaCard.astro'
+
+export interface Props {
+  heading?: string
+  cards?: Array<Omit<MediaCardProps, 'class'>>
+}
+
+const {
+  heading = 'Три Топора в СМИ',
+  cards = [
+    {
+      image: {
+        src: '/images/dev/light/1.jpg',
+      },
+      href: 'https://google.com',
+      title: 'Материал “Деловой квартал”',
+      description:
+        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+    },
+    {
+      image: {
+        src: '/images/dev/light/2.jpg',
+      },
+      href: 'https://google.com',
+      title: 'Материал “Деловой квартал”',
+      description: 'Деревянные дома. Канадская рубка',
+    },
+    {
+      image: {
+        src: '/images/dev/light/3.jpg',
+      },
+      href: 'https://google.com',
+      title: 'Материал “Деловой квартал”',
+      description:
+        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+    },
+    {
+      image: {
+        src: '/images/dev/light/4.jpg',
+      },
+      href: 'https://google.com',
+      title: 'Материал “Деловой квартал”',
+      description:
+        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+    },
+    {
+      image: {
+        src: '/images/dev/light/5.jpg',
+      },
+      href: 'https://google.com',
+      title: 'Материал “Деловой квартал”',
+      description:
+        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+    },
+  ],
+} = Astro.props
+---
+
+<section class="mass-media">
+  <SectionHeading
+    class="mass-media__heading"
+    text={heading}
+  />
+
+  <e-scroll class="mass-media__slider">
+    <SliderButtons
+      class="mass-media__slider__buttons"
+      slot="static"
+    />
+    {
+      cards.map((card) => {
+        return (
+          <MediaCard
+            class="mass-media__slider__card"
+            {...card}
+          />
+        )
+      })
+    }
+  </e-scroll>
+</section>
+
+<style is:global>
+  .mass-media {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+  }
+
+  .mass-media__heading {
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .mass-media__slider {
+    --axis: x;
+    --gap: 2.4rem;
+    --classes: true;
+    --sectional: true;
+    --sections-in-view: 3;
+    --auto-size: true;
+
+    display: flex;
+    gap: var(--gap);
+
+    @media (max-width: 768px) {
+      --gap: 0.8rem;
+      --sections-in-view: 1.02;
+      --overflow: unset;
+    }
+  }
+
+  .mass-media__slider__buttons {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 4rem);
+  }
+</style>
