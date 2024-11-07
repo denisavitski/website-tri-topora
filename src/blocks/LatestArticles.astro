@@ -1,0 +1,184 @@
+---
+import SectionHeading from '@elements/SectionHeading.astro'
+import ArticleCard, {
+  type Props as ArticleCardProps,
+} from '@elements/ArticleCard.astro'
+import ArrowButton from '@elements/ArrowButton.astro'
+
+export interface Props {
+  heading?: string
+  largeArticles?: Array<Omit<ArticleCardProps, 'class' | 'hashtags'>>
+  smallArticles?: Array<Omit<ArticleCardProps, 'class' | 'image' | 'hashtags'>>
+}
+
+const {
+  heading = 'Блог Дом, Дерево, Дизайн',
+  largeArticles = [
+    {
+      image: { src: '/images/dev/light/1.jpg' },
+      href: '/blog/article',
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+  ],
+  smallArticles = [
+    {
+      href: '/blog/article',
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+    {
+      href: '/blog/article',
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+  ],
+} = Astro.props
+---
+
+<section class="latest-articles">
+  <SectionHeading
+    class="latest-articles__heading"
+    text={heading}
+  />
+
+  <div class="latest-articles__content">
+    <div class="latest-articles__large">
+      {
+        largeArticles.map((article) => {
+          return (
+            <ArticleCard
+              class="latest-articles__large__card"
+              hashtags={false}
+              {...article}
+            />
+          )
+        })
+      }
+    </div>
+
+    <div class="latest-articles__small">
+      <div class="latest-articles__small__list">
+        {
+          smallArticles.map((article) => {
+            return (
+              <ArticleCard
+                class="latest-articles__small__card"
+                image={false}
+                hashtags={false}
+                {...article}
+              />
+            )
+          })
+        }
+      </div>
+      <ArrowButton
+        class="latest-articles__all-button"
+        tag="a"
+        href="/blog"
+        >Читать всё</ArrowButton
+      >
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .latest-articles {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+  }
+
+  .latest-articles__heading {
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .latest-articles__content {
+    display: flex;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2.4rem;
+
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
+      padding: 0 var(--screen-horisontal-padding);
+    }
+  }
+
+  .latest-articles__large {
+    flex-shrink: 0;
+    width: 92.8rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .latest-articles__large__card {
+    width: 100%;
+
+    .article-card__image {
+      height: 52.7rem;
+
+      @media (max-width: 768px) {
+        width: calc(100% + var(--screen-horisontal-padding) * 2);
+        margin-left: calc(var(--screen-horisontal-padding) * -1);
+        height: 32rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding-bottom: 0.8rem;
+      border-bottom: 0.1rem solid var(--color-grey-4);
+    }
+  }
+
+  .latest-articles__small {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    min-height: 100%;
+  }
+
+  .latest-articles__small__list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .latest-articles__small__card {
+    padding: 2.4rem;
+
+    border-bottom: 0.1rem solid var(--color-grey-4);
+
+    &:first-of-type {
+      padding-top: 0;
+    }
+  }
+
+  .latest-articles__all-button {
+    margin-left: auto;
+    margin-top: auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+</style>

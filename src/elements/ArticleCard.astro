@@ -1,0 +1,153 @@
+---
+import type { ImageDataProps } from './Image.astro'
+import Image from './Image.astro'
+
+export interface Props {
+  class?: string
+  image?: ImageDataProps | false
+  href?: string
+  hashtags?: Array<string> | false
+  date?: string
+  title?: string
+  description?: string
+}
+
+const {
+  class: className,
+  image = { src: '/images/dev/light/1.jpg' },
+  href = '/blog/article',
+  hashtags = ['cтроительство'],
+  date = '03.09.2024',
+  title = 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+  description = 'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+  ...rest
+} = Astro.props
+---
+
+<a
+  {...rest}
+  class:list={['article-card', className]}
+  href={href}
+>
+  {
+    image && (
+      <Image
+        {...image}
+        class="article-card__image"
+        lazy
+        lazyBackground
+        cover
+      />
+    )
+  }
+
+  <span class="article-card__content">
+    <span class="article-card__top">
+      {
+        hashtags !== false && hashtags.length && (
+          <span class="article-card__hashtags">
+            {hashtags.map((hashtag) => {
+              return <span set:html={`#${hashtag}`} />
+            })}
+          </span>
+        )
+      }
+      <span
+        class="article-card__date"
+        set:html={date}
+      />
+    </span>
+
+    <span
+      class="article-card__title"
+      set:html={title}
+    />
+
+    <span
+      class="article-card__description"
+      set:html={description}
+    />
+  </span>
+</a>
+
+<style is:global>
+  .article-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-card__image {
+    width: 100%;
+    height: 42rem;
+
+    margin-bottom: 2.4rem;
+
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      margin-bottom: 1.6rem;
+      height: 30.3rem;
+    }
+  }
+
+  .article-card__top {
+    font-size: 2.2rem;
+    font-weight: 300;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+
+    margin-bottom: 1.6rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+
+      gap: 1rem;
+
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .article-card__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-card__hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+
+    @media (max-width: 768px) {
+      gap: 0.1rem 0.25rem;
+    }
+  }
+
+  .article-card__date {
+  }
+
+  .article-card__title {
+    font-size: 2.4rem;
+    font-weight: 500;
+
+    margin-bottom: 1.6rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .article-card__description {
+    font-size: 2.2rem;
+    line-height: 120%;
+    font-weight: 300;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>
