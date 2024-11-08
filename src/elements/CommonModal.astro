@@ -22,7 +22,10 @@ const Tag = tag as any
   {id}
   {...rest}
 >
-  <div class="common-modal__inner">
+  <div
+    class="common-modal__inner"
+    data-outside
+  >
     <div class="common-modal__content hidden-scrollbar">
       <slot />
     </div>
@@ -49,8 +52,6 @@ const Tag = tag as any
     opacity: 0;
 
     transition: opacity var(--duration);
-
-    pointer-events: none;
   }
 
   .common-modal::before {
@@ -61,8 +62,6 @@ const Tag = tag as any
     height: 100%;
 
     z-index: -1;
-
-    pointer-events: none;
 
     background-color: rgba(0, 0, 0, 0.85);
   }
@@ -78,8 +77,6 @@ const Tag = tag as any
 
   .common-modal__content {
     position: relative;
-
-    pointer-events: auto;
 
     max-height: 100%;
 
