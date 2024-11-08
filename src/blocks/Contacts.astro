@@ -7,6 +7,7 @@ import ContactFolder, {
   type Props as ContactFolderProps,
 } from '@elements/ContactFolder.astro'
 import Icon from '@elements/Icon.astro'
+import Requisites from '@elements/Requisites.astro'
 
 export interface Props {
   heading?: string
@@ -177,10 +178,11 @@ const {
     <div class="contacts__col-4">
       <ArrowButton
         tag="e-popover-button"
-        target="Открыть Реквизиты"
-        class="contacts__details-button"
+        target="requisites"
+        class="contacts__requisites-button"
         >Открыть Реквизиты</ArrowButton
       >
+      <Requisites class="contacts__requisites" />
     </div>
   </div>
 </section>
@@ -323,7 +325,7 @@ const {
     }
   }
 
-  .contacts__details-button {
+  .contacts__requisites-button {
     width: max-content;
     margin-top: auto;
 

@@ -1,0 +1,217 @@
+---
+import CommonModal from './CommonModal.astro'
+import TextCloseButton from './TextCloseButton.astro'
+
+export const modal = '#requisites'
+
+export interface Props {
+  class?: string
+  list?: Array<{
+    title?: string
+    cols?: Array<{
+      title?: string
+      value: string
+    }>
+  }>
+}
+
+const {
+  class: className,
+  list = [
+    {
+      title: 'Управляющий ИП ',
+      cols: [
+        {
+          value: 'Деменев Петр Андреевич',
+        },
+      ],
+    },
+    {
+      title: 'КПП',
+      cols: [
+        {
+          value: 'Деменев Петр Андреевич',
+        },
+      ],
+    },
+    {
+      title: 'ОГРН',
+      cols: [
+        {
+          value: '1165958120228',
+        },
+      ],
+    },
+    {
+      title: 'ЮР. Адрес',
+      cols: [
+        {
+          value:
+            '614007 Пермский край, Пермь г, Окулова ул. БЦ Сфера офисы 103;104',
+        },
+      ],
+    },
+    {
+      title: 'Расчетный счет',
+      cols: [
+        {
+          value: '40702810700490027012',
+        },
+      ],
+    },
+    {
+      title: 'В Филиал «Центральный» Банка ВТБ (ПАО) г.Москва',
+    },
+    {
+      cols: [
+        {
+          title: 'Кор. счет',
+          value: '30101810145250000411',
+        },
+        {
+          title: 'БИК',
+          value: '044525411',
+        },
+      ],
+    },
+  ],
+  ...rest
+} = Astro.props
+
+const left = list.slice(0, 3)
+const right = list.slice(3)
+const cols = [left, right]
+---
+
+<CommonModal
+  {...rest}
+  id="requisites"
+  class:list={['requisites', className]}
+>
+  <div class="requisites__content">
+    <TextCloseButton
+      class="requisites__close-button"
+      modal="requisites"
+      theme={'dark'}
+    />
+
+    <div class="requisites__list">
+      {
+        cols.map((list) => {
+          return (
+            <div class="requisite__list__col">
+              {list.map((item) => {
+                return (
+                  <div class="requisites__item">
+                    {item.title && (
+                      <div
+                        class="requisites__item__title"
+                        set:html={item.title}
+                      />
+                    )}
+                    {item.cols && (
+                      <div class="requisites__item__cols">
+                        {item.cols.map((col) => {
+                          return (
+                            <div class="requisites__col">
+                              {col.title && (
+                                <div
+                                  class="requisites__item__title"
+                                  set:html={col.title}
+                                />
+                              )}
+                              <div
+                                class="requisites__item__value"
+                                set:html={col.value}
+                              />
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )
+        })
+      }
+    </div>
+  </div>
+</CommonModal>
+
+<style is:global>
+  .requisites {
+    color: var(--color-grey-1);
+  }
+
+  .requisites__content {
+    width: 98.6rem;
+    height: max-content;
+    padding: 4rem;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 0.8rem;
+    background-color: var(--color-white-1);
+
+    @media (max-width: 768px) {
+      padding: 1.6rem;
+      width: calc(100% - var(--screen-horisontal-padding) * 2);
+    }
+  }
+
+  .requisites__close-button {
+    margin-left: auto;
+    margin-bottom: 2.4rem;
+  }
+
+  .requisites__list {
+    display: grid;
+    grid-template-columns: 29.7rem 1fr;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      gap: 1.6rem;
+    }
+  }
+
+  .requisite__list__col {
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      gap: 1.6rem;
+    }
+  }
+
+  .requisites__item {
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: 0.8rem;
+  }
+
+  .requisites__item__title,
+  .requisites__item__value {
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 120%;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .requisites__item__value {
+    font-weight: 300;
+    margin-bottom: 0;
+  }
+
+  .requisites__item__cols {
+    display: flex;
+    gap: 2.4rem;
+  }
+</style>
