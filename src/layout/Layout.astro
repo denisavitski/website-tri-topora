@@ -10,6 +10,7 @@ import { type Props as SeoProps } from './Seo.astro'
 import Consultation from '@singletons/Consultation.astro'
 import ImagesModal from '@singletons/ImagesModal.astro'
 import FounderLetter from '@singletons/FounderLetter.astro'
+import Lines from '@singletons/Lines.astro'
 
 export interface Props {
   header?: boolean
@@ -20,9 +21,10 @@ export interface Props {
   ctaModal?: boolean
   partnerModal?: boolean
   seo?: SeoProps | undefined
+  lines?: boolean
 }
 
-const { header = true, footer = true, seo } = Astro.props
+const { header = true, footer = true, lines = true, seo } = Astro.props
 ---
 
 <html lang="ru">
@@ -42,6 +44,7 @@ const { header = true, footer = true, seo } = Astro.props
         <Scrollbar />
 
         <main>
+          {lines && <Lines />}
           <slot />
         </main>
 
@@ -78,6 +81,10 @@ const { header = true, footer = true, seo } = Astro.props
     .dragging & {
       overflow: hidden;
     }
+  }
+
+  main {
+    position: relative;
   }
 </style>
 

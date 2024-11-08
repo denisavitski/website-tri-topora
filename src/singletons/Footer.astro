@@ -125,11 +125,8 @@ const {
 
 <style is:global>
   .footer {
-    margin-top: var(--section-vertical-padding);
     display: flex;
     flex-direction: column;
-
-    border-top: 0.1rem solid var(--color-grey-1);
   }
 
   .footer__top {
@@ -137,6 +134,8 @@ const {
     align-items: center;
 
     padding: 4rem var(--screen-horisontal-padding);
+
+    border-top: 0.1rem solid var(--color-grey-1);
 
     @media (max-width: 768px) {
       flex-direction: column;

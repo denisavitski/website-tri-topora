@@ -67,6 +67,7 @@ body {
   --z-filter: 102;
   --z-common-modal: 101;
   --z-header: 100;
+  --z-lines: -5;
 
   --header-height: 10.2rem;
 
