@@ -1,0 +1,58 @@
+---
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Feedback from '@blocks/Feedback.astro'
+import ServiceIntro from '@blocks/ServiceIntro.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Архитектурное проектирование',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Сервисы',
+        href: '/services',
+      },
+      {
+        name: 'Архитектурное проектирование',
+        href: '/services/architectural-design',
+      },
+    ]}
+  />
+
+  <ServiceIntro
+    heading="Архитектурное проектирование"
+    manager={{
+      image: { src: '/images/team/michkov-vasilij/1.jpg' },
+      name: 'Мичков Василий',
+      position: 'Коммерческий директор',
+    }}
+    example={{
+      src: '/images/services/architectural-design/example.jpg',
+    }}
+    subtitle="Поиск индивидуального архитектурного решения — это то, с чего всё начинается."
+    description={[
+      {
+        description:
+          'Архитектору необходимо увидеть Ваш будущий дом или баню в привязке к месту. Выслушать пожелания и быть с Вами на одной волне. Только после этого возникает произведение деревянного зодчества-именно Ваше неповторимое и уникальное строение, отражающее Ваш характер и жизненный подход.',
+      },
+      {
+        description:
+          'Процесс этот схож с примеркой одежды. Костюм должен быть идеально скроен под заказчика, учитывать все особенности и нюансы. В таком случае итогу будут рады все.<br><br>Создание эскиза зачастую самая долгая и затратная по времени и ресурсам часть проектной работы.',
+      },
+    ]}
+  />
+
+  <Feedback />
+</Layout>

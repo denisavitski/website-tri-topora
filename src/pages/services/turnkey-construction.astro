@@ -1,0 +1,54 @@
+---
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Feedback from '@blocks/Feedback.astro'
+import ServiceIntro from '@blocks/ServiceIntro.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Стройка под ключ',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Сервисы',
+        href: '/services',
+      },
+      {
+        name: 'Стройка под ключ',
+        href: '/services/turnkey-construction',
+      },
+    ]}
+  />
+
+  <ServiceIntro
+    heading="Стройка под ключ"
+    manager={{
+      image: { src: '/images/team/demenev-petr/3.jpg' },
+      name: 'Деменев Пётр',
+      position: 'Управляющий ',
+    }}
+    example={{
+      src: '/images/services/turnkey-construction/example.jpg',
+    }}
+    subtitle="Три Топора одна из немногих компаний, которая закрывает полный цикл стройки."
+    description={[
+      {
+        description:
+          'Мы начинаем работу с геологии и топсъёмки участка, а завершаем меблировкой и благоустройством. Это очень удобно для нашего заказчика так как большая часть процессов во время возведения дома связаны с друг с другом. ',
+      },
+    ]}
+  />
+
+  <Feedback />
+</Layout>

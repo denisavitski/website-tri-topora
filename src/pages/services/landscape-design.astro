@@ -1,0 +1,54 @@
+---
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Feedback from '@blocks/Feedback.astro'
+import ServiceIntro from '@blocks/ServiceIntro.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Ландшафтный дизайн',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Сервисы',
+        href: '/services',
+      },
+      {
+        name: 'Ландшафтный дизайн',
+        href: '/services/landscape-design',
+      },
+    ]}
+  />
+
+  <ServiceIntro
+    heading="Ландшафтный дизайн"
+    manager={{
+      image: { src: '/images/team/demeneva-belyana/2.jpg' },
+      name: 'Беляна Деменева',
+      position: 'Арт Директор Три Топора',
+    }}
+    example={{
+      src: '/images/services/landscape-design/example.jpg',
+    }}
+    subtitle="Концепция комплексной застройки, используемая в работе компании Три Топора, предполагает помимо возведения строений и благоустройство территории."
+    description={[
+      {
+        description:
+          'Вопросы ландшафтного дизайна, устройства ограждений, дорожек, детских площадок и малых архитектурных форм Вы можете поручить нам. В случае сложных и специфических задач Три Топора привлекает партнерские организации.',
+      },
+    ]}
+  />
+
+  <Feedback />
+</Layout>

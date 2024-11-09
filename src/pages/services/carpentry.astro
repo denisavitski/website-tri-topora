@@ -1,0 +1,70 @@
+---
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Feedback from '@blocks/Feedback.astro'
+import ServiceIntro from '@blocks/ServiceIntro.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Плотницкое дело',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Сервисы',
+        href: '/services',
+      },
+      {
+        name: 'Плотницкое дело',
+        href: '/services/carpentry',
+      },
+    ]}
+  />
+
+  <ServiceIntro
+    heading="Плотницкое дело"
+    manager={{
+      image: { src: '/images/team/michkov-vasilij/1.jpg' },
+      name: 'Анатолий Погорелов',
+      position: 'Руководитель производства ',
+    }}
+    example={{
+      src: '/images/services/carpentry/example.jpg',
+    }}
+    subtitle="Основное направление компании Три Топора это плотницкие работы. "
+    description={[
+      {
+        image: { src: '/images/icons/log-production.svg' },
+        description:
+          'Мы сами производим срубы из сосны и кедра крупных диаметров по различным технологиям: рубка в русскую чашу, рубка в канадскую чашу, бриллиантовый замок, норвежский лафет, а также работаем с такими технологиями как Post&Beam и Timber Frame.',
+      },
+      {
+        image: { src: '/images/icons/three-axes-team.svg' },
+        description:
+          'Три Топора это команда единомышленников, вдохновленных деревянным зодчеством. Одной из своих целей мы ставим восстановление и развитие давних традиций плотницкого мастерства на Руси.',
+      },
+      {
+        image: { src: '/images/icons/high-quality-wood.svg' },
+        description:
+          'Мы используем в производстве наших срубов отборный лес крупных диаметров, заготовленный на Северном Урале и в Сибири. Перед рубкой бревна выдерживаем от полугода до двух лет, что существенно повышает качество изделий.',
+      },
+      {
+        image: { src: '/images/icons/carpentry-school.svg' },
+        description:
+          'Мы открыли школу плотников Три Топора, где каждый желающий может освоить азы этого ремесла, а если захочет связать свою судьбу и дальнейший трудовой трудовой путь с деревянным домостроением.',
+      },
+    ]}
+  />
+
+  <Feedback />
+</Layout>

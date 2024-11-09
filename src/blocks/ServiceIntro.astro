@@ -8,8 +8,7 @@ export interface Props {
   manager?: Omit<ManagerProps, 'class'>
   example?: ImageDataProps
   subtitle?: string
-  description?: string | false
-  list?: Array<{ image: ImageDataProps; description: string }> | false
+  description?: Array<{ image?: ImageDataProps; description: string }>
 }
 
 const {
@@ -19,8 +18,7 @@ const {
     src: '/images/carpentry/intro/example.jpg',
   },
   subtitle = 'Дизайн проект — это карта с помощью которой можно пройти квест под названием стройка дома под ключ максимально комфортно.',
-  description = 'Дизайн интерьера в стройке дома это <b>фундамент</b> всех работ по отделке. Ошибочно воспринимать дизайн как набор красивых картинок',
-  list = [
+  description = [
     {
       image: { src: '/images/carpentry/intro/icon1.svg' },
       description:
@@ -71,37 +69,29 @@ const {
     set:html={subtitle}
   />
 
-  {
-    description && (
-      <p
-        class="service-intro__description"
-        set:html={description}
-      />
-    )
-  }
-
-  {
-    list && (
-      <ul class="service-intro__list">
-        {list.map((item) => {
-          return (
-            <li class="service-intro__list__item">
+  <ul class="service-intro__list">
+    {
+      description.map((item) => {
+        return (
+          <li class="service-intro__list__item">
+            {item.image && (
               <Image
                 {...item.image}
                 class="service-intro__list__item__image"
                 lazy
                 contain
               />
-              <p
-                class="service-intro__list__item__description"
-                set:html={item.description}
-              />
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
+            )}
+
+            <p
+              class="service-intro__list__item__description"
+              set:html={item.description}
+            />
+          </li>
+        )
+      })
+    }
+  </ul>
 </div>
 
 <style is:global>
@@ -155,6 +145,8 @@ const {
     font-family: 'Code', sans-serif;
     font-size: 4rem;
     text-indent: 13.5rem;
+    text-transform: uppercase;
+
     margin-bottom: 1.6rem;
 
     width: 133.6rem;
@@ -166,33 +158,11 @@ const {
     }
   }
 
-  .service-intro__description {
-    font-size: 2.2rem;
-    font-weight: 300;
-
-    width: 79.2rem;
-    margin-left: auto;
-
-    b {
-      font-weight: 500;
-    }
-
-    @media (max-width: 768px) {
-      font-size: 1.6rem;
-
-      width: 100%;
-      margin-left: unset;
-    }
-  }
-
   .service-intro__list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 2.4rem;
-
-    .service-intro__description ~ & {
-      margin-top: 6rem;
-    }
 
     @media (max-width: 768px) {
       grid-template-columns: 100%;
@@ -207,6 +177,11 @@ const {
   .service-intro__list__item {
     display: flex;
     gap: 1.6rem;
+    width: 79.2rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   .service-intro__list__item__image {
@@ -224,6 +199,11 @@ const {
   .service-intro__list__item__description {
     font-size: 2.2rem;
     font-weight: 300;
+    white-space: pre-wrap;
+
+    b {
+      font-weight: 500;
+    }
 
     @media (max-width: 768px) {
       font-size: 1.6rem;

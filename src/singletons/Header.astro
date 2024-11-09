@@ -15,7 +15,7 @@ export interface Props {
 }
 
 const {
-  logo = '/images/common/tri-topora.png',
+  logo = '/images/logos/tri-topora.png',
   nav = [
     {
       name: 'Проекты',
@@ -27,27 +27,27 @@ const {
       sub: [
         {
           name: 'Плотницкое дело',
-          href: '/',
+          href: '/services/carpentry',
         },
         {
           name: 'Стройка под ключ',
-          href: '/',
+          href: '/services/turnkey-construction',
         },
         {
           name: 'Архитектурное проектирование',
-          href: '/',
+          href: '/services/architectural-design',
         },
         {
           name: 'Дизайн интерьера',
-          href: '/',
+          href: '/services/interior-design',
         },
         {
           name: 'Деревянная скульптура',
-          href: '/',
+          href: '/services/wood-sculpture',
         },
         {
           name: 'Ландшафтный дизайн',
-          href: '/',
+          href: '/services/landscape-design',
         },
       ],
     },
@@ -160,6 +160,32 @@ const {
     justify-content: space-between;
 
     z-index: var(--z-header);
+
+    &::before {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      z-index: -1;
+
+      width: 100%;
+      height: 100%;
+
+      top: 0;
+      left: 0;
+
+      background-color: var(--color-grey-2);
+
+      opacity: 0;
+
+      transition: opacity 0.4s;
+    }
+
+    .scrolled &::before {
+      opacity: 1;
+    }
   }
 
   .header__logo {
