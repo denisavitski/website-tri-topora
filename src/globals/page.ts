@@ -34,7 +34,7 @@ function updateScrollElement() {
   scrollListener()
 }
 
-addEventListener('load', () => {
+addEventListener('DOMContentLoaded', () => {
   document.documentElement.classList.add('page-loaded')
 
   updateSize()
