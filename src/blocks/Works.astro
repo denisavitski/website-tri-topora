@@ -1,0 +1,184 @@
+---
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import SimpleButton from '@elements/SimpleButton.astro'
+
+export interface Props {
+  heading?: string
+  list?: Array<ImageDataProps>
+}
+
+const {
+  heading = 'Фото работ',
+  list = [
+    { src: '/images/dev/1.jpg' },
+    { src: '/images/dev/2.jpg' },
+    { src: '/images/dev/3.jpg' },
+    { src: '/images/dev/4.jpg' },
+    { src: '/images/dev/5.jpg' },
+    { src: '/images/dev/6.jpg' },
+    { src: '/images/dev/7.jpg' },
+    { src: '/images/dev/8.jpg' },
+    { src: '/images/dev/9.jpg' },
+    { src: '/images/dev/1.jpg' },
+    { src: '/images/dev/2.jpg' },
+    { src: '/images/dev/3.jpg' },
+    { src: '/images/dev/4.jpg' },
+    { src: '/images/dev/5.jpg' },
+    { src: '/images/dev/6.jpg' },
+    { src: '/images/dev/7.jpg' },
+    { src: '/images/dev/8.jpg' },
+    { src: '/images/dev/9.jpg' },
+  ],
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<e-works class="works">
+  <SectionHeading
+    class="works__heading"
+    text={heading}
+  />
+
+  <e-masonry-layout class="works__list">
+    {
+      list.map((item, i) => {
+        return (
+          <Image
+            class="works__list__item"
+            {...item}
+            lazy
+            lazyBackground
+            cover
+            aria-hidden={i > 9}
+          />
+        )
+      })
+    }
+  </e-masonry-layout>
+
+  <SimpleButton class="works__more-button">Смотреть ещё</SimpleButton>
+</e-works>
+
+<style is:global>
+  .works {
+    position: relative;
+
+    z-index: calc(var(--z-lines) + 1);
+
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .works__heading {
+    margin-bottom: 3.2rem;
+    margin-right: auto;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+      padding-left: var(--screen-horisontal-padding);
+    }
+  }
+
+  .works__list {
+    --columns: 2;
+    --gap: 2.4rem;
+
+    gap: var(--gap);
+    width: 100%;
+    margin-bottom: 4.8rem;
+
+    @media (max-width: 768px) {
+      --columns: 1;
+      --gap: 0.8rem;
+
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .works__list__item {
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    &[aria-hidden='true'] {
+      display: none;
+    }
+  }
+
+  .works__more-button {
+    @media (max-width: 768px) {
+      width: calc(100% - var(--screen-horisontal-padding) * 2);
+    }
+  }
+</style>
+
+<script>
+  export class WorksElement extends HTMLElement {
+    #moreButtonElement: HTMLElement | null = null
+    #itemElements: Array<HTMLElement> = []
+
+    #itemsPerPage = 10
+    #currentPage = 0
+
+    protected connectedCallback() {
+      this.#moreButtonElement = this.querySelector('.works__more-button')
+      this.#itemElements = [
+        ...this.querySelectorAll<HTMLElement>('.works__list__item'),
+      ]
+
+      this.#moreButtonElement?.addEventListener(
+        'click',
+        this.#moreButtonListener,
+      )
+
+      this.#moreButtonListener()
+    }
+
+    protected disconnectedCallback() {
+      this.#moreButtonElement?.removeEventListener(
+        'click',
+        this.#moreButtonListener,
+      )
+    }
+
+    #moreButtonListener = () => {
+      this.#currentPage += 1
+
+      this.#itemElements.forEach((item, i) => {
+        if (i < this.#currentPage * this.#itemsPerPage) {
+          item.ariaHidden = 'false'
+        }
+      })
+
+      console.log(
+        this.#currentPage,
+        Math.ceil(this.#itemElements.length / this.#itemsPerPage),
+      )
+
+      if (
+        this.#currentPage ===
+        Math.ceil(this.#itemElements.length / this.#itemsPerPage)
+      ) {
+        this.#moreButtonElement?.remove()
+      }
+    }
+  }
+
+  if (!customElements.get('e-works')) {
+    customElements.define('e-works', WorksElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'e-works': WorksElement
+    }
+  }
+</script>

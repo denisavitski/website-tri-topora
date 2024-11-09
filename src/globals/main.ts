@@ -4,6 +4,7 @@ import 'aptechka/custom-scrollbar'
 import 'aptechka/slicer'
 import 'aptechka/scroll'
 import 'aptechka/iframe'
+import 'aptechka/masonry-layout'
 
 import '@globals/main.css'
 

@@ -3,6 +3,7 @@ import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import Expert from '@blocks/Expert.astro'
 import Feedback from '@blocks/Feedback.astro'
 import ServiceIntro from '@blocks/ServiceIntro.astro'
+import Works from '@blocks/Works.astro'
 import Layout from '@layout/Layout.astro'
 import { getHref } from '@utils/url'
 ---
@@ -54,6 +55,41 @@ import { getHref } from '@utils/url'
   <Expert
     areas={false}
     logo={false}
+  />
+
+  <Works
+    list={[
+      {
+        src: '/images/services/wood-sculpture/works/1.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/2.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/3.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/4.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/5.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/6.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/7.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/8.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/9.png',
+      },
+      {
+        src: '/images/services/wood-sculpture/works/10.png',
+      },
+    ]}
   />
 
   <Feedback />
