@@ -91,27 +91,38 @@ modules.forEach((module) => {
 
   .nav__folder__title {
     text-transform: capitalize;
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 600;
     cursor: pointer;
   }
 
   .nav__folder__list {
+    width: 90rem;
     transition: height var(--duration-button);
 
     height: 0;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   .nav__folder__list__inner {
     display: grid;
-    gap: 1rem;
-    padding-top: 1rem;
-    padding-left: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-left: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   .nav__link {
     font-size: 2rem;
     width: max-content;
+    white-space: break-all;
   }
 </style>
