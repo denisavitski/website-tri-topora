@@ -78,6 +78,9 @@ body {
   --viewport-height: var(--inner-height, 100vh);
   --viewport-width: var(--inner-width, 100vw);
 
+  --morph-duration: 0.3s;
+  --ease-1: cubic-bezier(0.46, 0.01, 0.2, 0.94);
+
   @media (max-width: 768px) {
     --header-height: 6.8rem;
 
@@ -95,7 +98,6 @@ body {
 html {
   font-size: calc(100vw / 1920 * 10);
 
-  background-color: var(--color-grey-2);
   color: var(--color-white-1);
 
   @media (max-width: 768px) {

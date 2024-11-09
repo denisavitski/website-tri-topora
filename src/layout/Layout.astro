@@ -40,15 +40,20 @@ const { header = true, footer = true, lines = true, seo } = Astro.props
       <Consultation />
       <FormAnswer />
 
-      <div class="scroll hidden-scrollbar">
-        <Scrollbar />
+      <div
+        data-morph
+        class="morph"
+      >
+        <div class="morph__sheet hidden-scrollbar">
+          <Scrollbar />
 
-        <main>
-          {lines && <Lines />}
-          <slot />
-        </main>
+          <main>
+            {lines && <Lines />}
+            <slot />
+          </main>
 
-        {footer && <Footer />}
+          {footer && <Footer />}
+        </div>
       </div>
     </div>
   </body>
@@ -83,8 +88,79 @@ const { header = true, footer = true, lines = true, seo } = Astro.props
     }
   }
 
+  .morph {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 100%;
+    overflow: hidden;
+
+    --morph-duration: 0.4s;
+    --ease: var(--ease-1);
+
+    background-color: var(--color-grey-1);
+  }
+
+  .morph__sheet {
+    grid-column: 1/1;
+    grid-row: 1/1;
+
+    width: 100%;
+    height: 100%;
+
+    padding-top: var(--header-height);
+
+    overflow: hidden auto;
+
+    background-color: var(--color-grey-2);
+
+    .dragging & {
+      overflow: hidden;
+    }
+
+    .out &.current {
+      transition-duration: var(--morph-duration);
+      transition-timing-function: var(--ease);
+      transition-property: transform, opacity;
+      opacity: 0.5;
+    }
+
+    &.old {
+      transition-duration: var(--morph-duration);
+      transition-timing-function: var(--ease);
+      transition-property: transform, opacity;
+
+      /* transform: translate3d(0, -2rem, 0) scale(0.97); */
+      transform-origin: top;
+
+      pointer-events: none;
+    }
+
+    .out &.old {
+      opacity: 0.5;
+    }
+
+    &.new {
+      /* clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); */
+      /* transform: translate3d(0, 2rem, 0); */
+      opacity: 0;
+    }
+
+    &.in {
+      transition-duration: var(--morph-duration);
+      transition-timing-function: var(--ease);
+      transition-property: transform, clip-path, opacity;
+
+      /* clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); */
+      /* transform: translate3d(0, 0, 0); */
+      opacity: 1;
+    }
+  }
+
   main {
     position: relative;
+    z-index: 1;
   }
 </style>
 

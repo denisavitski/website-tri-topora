@@ -24,6 +24,7 @@ const {
       return (
         <a
           href={link.href}
+          data-prefetch
           class:list={[
             'breadcrumbs__link',
             { breadcrumbs__link_current: i === arr.length - 1 },
