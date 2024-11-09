@@ -353,6 +353,16 @@ const {
     justify-content: space-between;
 
     cursor: default;
+
+    @media (hover: hover) {
+      cursor: pointer;
+
+      transition: opacity var(--duration-button);
+
+      &:hover {
+        opacity: var(--opacity-hover);
+      }
+    }
   }
 
   .filter__folder__name {
@@ -413,6 +423,16 @@ const {
     input:checked ~ & {
       background-color: var(--color-white-1);
       color: var(--color-grey-1);
+    }
+
+    @media (hover: hover) {
+      cursor: pointer;
+
+      transition: opacity var(--duration-button);
+
+      input:not(:checked) ~ &:hover {
+        opacity: var(--opacity-hover);
+      }
     }
 
     @media (max-width: 768px) {

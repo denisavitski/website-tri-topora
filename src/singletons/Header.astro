@@ -424,8 +424,6 @@ const {
     width: 39.7rem;
     padding-top: 2.05rem;
 
-    transition: opacity var(--duration-button);
-
     opacity: 0;
     pointer-events: none;
 
@@ -450,6 +448,9 @@ const {
     border-radius: 0.8rem;
 
     background-color: rgba(58, 58, 58, 0.69);
+    backdrop-filter: blur(0.8rem);
+
+    will-change: backdrop-filter;
   }
 
   .header__address {
