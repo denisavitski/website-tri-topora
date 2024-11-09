@@ -1,0 +1,95 @@
+---
+import CollaboratorCard, {
+  type Props as CollaboratorCardProps,
+} from '@elements/CollaboratorCard.astro'
+
+export interface Props {
+  heading?: string
+  collaborators?: Array<Omit<CollaboratorCardProps, 'class'>>
+}
+
+const {
+  heading = 'Три&nbsp;Топора сотрудничает с&nbsp;дизайнерами, которые любят и&nbsp;умеют работать с&nbsp;деревом.',
+  collaborators = [
+    {
+      image: '/images/team/pivneva-yuliya/1.jpg',
+      name: 'Юлия Пивнева',
+      studio: 'Студия Versa Design by Pivneva',
+      href: 'https://google.com',
+    },
+    {
+      image: '/images/team/gubina-valeriya/1.jpg',
+      name: 'Валерия Губина',
+      studio: 'GUBIN FAMILY STUDIO',
+      href: 'https://google.com',
+    },
+    {
+      image: '/images/team/vasileva-irina/1.jpg',
+      name: 'Ирина Васильева',
+      studio: 'vasileva-irina',
+      href: 'https://google.com',
+    },
+  ],
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<section class="collaboration">
+  <h2
+    class="collaboration__heading"
+    set:html={heading}
+  />
+
+  <ul class="collaborators__list">
+    {
+      collaborators.map((item) => {
+        return (
+          <CollaboratorCard
+            class="collaborators__list__item"
+            {...item}
+          />
+        )
+      })
+    }
+  </ul>
+</section>
+
+<style is:global>
+  .collaboration {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+  }
+
+  .collaboration__heading {
+    font-family: 'Code', sans-serif;
+    font-size: 4.8rem;
+    text-transform: uppercase;
+    text-indent: 20.4rem;
+
+    width: 106.5rem;
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      font-size: 2.2rem;
+      width: 100%;
+      text-indent: 9.2rem;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .collaborators__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      gap: 0.8rem;
+    }
+  }
+
+  .collaborators__list__item {
+  }
+</style>

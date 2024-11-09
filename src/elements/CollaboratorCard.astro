@@ -1,0 +1,158 @@
+---
+import ArrowButton from './ArrowButton.astro'
+import Icon from './Icon.astro'
+import Image from './Image.astro'
+
+export interface Props {
+  class?: string
+  image?: string
+  name?: string
+  studio?: string
+  href?: string
+}
+
+const {
+  class: className,
+  image = '/images/team/pivneva-yuliya/1.jpg',
+  name = 'Юлия Пивнева',
+  studio = 'Студия Versa Design by Pivneva',
+  href = 'https://google.com',
+  ...rest
+} = Astro.props
+---
+
+<a
+  {...rest}
+  href={href}
+  target={'_blank'}
+  class:list={['button-owner collaborator-card', className]}
+>
+  <span class="collaborator-card__image-box">
+    <Image
+      class="collaborator-card__image"
+      src={image}
+      alt={name}
+      lazy
+      lazyBackground
+      cover
+    />
+    <ArrowButton
+      class="collaborator-card__button"
+      tag="span"
+      >Портфолио</ArrowButton
+    >
+  </span>
+  <span class="collaborator-card__name">
+    <span set:html={name} />
+    <Icon
+      class="collaborator-card__name__arrow"
+      name="tail-arrow"
+    />
+  </span>
+  <span
+    class="collaborator-card__studio"
+    set:html={studio}
+  />
+</a>
+
+<style is:global>
+  .collaborator-card {
+    width: 100%;
+  }
+
+  .collaborator-card__image-box {
+    position: relative;
+
+    height: 48rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 1.6rem;
+
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
+      height: 31.5rem;
+    }
+  }
+
+  .collaborator-card__image {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (hover: hover) {
+      transition: transform var(--duration-button);
+      will-change: transform;
+
+      .collaborator-card:hover & {
+        transform: scale(1.01);
+      }
+    }
+  }
+
+  .collaborator-card__button {
+    position: absolute;
+
+    z-index: 1;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      .collaborator-card:hover & {
+        opacity: 1;
+      }
+    }
+  }
+
+  .collaborator-card__name {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+
+    margin-bottom: 0.8rem;
+
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .collaborator-card__name__arrow {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      width: 1.6rem;
+      height: 1.6rem;
+
+      fill: var(--color-white-1);
+
+      transform: rotate(45deg);
+    }
+  }
+
+  .collaborator-card__studio {
+    font-size: 2.4rem;
+    font-weight: 300;
+    text-transform: uppercase;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>
