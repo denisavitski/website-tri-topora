@@ -1,5 +1,4 @@
 import { Morph } from 'aptechka/morph'
-import { scrollToElement } from 'aptechka/utils'
 
 export const morph = new Morph({
   trailingSlash: true,
@@ -8,6 +7,11 @@ export const morph = new Morph({
 morph.preprocessor = (e) => {
   document.documentElement.classList.add('out')
   e.resolve()
+}
+
+morph.postprocessor = () => {
+  document.documentElement.classList.remove('out')
+  dispatchEvent(new Event('resize'))
 }
 
 export const scrollElement = {
@@ -36,7 +40,7 @@ function scrollListener() {
   }
 }
 
-function updateScrollElement() {
+function updateScrollElement(document: Document) {
   scrollElement.current?.removeEventListener('scroll', scrollListener)
 
   scrollElement.current = document.querySelector<HTMLElement>('.morph__sheet')!
@@ -46,35 +50,14 @@ function updateScrollElement() {
   scrollListener()
 }
 
-document.addEventListener('morphBeforeElementOut', (e) => {
-  const state = e.detail.state
-
-  if (typeof state === 'string' && state.includes('scroll:')) {
-    const selector = state.replace('scroll:', '').trim()
-
-    setTimeout(() => {
-      scrollToElement(selector, { offset: '.header__content' })
-    }, 100)
-  }
+document.addEventListener('morphStart', (e) => {
+  updateScrollElement(e.detail.newDocument)
 })
 
-document.addEventListener('morphAfterElementOut', () => {
-  updateScrollElement()
-
-  document.documentElement.classList.remove('out')
-
-  dispatchEvent(new Event('resize'))
-})
-
-addEventListener('load', () => {
+addEventListener('DOMContentLoaded', () => {
   document.documentElement.classList.add('page-loaded')
-
   updateSize()
-  updateScrollElement()
-
-  setTimeout(() => {
-    dispatchEvent(new Event('resize'))
-  }, 0)
 })
 
+updateScrollElement(document)
 addEventListener('resize', updateSize)

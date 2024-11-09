@@ -23,6 +23,6 @@
     "vite": "^5.4.10"
   },
   "dependencies": {
-    "aptechka": "^0.43.0"
+    "aptechka": "^0.43.3"
   }
 }
