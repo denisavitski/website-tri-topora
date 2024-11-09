@@ -1,0 +1,347 @@
+---
+import Diagonal from '@elements/Diagonal.astro'
+import Image from '@elements/Image.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+
+export const lines = true
+
+export interface Props {
+  class?: string
+  image?: string
+  imageName?: string | false
+  logo?: string | false
+  title?: string
+  descriptions?: Array<{
+    value: string
+    align?: 'start' | 'end'
+    indent?: boolean
+  }>
+  areas?: Array<{ image: string; name: string }> | false
+}
+
+const {
+  class: className,
+  image = '/images/team/goldin-evgenij/1.jpg',
+  imageName = 'Евгений Гольдин',
+  logo = '/images/logos/garden-group.png',
+  title = 'Художник',
+  descriptions = [
+    {
+      value: 'Друзья, всех приветствую.',
+    },
+    {
+      value:
+        'я Евгений мне 44 года. Живу в Сибири на юге Красноярского края, в небольшом таежном поселении. В Сибири живу уже 26 лет, на своём участке, где есть большой сад, животные, теплица, огород.',
+      indent: true,
+    },
+    {
+      value:
+        'Скульптурой хотел заниматься с детства. И по немного я двигаюсь к этой цели. Моя мечта, создавать произведения, через которые смогу поделится со всеми, глубиной и грацией жизни, окружающей нас мира природы',
+    },
+    {
+      value: 'С уважением Евгений Гольдин',
+      align: 'end',
+    },
+  ],
+  areas = [
+    {
+      image: '/images/icons/private-houses.svg',
+      name: 'Частные дома',
+    },
+    {
+      image: '/images/icons/commercial-properties.svg',
+      name: 'Коммерческие объекты',
+    },
+    {
+      image: '/images/icons/baths.svg',
+      name: 'Бани',
+    },
+    {
+      image: '/images/icons/spa-complexes.svg',
+      name: 'СПА комплексы',
+    },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['expert', className]}
+>
+  <SectionHeading
+    class="expert__title"
+    text={title}
+  />
+  <div class="expert__image-box">
+    <Image
+      class="expert__image"
+      src={image}
+      alt={imageName || title}
+      lazy
+      lazyBackground
+      cover
+    />
+    {
+      imageName && (
+        <div
+          class="expert__image-name"
+          set:html={imageName}
+        />
+      )
+    }
+
+    {
+      logo && (
+        <Image
+          class="expert__logo"
+          src={logo}
+          alt={title}
+          lazy
+          contain
+        />
+      )
+    }
+  </div>
+  <div class="expert__descriptions">
+    <Diagonal class="expert__diagonal-top" />
+    <Diagonal class="expert__diagonal-bottom" />
+    {
+      descriptions.map((description) => {
+        return (
+          <p
+            class="expert__description"
+            set:html={description.value}
+            data-align={description.align || 'start'}
+            data-indent={description.indent}
+          />
+        )
+      })
+    }
+  </div>
+  {
+    areas && (
+      <ul class="expert__areas">
+        {areas.map((area) => {
+          return (
+            <li class="expert__area">
+              <Image
+                class="expert__area__image"
+                src={area.image}
+                alt={area.name}
+                lazy
+                contain
+              />
+              <div
+                class="expert__area__name"
+                set:html={area.name}
+              />
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .expert {
+    position: relative;
+
+    --padding-left: 70rem;
+    --padding-right: 42.8rem;
+
+    padding: var(--section-vertical-padding) 0;
+    padding-bottom: 13.5rem;
+
+    background-color: var(--color-white-1);
+    color: var(--color-grey-1);
+
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      --padding-left: var(--screen-horisontal-padding);
+      --padding-right: var(--screen-horisontal-padding);
+      padding-bottom: var(--section-vertical-padding);
+    }
+  }
+
+  .expert__title {
+    margin-bottom: 3.2rem;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .expert__descriptions {
+    position: relative;
+  }
+
+  .expert__diagonal-top {
+    position: absolute;
+    right: var(--screen-horisontal-padding);
+    top: 0;
+
+    width: 24.8rem;
+    height: 100%;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .expert__diagonal-bottom {
+    position: absolute;
+    left: 0;
+    top: 100%;
+
+    width: 67.6rem;
+    height: 29rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .expert__description {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    white-space: pre-wrap;
+
+    padding: 0.8rem 0;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+
+    border-bottom: 0.1rem solid var(--color-white-2);
+
+    &:first-of-type {
+      border-top: 0.1rem solid var(--color-white-2);
+    }
+
+    &[data-align='end'] {
+      text-align: end;
+    }
+
+    &[data-indent] {
+      text-indent: 7.4rem;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+
+      [data-indent] {
+        text-indent: 4.9rem;
+      }
+    }
+  }
+
+  .expert__areas {
+    display: grid;
+    grid-template-columns: 38.4rem 1fr;
+    grid-auto-rows: max-content;
+    gap: 4rem 0;
+
+    width: 100%;
+    padding: 2.7rem 0;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+
+    border-bottom: 0.1rem solid var(--color-white-2);
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      grid-auto-rows: max-content;
+      gap: 1.6rem;
+
+      width: 100%;
+
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .expert__area {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.6rem;
+  }
+
+  .expert__area__image {
+    flex-shrink: 0;
+
+    width: 6rem;
+    height: 6rem;
+
+    @media (max-width: 768px) {
+      width: 3.8rem;
+      height: 3.8rem;
+    }
+  }
+
+  .expert__area__name {
+    font-size: 2.4rem;
+    font-weight: 300;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .expert__image-box {
+    flex-shrink: 0;
+
+    width: 52rem;
+
+    z-index: calc(var(--z-lines) + 1);
+
+    @media (min-width: 769px) {
+      position: absolute;
+
+      top: var(--section-vertical-padding);
+      left: var(--screen-horisontal-padding);
+    }
+
+    @media (max-width: 768px) {
+      position: relative;
+      width: 100%;
+      padding-left: var(--padding-left);
+      padding-right: var(--padding-right);
+    }
+  }
+
+  .expert__image {
+    width: 100%;
+    height: 48rem;
+
+    margin-bottom: 2.4rem;
+
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      height: 31.7rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .expert__image-name {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .expert__logo {
+    max-width: 24.8rem;
+    margin-top: 2.4rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+</style>

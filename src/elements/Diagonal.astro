@@ -1,0 +1,32 @@
+<e-diagonal
+  {...Astro.props}
+  static
+></e-diagonal>
+
+<script>
+  import { CanvasElement } from 'aptechka/canvas'
+
+  export class DiagonalElement extends CanvasElement {
+    constructor() {
+      super()
+
+      this.addEventListener('canvasRender', (e) => {
+        e.detail.context.clearRect(0, 0, e.detail.width, e.detail.height)
+        e.detail.context.moveTo(0, e.detail.height)
+        e.detail.context.lineTo(e.detail.width, 0)
+        e.detail.context.strokeStyle = '#E1E1E1'
+        e.detail.context.stroke()
+      })
+    }
+  }
+
+  if (!customElements.get('e-diagonal')) {
+    customElements.define('e-diagonal', DiagonalElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'e-diagonal': DiagonalElement
+    }
+  }
+</script>

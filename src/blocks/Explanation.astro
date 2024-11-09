@@ -1,4 +1,5 @@
 ---
+import Diagonal from '@elements/Diagonal.astro'
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
@@ -80,10 +81,7 @@ const lists = [list1, list2]
     lists.map((list) => {
       return (
         <div class="explanation__list">
-          <e-diagonal
-            class="explanation__list__diagonal"
-            static
-          />
+          <Diagonal class="explanation__list__diagonal" />
           {list.map((item) => {
             return (
               <div class="explanation__item">
@@ -308,31 +306,3 @@ const lists = [list1, list2]
     }
   }
 </style>
-
-<script>
-  import { CanvasElement } from 'aptechka/canvas'
-
-  export class DiagonalElement extends CanvasElement {
-    constructor() {
-      super()
-
-      this.addEventListener('canvasRender', (e) => {
-        e.detail.context.clearRect(0, 0, e.detail.width, e.detail.height)
-        e.detail.context.moveTo(0, e.detail.height)
-        e.detail.context.lineTo(e.detail.width, 0)
-        e.detail.context.strokeStyle = '#E1E1E1'
-        e.detail.context.stroke()
-      })
-    }
-  }
-
-  if (!customElements.get('e-diagonal')) {
-    customElements.define('e-diagonal', DiagonalElement)
-  }
-
-  declare global {
-    interface HTMLElementTagNameMap {
-      'e-diagonal': DiagonalElement
-    }
-  }
-</script>

@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Expert from '@blocks/Expert.astro'
 import Feedback from '@blocks/Feedback.astro'
 import ServiceIntro from '@blocks/ServiceIntro.astro'
 import Layout from '@layout/Layout.astro'
@@ -48,6 +49,25 @@ import { getHref } from '@utils/url'
           'Вопросы ландшафтного дизайна, устройства ограждений, дорожек, детских площадок и малых архитектурных форм Вы можете поручить нам. В случае сложных и специфических задач Три Топора привлекает партнерские организации.',
       },
     ]}
+  />
+
+  <Expert
+    image="/images/team/garden-group/1.jpg"
+    imageName={false}
+    title="Garden Group"
+    descriptions={[
+      {
+        value:
+          'Одним из основных наших партнеров является Ландшафтное Бюро Garden Group которое специализируется на создании как частных садов, так и коммерческих пространств по всему миру. В команде 40 дизайнеров и за 12 лет разработано 650+ проектов и реализовано более 4000 объектов разного масштаба.',
+        indent: true,
+      },
+      {
+        value:
+          'Garden Group имеет собственный питомник прекрасных растений. Производим с любовью многолетники и кустарники и отправляем по всей России. В ассортименте 700+ растений.',
+      },
+    ]}
+    areas={false}
+    logo={'/images/logos/garden-group.png'}
   />
 
   <Feedback />

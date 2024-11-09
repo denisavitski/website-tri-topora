@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Explanation from '@blocks/Explanation.astro'
 import Feedback from '@blocks/Feedback.astro'
 import ServiceIntro from '@blocks/ServiceIntro.astro'
 import Layout from '@layout/Layout.astro'
@@ -48,6 +49,38 @@ import { getHref } from '@utils/url'
           'Мы начинаем работу с геологии и топсъёмки участка, а завершаем меблировкой и благоустройством. Это очень удобно для нашего заказчика так как большая часть процессов во время возведения дома связаны с друг с другом. ',
       },
     ]}
+  />
+
+  <Explanation
+    heading="Пример:"
+    list1={[
+      {
+        image: { src: '/images/icons/during-log-cutting.svg', alt: '' },
+        title: 'Во время рубки сруба',
+        description:
+          'Нужно понимать, где будут в дальнейшем розетки, выключатели, подсветка чтобы заложить кабель-каналы в нужных местах.',
+      },
+      {
+        image: { src: '/images/icons/need-to-understand.svg', alt: '' },
+        title: 'Нужно понимать',
+        description:
+          'Какие и где будут проходить воздуховоды и дымоходы, чтобы правильно спроектировать перекрытия и стропильную систему.',
+      },
+    ]}
+    list2={[
+      {
+        image: { src: '/images/icons/furniture-placement.svg', alt: '' },
+        title: 'Какая и где',
+        description:
+          'Будет стоять мебель для того, чтобы подготовить участки лафета на стене в случае необходимости.',
+      },
+      {
+        image: { src: '/images/icons/for-these-questions.svg', alt: '' },
+        title: 'Для ответа на эти вопросы',
+        description: 'Нужен проект дизайна будущего строения.',
+      },
+    ]}
+    theme="2"
   />
 
   <Feedback />
