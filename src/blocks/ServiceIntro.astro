@@ -1,0 +1,232 @@
+---
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import Manager, { type Props as ManagerProps } from '@elements/Manager.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+
+export interface Props {
+  heading?: string
+  manager?: Omit<ManagerProps, 'class'>
+  example?: ImageDataProps
+  subtitle?: string
+  description?: string | false
+  list?: Array<{ image: ImageDataProps; description: string }> | false
+}
+
+const {
+  heading = 'Дизайн интерьера',
+  manager,
+  example = {
+    src: '/images/carpentry/intro/example.jpg',
+  },
+  subtitle = 'Дизайн проект — это карта с помощью которой можно пройти квест под названием стройка дома под ключ максимально комфортно.',
+  description = 'Дизайн интерьера в стройке дома это <b>фундамент</b> всех работ по отделке. Ошибочно воспринимать дизайн как набор красивых картинок',
+  list = [
+    {
+      image: { src: '/images/carpentry/intro/icon1.svg' },
+      description:
+        'Мы сами производим срубы из сосны и кедра крупных диаметров по различным технологиям: рубка в русскую чашу, рубка в канадскую чашу, бриллиантовый замок, норвежский лафет, а также работаем с такими технологиями как Post&Beam и Timber Frame.',
+    },
+    {
+      image: { src: '/images/carpentry/intro/icon2.svg' },
+      description:
+        'Три Топора это команда единомышленников, вдохновленных деревянным зодчеством. Одной из своих целей мы ставим восстановление и развитие давних традиций плотницкого мастерства на Руси.',
+    },
+    {
+      image: { src: '/images/carpentry/intro/icon3.svg' },
+      description:
+        'Мы используем в производстве наших срубов отборный лес крупных диаметров, заготовленный на Северном Урале и в Сибири. Перед рубкой бревна выдерживаем от полугода до двух лет, что существенно повышает качество изделий.',
+    },
+    {
+      image: { src: '/images/carpentry/intro/icon4.svg' },
+      description:
+        'Мы открыли школу плотников Три Топора, где каждый желающий может освоить азы этого ремесла, а если захочет связать свою судьбу и дальнейший трудовой трудовой путь с деревянным домостроением.',
+    },
+  ],
+} = Astro.props
+---
+
+<div class="service-intro">
+  <SectionHeading
+    class="service-intro__heading"
+    text={heading}
+    tag="h1"
+  />
+
+  <div class="service-intro__middle">
+    <Manager
+      class="service-intro__manager"
+      {...manager}
+    />
+    <Image
+      {...example}
+      class="service-intro__example"
+      lazy
+      lazyBackground
+      cover
+    />
+  </div>
+
+  <h2
+    class="service-intro__subtitle"
+    set:html={subtitle}
+  />
+
+  {
+    description && (
+      <p
+        class="service-intro__description"
+        set:html={description}
+      />
+    )
+  }
+
+  {
+    list && (
+      <ul class="service-intro__list">
+        {list.map((item) => {
+          return (
+            <li class="service-intro__list__item">
+              <Image
+                {...item.image}
+                class="service-intro__list__item__image"
+                lazy
+                contain
+              />
+              <p
+                class="service-intro__list__item__description"
+                set:html={item.description}
+              />
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+</div>
+
+<style is:global>
+  .service-intro {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+    padding-top: 0;
+  }
+
+  .service-intro__heading {
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .service-intro__middle {
+    display: flex;
+    gap: 2.4rem;
+
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .service-intro__manager {
+    flex-shrink: 0;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .service-intro__example {
+    height: 48rem;
+
+    overflow: hidden;
+    border-radius: 0.8rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .service-intro__subtitle {
+    font-family: 'Code', sans-serif;
+    font-size: 4rem;
+    text-indent: 13.5rem;
+    margin-bottom: 1.6rem;
+
+    width: 133.6rem;
+
+    @media (max-width: 768px) {
+      font-size: 2.2rem;
+      text-indent: 7.6rem;
+      width: 100%;
+    }
+  }
+
+  .service-intro__description {
+    font-size: 2.2rem;
+    font-weight: 300;
+
+    width: 79.2rem;
+    margin-left: auto;
+
+    b {
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+
+      width: 100%;
+      margin-left: unset;
+    }
+  }
+
+  .service-intro__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.4rem;
+
+    .service-intro__description ~ & {
+      margin-top: 6rem;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      gap: 1.6rem;
+
+      .service-intro__description ~ & {
+        margin-top: 3.2rem;
+      }
+    }
+  }
+
+  .service-intro__list__item {
+    display: flex;
+    gap: 1.6rem;
+  }
+
+  .service-intro__list__item__image {
+    flex-shrink: 0;
+
+    width: 6rem;
+    height: 6rem;
+
+    @media (max-width: 768px) {
+      width: 4.2rem;
+      height: 4.2rem;
+    }
+  }
+
+  .service-intro__list__item__description {
+    font-size: 2.2rem;
+    font-weight: 300;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+</style>
