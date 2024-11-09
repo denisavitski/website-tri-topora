@@ -14,7 +14,7 @@ export interface Props {
   heading?: string
   list1?: Array<ConfortListItem>
   list2?: Array<ConfortListItem>
-  compact?: boolean
+  theme?: '1' | '2'
 }
 
 const {
@@ -58,7 +58,7 @@ const {
       description: 'Мы заботимся о доме, который построили для вас',
     },
   ],
-  compact = true,
+  theme = '2',
   ...rest
 } = Astro.props
 
@@ -69,7 +69,7 @@ const lists = [list1, list2]
 <section
   {...rest}
   class:list={['explanation', className]}
-  data-compact={compact}
+  data-theme={theme}
 >
   <SectionHeading
     class="explanation__heading"
@@ -79,10 +79,14 @@ const lists = [list1, list2]
   {
     lists.map((list) => {
       return (
-        <ul class="explanation__list">
+        <div class="explanation__list">
+          <e-diagonal
+            class="explanation__list__diagonal"
+            static
+          />
           {list.map((item) => {
             return (
-              <li class="explanation__item">
+              <div class="explanation__item">
                 <Image
                   class="explanation__item__image"
                   {...item.image}
@@ -97,10 +101,10 @@ const lists = [list1, list2]
                   class="explanation__item__description"
                   set:html={item.description}
                 />
-              </li>
+              </div>
             )
           })}
-        </ul>
+        </div>
       )
     })
   }
@@ -112,7 +116,7 @@ const lists = [list1, list2]
 
     position: relative;
 
-    z-index: calc(var(--z-lines) + -1);
+    z-index: calc(var(--z-lines) + 1);
 
     background-color: var(--color-white-1);
     color: var(--color-grey-1);
@@ -120,6 +124,9 @@ const lists = [list1, list2]
     overflow: hidden;
 
     @media (min-width: 769px) {
+      &[data-theme='2'] {
+        z-index: calc(var(--z-lines) - 1);
+      }
     }
 
     @media (max-width: 768px) {
@@ -134,6 +141,7 @@ const lists = [list1, list2]
       position: absolute;
       left: var(--screen-horisontal-padding);
       top: var(--section-vertical-padding);
+      z-index: 1;
     }
 
     @media (max-width: 768px) {
@@ -154,56 +162,28 @@ const lists = [list1, list2]
     &:first-of-type {
       padding-top: 18.2rem;
 
-      &::before {
-        content: '';
-
-        position: absolute;
-        top: 0;
-        right: 15.6rem;
-
-        width: 0.1rem;
-        height: 119.5%;
-
-        background-color: var(--color-white-2);
-        transform-origin: top;
-
-        transform: rotate(33.13deg);
-
-        @media (max-width: 768px) {
-          content: none;
-        }
-      }
-
       @media (max-width: 768px) {
         padding-top: unset;
       }
     }
 
     &:last-of-type {
-      padding-bottom: 12.9rem;
+      [data-theme='1'] & {
+        padding-bottom: 12.9rem;
+      }
 
-      &::before {
-        content: '';
-
-        position: absolute;
-        bottom: 5rem;
-        left: -1rem;
-
-        width: 0.1rem;
-        height: 144.5%;
-
-        background-color: var(--color-white-2);
-        transform-origin: bottom;
-
-        transform: rotate(53.15deg);
-
-        @media (max-width: 768px) {
-          content: none;
-        }
+      [data-theme='2'] & {
+        padding-bottom: 6.5rem;
       }
 
       @media (max-width: 768px) {
-        padding-bottom: unset;
+        [data-theme='1'] {
+          padding-bottom: unset;
+        }
+
+        [data-theme='2'] {
+          padding-bottom: unset;
+        }
       }
     }
 
@@ -230,12 +210,63 @@ const lists = [list1, list2]
     }
   }
 
-  .explanation__item {
-    width: 38.4rem;
+  .explanation__list__diagonal {
+    position: absolute;
+
+    height: 100%;
+
+    [data-theme='1'] .explanation__list:nth-child(even) & {
+      top: 0;
+      right: 15.6rem;
+
+      width: 24.8rem;
+    }
+
+    [data-theme='1'] .explanation__list:nth-child(odd) & {
+      bottom: 6rem;
+      left: 0rem;
+
+      width: 42.8rem;
+      height: calc(100% - 6rem);
+    }
+
+    [data-theme='2'] .explanation__list:nth-child(even) & {
+      top: 0;
+      right: 15.6rem;
+
+      width: 52rem;
+    }
+
+    [data-theme='2'] .explanation__list:nth-child(odd) & {
+      bottom: 0rem;
+      left: 0rem;
+
+      width: 67.6rem;
+    }
 
     @media (max-width: 768px) {
-      width: 100%;
+      display: none;
+    }
+  }
 
+  .explanation__item {
+    [data-theme='1'] & {
+      width: 38.4rem;
+
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+
+    [data-theme='2'] & {
+      width: 52rem;
+
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
       padding: 0 var(--screen-horisontal-padding);
       padding-bottom: 0.8rem;
 
@@ -277,3 +308,31 @@ const lists = [list1, list2]
     }
   }
 </style>
+
+<script>
+  import { CanvasElement } from 'aptechka/canvas'
+
+  export class DiagonalElement extends CanvasElement {
+    constructor() {
+      super()
+
+      this.addEventListener('canvasRender', (e) => {
+        e.detail.context.clearRect(0, 0, e.detail.width, e.detail.height)
+        e.detail.context.moveTo(0, e.detail.height)
+        e.detail.context.lineTo(e.detail.width, 0)
+        e.detail.context.strokeStyle = '#E1E1E1'
+        e.detail.context.stroke()
+      })
+    }
+  }
+
+  if (!customElements.get('e-diagonal')) {
+    customElements.define('e-diagonal', DiagonalElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'e-diagonal': DiagonalElement
+    }
+  }
+</script>

@@ -20,11 +20,13 @@ const Component = ComponentModule.default
 const modal = ComponentModule.modal || false
 const header = ComponentModule.header || false
 const footer = ComponentModule.footer || false
+const lines = ComponentModule.lines || false
 ---
 
 <Layout
   {header}
   {footer}
+  {lines}
 >
   {Component ? <Component /> : <h1>Компонент не найден</h1>}
 </Layout>

@@ -88,6 +88,9 @@ const {
 
 <style is:global>
   .mass-media {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
   }
 
@@ -120,6 +123,6 @@ const {
   .mass-media__slider__buttons {
     position: absolute;
     right: 0;
-    bottom: calc(100% + 4rem);
+    bottom: calc(100% + 5.2rem);
   }
 </style>

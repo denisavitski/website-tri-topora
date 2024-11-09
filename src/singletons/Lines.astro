@@ -12,19 +12,20 @@
 <style is:global>
   .lines {
     position: absolute;
+    top: calc(var(--header-height) * -1);
     width: 100%;
-    height: 100%;
+    height: calc(100% + var(--header-height));
 
     padding: 0 var(--screen-horisontal-padding);
 
-    z-index: -2;
+    z-index: var(--z-lines);
 
     display: grid;
     grid-template-columns: 27.2rem 24.8rem 40.8rem 16rem 27.2rem 24.8rem 0.1rem;
 
     pointer-events: none;
 
-    mix-blend-mode: exclusion;
+    mix-blend-mode: difference;
 
     @media (max-width: 768px) {
       grid-template-columns: 16.8rem 8.8rem 8.7rem 0.1rem;
@@ -34,7 +35,8 @@
   .lines__line {
     width: 0.1rem;
     height: 100%;
-    background-color: var(--color-grey-4);
+    background-color: var(--color-white-1);
+    opacity: 0.1;
   }
 
   .lines__line_1 {

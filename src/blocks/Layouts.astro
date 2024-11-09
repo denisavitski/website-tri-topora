@@ -10,7 +10,7 @@ export interface Props {
 }
 
 const {
-  heading = 'Интерьеры',
+  heading = 'Планировки',
   images = [
     {
       src: '/images/layouts/1.jpg',
@@ -61,6 +61,9 @@ const {
 
 <style is:global>
   .layouts {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
 
     @media (max-width: 768px) {

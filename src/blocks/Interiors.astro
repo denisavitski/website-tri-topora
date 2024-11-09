@@ -100,6 +100,9 @@ const {
 
 <style is:global>
   .interiors {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+    
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
 
     @media (max-width: 768px) {
