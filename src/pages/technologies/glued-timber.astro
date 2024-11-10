@@ -1,0 +1,40 @@
+---
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Feedback from '@blocks/Feedback.astro'
+import TechnologyIntro from '@blocks/TechnologyIntro.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Клееный брус',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Клееный брус',
+        href: '/technologies/glued-timber',
+      },
+    ]}
+  />
+
+  <TechnologyIntro
+    heading="Известный и проверенный временем материал"
+    headingType="small"
+    image={{
+      src: '/images/technologies/glued-timber/cover.jpg',
+    }}
+    description="который прогнозируемо ведет себя как в процессе стройки, так и в эксплуатации."
+  />
+
+  <Feedback />
+</Layout>

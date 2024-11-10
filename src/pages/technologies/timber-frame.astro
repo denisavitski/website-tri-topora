@@ -1,0 +1,40 @@
+---
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Feedback from '@blocks/Feedback.astro'
+import TechnologyIntro from '@blocks/TechnologyIntro.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Тимбер Фрэйм',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Тимбер Фрэйм',
+        href: '/technologies/timber-frame',
+      },
+    ]}
+  />
+
+  <TechnologyIntro
+    heading="Тимбер Фрэйм - деревянный дом как искусство"
+    headingType="small"
+    image={{
+      src: '/images/technologies/timber-frame/cover.jpg',
+    }}
+    description="Уникальная каркасно-брусовая технология стройки. Современная и классическая архитектура и дизайн. Брусовый каркас дома из массива дерева и из клееной балки."
+  />
+
+  <Feedback />
+</Layout>

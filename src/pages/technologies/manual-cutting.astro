@@ -1,0 +1,37 @@
+---
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import Feedback from '@blocks/Feedback.astro'
+import TechnologyIntro from '@blocks/TechnologyIntro.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Ручная рубка',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Ручная рубка',
+        href: '/technologies/manual-cutting',
+      },
+    ]}
+  />
+
+  <TechnologyIntro
+    heading="Любая рубка начинается с заготовки сырья. Мы тщательно отбираем деревья для наших будущих домов."
+    image={false}
+    description="Ездим на делянки или сами выбираем подходящие бревна у поставщиков. В рубку идет выборка, а это первый рез т.е. та часть бревна которая идет от земли.<br><br>Эта часть зачастую имеет фигурный комель и минимальное количество сучков. В закуп идет лес, который произрастает на сухих не заболоченных участках. Валка леса как правило вручную. Отдельно выезжаем на поиск бревен длиннее 12 метров или с метровым комлем. Дом, построенный из отборного леса, прослужит веками."
+  />
+
+  <Feedback />
+</Layout>

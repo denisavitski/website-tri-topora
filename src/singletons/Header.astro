@@ -7,7 +7,11 @@ export interface Props {
   logo?: string
   nav?: Array<{
     name: string
-    href: string
+    href?: string
+    sub?: Array<{
+      name: string
+      href: string
+    }>
   }>
   address?: ContactProps['value']
   phone?: ContactProps['value']
@@ -53,7 +57,24 @@ const {
     },
     {
       name: 'Технологии',
-      href: '/',
+      sub: [
+        {
+          name: 'Комбинированные дома',
+          href: '/technologies/combined-houses',
+        },
+        {
+          name: 'Клееный брус',
+          href: '/technologies/glued-timber',
+        },
+        {
+          name: 'Ручная рубка',
+          href: '/technologies/manual-cutting',
+        },
+        {
+          name: 'Тимбер Фрэйм',
+          href: '/technologies/timber-frame',
+        },
+      ],
     },
     {
       name: 'Три топора',
@@ -98,13 +119,19 @@ const {
           nav.map((item) => {
             return item.sub ? (
               <div class="header__nav__group">
-                <a
-                  class="header__nav__link"
-                  href={item.href}
-                  data-prefetch
-                >
-                  <span>{item.name}</span>
-                </a>
+                {item.href ? (
+                  <a
+                    class="header__nav__link"
+                    href={item.href}
+                    data-prefetch
+                  >
+                    <span>{item.name}</span>
+                  </a>
+                ) : (
+                  <span class="header__nav__link">
+                    <span>{item.name}</span>
+                  </span>
+                )}
 
                 <div class="header__nav__sub">
                   <div class="header__nav__sub__inner">
@@ -370,6 +397,10 @@ const {
 
     display: inline-flex;
 
+    &:not(a) {
+      cursor: default;
+    }
+
     &::before {
       content: '';
 
@@ -399,11 +430,11 @@ const {
     }
 
     @media (hover: hover) {
-      & span {
+      a& span {
         transition: opacity var(--duration-button);
       }
 
-      &:hover span {
+      a&:hover span {
         opacity: var(--opacity-hover);
       }
     }
@@ -473,3 +504,16 @@ const {
     }
   }
 </style>
+
+<script>
+  import type { PopoverElement } from 'aptechka/popover'
+
+  const linkElements = document.querySelectorAll('.header__nav__link')
+  const menuElement = document.querySelector<PopoverElement>('.header__menu')
+
+  linkElements.forEach((link) => {
+    link.addEventListener('click', () => {
+      menuElement?.close()
+    })
+  })
+</script>
