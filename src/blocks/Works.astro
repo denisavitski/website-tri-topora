@@ -6,6 +6,7 @@ import SimpleButton from '@elements/SimpleButton.astro'
 export interface Props {
   heading?: string
   list?: Array<ImageDataProps>
+  description?: Array<string> | false
 }
 
 const {
@@ -30,6 +31,10 @@ const {
     { src: '/images/dev/8.jpg' },
     { src: '/images/dev/9.jpg' },
   ],
+  description = [
+    'Работаем с 2007 года',
+    'Реализовано более 120 проектов, вот некоторые из них',
+  ],
 } = Astro.props
 ---
 
@@ -39,6 +44,21 @@ const {
     class="works__heading"
     text={heading}
   />
+
+  {
+    description && description.length && (
+      <div class="works__description">
+        {description.map((item) => {
+          return (
+            <div
+              class="works__description__item"
+              set:html={item}
+            />
+          )
+        })}
+      </div>
+    )
+  }
 
   <e-masonry-layout class="works__list">
     {
@@ -85,6 +105,50 @@ const {
     @media (max-width: 768px) {
       margin-bottom: 2.4rem;
       padding-left: var(--screen-horisontal-padding);
+    }
+  }
+
+  .works__description {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.2rem;
+
+    width: 100%;
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      padding: 0 var(--screen-horisontal-padding);
+      gap: 0.4rem 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+
+  .works__description__item {
+    font-family: 'Code', sans-serif;
+    font-size: 2.4rem;
+    line-height: 3.516rem;
+    text-transform: uppercase;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 2.2rem;
+
+    &:not(:last-child)::after {
+      content: '';
+
+      width: 0.6rem;
+      height: 0.6rem;
+
+      background-color: var(--color-white-1);
+
+      border-radius: 50%;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+      line-height: 2.51rem;
+
+      gap: 1.6rem;
     }
   }
 
@@ -157,11 +221,6 @@ const {
           item.ariaHidden = 'false'
         }
       })
-
-      console.log(
-        this.#currentPage,
-        Math.ceil(this.#itemElements.length / this.#itemsPerPage),
-      )
 
       if (
         this.#currentPage ===

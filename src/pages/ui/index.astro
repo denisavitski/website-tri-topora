@@ -51,10 +51,6 @@ modules.forEach((module) => {
             <div class="nav__folder__list">
               <div class="nav__folder__list__inner">
                 {componentNames.map((name) => {
-                  console.log(
-                    folderName === 'pages',
-                    name.replace('index', '/').replace('//', '/'),
-                  )
                   return (
                     <a
                       class="nav__link"
