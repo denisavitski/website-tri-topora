@@ -54,6 +54,7 @@ modules.forEach((module) => {
                   return (
                     <a
                       class="nav__link"
+                      data-morph-skip
                       href={
                         folderName === 'pages'
                           ? '/' + name.replace('index', '/').replace('//', '/')
@@ -78,7 +79,7 @@ modules.forEach((module) => {
     width: 100%;
     height: 100%;
 
-    padding: 2rem;
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
 
     display: grid;
     grid-auto-rows: max-content;
