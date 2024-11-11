@@ -1,0 +1,65 @@
+---
+import Services from '@blocks/Services.astro'
+import Breadcrumbs from '@blocks/Breadcrumbs.astro'
+import ContactUs from '@blocks/ContactUs.astro'
+import Layout from '@layout/Layout.astro'
+import { getHref } from '@utils/url'
+---
+
+<Layout
+  seo={{
+    title: 'Три топора: Технологии',
+    description:
+      'Строительство из дерева, стекла и камня сравнимо с исскуством',
+    cover: getHref('/images/seo/home.jpg'),
+  }}
+  lines={false}
+>
+  <Breadcrumbs
+    links={[
+      {
+        name: 'Главная',
+        href: '/',
+      },
+      {
+        name: 'Технологии',
+        href: '/technologies',
+      },
+    ]}
+  />
+  <Services
+    heading="Технологии"
+    list={[
+      {
+        href: '/technologies/combined-houses',
+        image: {
+          src: '/images/technologies/combined-houses/card.jpg',
+          alt: '',
+        },
+        name: 'Комбинированные дома',
+      },
+      {
+        href: '/technologies/glued-timber',
+        image: {
+          src: '/images/technologies/glued-timber/card.jpg',
+          alt: '',
+        },
+        name: 'Клееный брус',
+      },
+      {
+        href: '/technologies/manual-cutting',
+        image: {
+          src: '/images/technologies/manual-cutting/card.jpg',
+          alt: '',
+        },
+        name: 'Ручная рубка',
+      },
+      {
+        href: '/technologies/timber-frame',
+        image: { src: '/images/technologies/timber-frame/card.jpg', alt: '' },
+        name: 'Тимбер Фрэйм',
+      },
+    ]}
+  />
+  <ContactUs />
+</Layout>

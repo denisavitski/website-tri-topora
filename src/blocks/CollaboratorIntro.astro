@@ -1,5 +1,6 @@
 ---
 import Image from '@elements/Image.astro'
+import RichText from '@elements/RichText.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 
 export interface Props {
@@ -10,7 +11,7 @@ export interface Props {
     name: string
     image: string
   }
-  path?: Array<string>
+  description?: string
 }
 
 const {
@@ -21,12 +22,14 @@ const {
     name: 'Студия Versa Design by Pivneva',
     image: '/images/team/pivneva-yuliya/studio.jpg',
   },
-  path = [
-    '1996-2001 Пермский строительный колледж специальность "Архитектура"',
-    'Мастер классы Oxford United Kingdom 02.06.2015 "Inspiration for the interior designer. How to be inspired".',
-    '20.02.2015 by Mr Alessio Constantino lead architect at Zaha Hadid Architects.',
-    'WK School of Art & Design, London 2-13 июля 2018 г. "Design for life. Interior design principles: the British way"',
-  ],
+  description = `
+    <ul>
+    <li>1996-2001 Пермский строительный колледж специальность "Архитектура"</li>
+    <li>Мастер классы Oxford United Kingdom 02.06.2015 "Inspiration for the interior designer. How to be inspired".</li>
+    <li>20.02.2015 by Mr Alessio Constantino lead architect at Zaha Hadid Architects.</li>
+    <li>WK School of Art & Design, London 2-13 июля 2018 г. "Design for life. Interior design principles: the British way"</li>
+    </ul>
+  `,
   ...rest
 } = Astro.props
 ---
@@ -67,18 +70,10 @@ const {
       />
     </div>
 
-    <ul class="collaborator-intro__path">
-      {
-        path.map((item) => {
-          return (
-            <li
-              class="collaborator-intro__path__item"
-              set:html={item}
-            />
-          )
-        })
-      }
-    </ul>
+    <RichText
+      text={description}
+      class="collaborator-intro__description"
+    />
   </div>
 </div>
 
@@ -151,57 +146,18 @@ const {
     border-radius: 0.8rem;
 
     @media (max-width: 768px) {
-      width: 34.4rem;
+      width: 100%;
       height: 31.1rem;
     }
   }
 
-  .collaborator-intro__path {
+  .collaborator-intro__description {
     width: 79.6rem;
     padding-top: 7.8rem;
-
-    display: grid;
-    grid-auto-rows: max-content;
-    gap: 1.6rem;
 
     @media (max-width: 768px) {
       width: 100%;
       padding-top: unset;
-    }
-  }
-
-  .collaborator-intro__path__item {
-    font-size: 2.2rem;
-    line-height: 140%;
-    font-weight: 300;
-
-    display: inline-flex;
-
-    &::before {
-      content: '';
-
-      flex-shrink: 0;
-
-      width: 0.4rem;
-      height: 0.4rem;
-
-      margin-right: 3rem;
-      margin-left: 1.4rem;
-      margin-top: 0.6em;
-
-      border-radius: 50%;
-
-      background-color: var(--color-white-1);
-
-      @media (max-width: 768px) {
-        margin-right: 1.6rem;
-        margin-left: 0.8rem;
-        margin-top: 0.5em;
-      }
-    }
-
-    @media (max-width: 768px) {
-      font-size: 1.6rem;
     }
   }
 </style>

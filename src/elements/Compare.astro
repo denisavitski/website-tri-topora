@@ -1,0 +1,309 @@
+---
+import Icon from './Icon.astro'
+import Image, { type ImageDataProps } from './Image.astro'
+
+export interface Props {
+  class?: string
+  title?: string
+  image1?: ImageDataProps
+  image2?: ImageDataProps
+}
+
+const {
+  title,
+  image1 = { src: '/images/dev/1.jpg' },
+  image2 = { src: '/images/dev/2.jpg' },
+  class: className,
+  ...rest
+} = Astro.props
+---
+
+<e-compare
+  {...rest}
+  class:list={['compare', className]}
+>
+  {
+    title && (
+      <div
+        class="compare__title"
+        set:html={title}
+      />
+    )
+  }
+  <div class="compare__images">
+    <Image
+      class="compare__image compare__image_1"
+      {...image1}
+      cover
+      lazy
+      lazyBackground
+    />
+
+    <div class="compare__line">
+      <div class="compare__line__knob">
+        <Icon
+          name="tailless-arrow"
+          class="compare__line__knob__arrow compare__line__knob__arrow_left"
+        />
+        <Icon
+          name="tailless-arrow"
+          class="compare__line__knob__arrow"
+        />
+      </div>
+    </div>
+
+    <Image
+      class="compare__image compare__image_2"
+      {...image2}
+      cover
+      lazy
+      lazyBackground
+    />
+  </div>
+</e-compare>
+
+<style is:global>
+  .compare {
+    display: block;
+
+    width: 92.8rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .compare__title {
+    font-size: 2rem;
+    font-weight: 300;
+
+    margin-bottom: 1.6rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+
+      padding: 0 var(--screen-horisontal-padding);
+    }
+  }
+
+  .compare__images {
+    position: relative;
+
+    height: 59.2rem;
+
+    overflow: hidden;
+
+    user-select: none;
+
+    touch-action: none;
+
+    border-radius: 0.8rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 24rem;
+    }
+  }
+
+  .compare__image {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+  }
+
+  .compare__image_1 {
+    clip-path: polygon(
+      0 0,
+      calc(100% * var(--progress, 0)) 0,
+      calc(100% * var(--progress, 0)) 100%,
+      0% 100%
+    );
+  }
+
+  .compare__image_2 {
+    z-index: -1;
+  }
+
+  .compare__line {
+    position: absolute;
+
+    z-index: 1;
+
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateX(var(--x));
+
+    cursor: ew-resize;
+  }
+
+  .compare__line::before {
+    content: '';
+
+    position: absolute;
+
+    left: 50%;
+    top: 0;
+
+    height: 100%;
+    width: 0.2rem;
+
+    background-color: var(--color-white-1);
+  }
+
+  .compare__line__knob {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+
+    @media (max-width: 768px) {
+      gap: 0.4rem;
+    }
+
+    &::after {
+      content: '';
+
+      width: 1.2rem;
+      height: 10.8rem;
+
+      order: 0;
+
+      background-color: var(--color-white-1);
+      border-radius: 0.8rem;
+
+      @media (max-width: 768px) {
+        width: 0.5rem;
+        height: 4.3rem;
+      }
+    }
+  }
+
+  .compare__line__knob__arrow {
+    order: 2;
+    flex-shrink: 0;
+    width: 2.6rem;
+    height: 4.7rem;
+
+    fill: var(--color-white-1);
+
+    @media (max-width: 768px) {
+      width: 1.2rem;
+      height: 1.8rem;
+    }
+  }
+
+  .compare__line__knob__arrow_left {
+    order: -1;
+    transform: scaleX(-1);
+  }
+</style>
+
+<script>
+  import { Damped } from 'aptechka/animation'
+  import {
+    elementResizer,
+    type ElementResizerCallback,
+  } from 'aptechka/element-resizer'
+  import { setupDrag } from 'aptechka/utils'
+
+  export class CompareElement extends HTMLElement {
+    #linePosition: Damped = null!
+    #lineElement: HTMLElement | null = null
+    #firstResize = false
+
+    protected connectedCallback() {
+      this.#lineElement = this.querySelector('.compare__line')
+
+      if (this.#lineElement) {
+        this.#linePosition = new Damped(0)
+
+        this.#lineElement.addEventListener(
+          'pointerdown',
+          this.#pointerdownListener,
+        )
+
+        elementResizer.subscribe(this, this.#resizeListener)
+
+        this.#linePosition.subscribe((e) => {
+          this.style.setProperty('--x', e.current + 'px')
+          this.style.setProperty(
+            '--progress',
+            this.#linePosition.distanceProgress + '',
+          )
+        })
+      }
+    }
+
+    protected disconnectedCallback() {
+      this.#lineElement?.removeEventListener(
+        'pointerdown',
+        this.#pointerdownListener,
+      )
+
+      elementResizer.unsubscribe(this.#resizeListener)
+
+      this.style.removeProperty('--x')
+    }
+
+    #pointerdownListener = (grabEvent: PointerEvent) => {
+      let startValue = this.#linePosition.target
+
+      setupDrag(
+        (moveEvent) => {
+          const dx = moveEvent.x - grabEvent.x
+
+          this.#linePosition.set(startValue + dx, {
+            damping: 40,
+            mass: 0,
+            stiffness: 0,
+          })
+        },
+        () => {
+          this.#linePosition.set(this.#linePosition.max / 2, {
+            damping: 30,
+            mass: 2,
+            stiffness: 500,
+          })
+        },
+      )
+    }
+
+    #resizeListener: ElementResizerCallback = (e) => {
+      const lineRect = this.#lineElement!.getBoundingClientRect()
+
+      this.#linePosition.min = 0
+      this.#linePosition.max = e.contentRect.width - lineRect.width
+
+      if (!this.#firstResize) {
+        this.#firstResize = true
+        this.#linePosition.set(this.#linePosition.max / 2, { equalize: true })
+      } else {
+        this.#linePosition.set(this.#linePosition.max / 2, {
+          equalize: true,
+        })
+      }
+    }
+  }
+
+  if (!customElements.get('e-compare')) {
+    customElements.define('e-compare', CompareElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'e-compare': CompareElement
+    }
+  }
+</script>

@@ -1,6 +1,7 @@
 ---
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
+import RichText from '@elements/RichText.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 
 export interface Props {
@@ -16,7 +17,7 @@ const {
   image = {
     src: '/images/technologies/timber-frame/cover.jpg',
   },
-  description = 'Уникальная каркасно-брусовая технология стройки. Современная и классическая архитектура и дизайн. Брусовый каркас дома из массива дерева и из клееной балки.',
+  description = '<p>Уникальная каркасно-брусовая технология стройки. Современная и классическая архитектура и дизайн. Брусовый каркас дома из массива дерева и из клееной балки.</p>',
 } = Astro.props
 ---
 
@@ -44,9 +45,9 @@ const {
       tag="h1"
     />
 
-    <p
+    <RichText
       class="technology-intro__description"
-      set:html={description}
+      text={description}
     />
   </div>
 </div>
@@ -110,16 +111,9 @@ const {
   }
 
   .technology-intro__description {
-    font-size: 2.2rem;
-    font-weight: 300;
-    line-height: 120%;
-    white-space: pre-wrap;
-
     width: 64.1rem;
 
     @media (max-width: 768px) {
-      font-size: 1.6rem;
-
       width: 100%;
     }
   }
