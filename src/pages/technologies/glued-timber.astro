@@ -2,6 +2,7 @@
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import CompareBlock from '@blocks/CompareBlock.astro'
 import Feedback from '@blocks/Feedback.astro'
+import Showcase3 from '@blocks/Showcase3.astro'
 import TechnologyIntro from '@blocks/TechnologyIntro.astro'
 import Layout from '@layout/Layout.astro'
 import { getHref } from '@utils/url'
@@ -68,6 +69,19 @@ import { getHref } from '@utils/url'
     `}
     image1={{ src: '/images/dev/1.jpg' }}
     image2={{ src: '/images/dev/2.jpg' }}
+  />
+
+  <Showcase3
+    text=`
+    <ul>
+      <li>Безопасность клеевых составов соответствует классу эмиссии Е1. Класс, разрешенный для применения при изготовлении детской мебели и игрушек.</li>
+      <li>Готовый брус доставляется исключительно в транспортировочных пакетах до места сборки, чтосохраняет внешний</li>
+      <li>Размеры клееного бруса могут быть от 185(h)х152 мм до 365(h)х302 мм что позволяет закрыть любую потребность. Брус большого сечения выглядит очень представительно. (здесь если разрешение позволяет можно вставить картинки Brus001, Brus002, Brus003)</li>
+    </ul>
+    `
+    image1={{ src: '/images/dev/1.jpg' }}
+    image2={{ src: '/images/dev/2.jpg' }}
+    image3={{ src: '/images/dev/3.jpg' }}
   />
 
   <Feedback />

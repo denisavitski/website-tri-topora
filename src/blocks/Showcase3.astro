@@ -1,0 +1,134 @@
+---
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import RichText from '@elements/RichText.astro'
+import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
+
+export interface Props {
+  direction?: ShowcaseDirection
+  text?: string
+  image1?: ImageDataProps
+  image2?: ImageDataProps
+  image3?: ImageDataProps
+}
+
+const {
+  direction = 'ltr',
+  text = `
+  <ul>
+    <li>Безопасность клеевых составов соответствует классу эмиссии Е1. Класс, разрешенный для применения при изготовлении детской мебели и игрушек.</li>
+    <li>Готовый брус доставляется исключительно в транспортировочных пакетах до места сборки, чтосохраняет внешний</li>
+    <li>Размеры клееного бруса могут быть от 185(h)х152 мм до 365(h)х302 мм что позволяет закрыть любую потребность. Брус большого сечения выглядит очень представительно. (здесь если разрешение позволяет можно вставить картинки Brus001, Brus002, Brus003)</li>
+  </ul>
+  `,
+  image1 = { src: '/images/dev/1.jpg' },
+  image2 = { src: '/images/dev/2.jpg' },
+  image3 = { src: '/images/dev/3.jpg' },
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<Showcase
+  class="showcase-3"
+  direction={direction}
+>
+  <RichText
+    slot={'col-1'}
+    text={text}
+  />
+  <div
+    class="showcase-3__text-images"
+    slot={'col-1'}
+  >
+    <Image
+      {...image2}
+      lazy
+      lazyBackground
+      cover
+      rounded
+      class="showcase-3__text-images__image"
+    />
+    <Image
+      {...image3}
+      lazy
+      lazyBackground
+      cover
+      rounded
+      class="showcase-3__text-images__image"
+    />
+  </div>
+  <e-scroll
+    class="showcase-3__slider"
+    slot={'col-2'}
+  >
+    {
+      [image1, image2, image3].map((image) => {
+        return (
+          <Image
+            {...image}
+            lazy
+            lazyBackground
+            cover
+            rounded
+            class="showcase-3__slider__image"
+          />
+        )
+      })
+    }
+  </e-scroll>
+</Showcase>
+
+<style is:global>
+  .showcase-3 {
+    @media (min-width: 769px) {
+      .rich-text {
+        margin-top: auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .showcase-3__text-images {
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .showcase-3__text-images__image {
+    height: 24rem;
+  }
+
+  .showcase-3__slider {
+    --hibernate: true;
+
+    width: 79.2rem;
+    height: 59.2rem;
+
+    @media (max-width: 768px) {
+      --gap: 0.8rem;
+      --axis: x;
+      --auto-size: true;
+      --hibernate: false;
+      --sectional: true;
+
+      width: 100%;
+      height: 32rem;
+    }
+  }
+
+  .showcase-3__slider__image {
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: 769px) {
+      &:not(:first-child) {
+        display: none;
+      }
+    }
+  }
+</style>
