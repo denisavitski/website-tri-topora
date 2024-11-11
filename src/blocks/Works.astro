@@ -202,6 +202,10 @@ const {
       )
 
       this.#moreButtonListener()
+
+      this.#itemElements.forEach((item) => {
+        item.addEventListener('load', this.#loadListener)
+      })
     }
 
     protected disconnectedCallback() {
@@ -209,6 +213,10 @@ const {
         'click',
         this.#moreButtonListener,
       )
+
+      this.#itemElements.forEach((item) => {
+        item.removeEventListener('load', this.#loadListener)
+      })
     }
 
     #moreButtonListener = () => {
@@ -226,6 +234,10 @@ const {
       ) {
         this.#moreButtonElement?.remove()
       }
+    }
+
+    #loadListener = () => {
+      window.dispatchEvent(new Event('resize'))
     }
   }
 
