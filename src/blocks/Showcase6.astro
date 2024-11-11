@@ -1,0 +1,131 @@
+---
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import RichText from '@elements/RichText.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
+
+export interface Props {
+  direction?: ShowcaseDirection
+  heading?: string
+  text?: string
+  textImage?: ImageDataProps
+  mainImage?: ImageDataProps
+}
+
+const {
+  direction = 'ltr',
+  heading = 'Норвежская рубка - ЛАФЕТ',
+  text = `
+    <h5>Подходит если нужен дом с плоскими стенами</h5>
+    <p>Лафет — это отличная альтернатива клееному брусу. В бревенчатых домах мы нередко протёсываем плоскости под мебель или некоторые стены сразу рубим лафетом. В доме из лафета стены изначально плоские. Внутренне пространство дома тоже чуть больше.</p>
+    <p>Замок в норвежской рубке мы всегда делаем внутри с шипом. Благодаря этому он не продуваем, и конструкция становится жёстче. По нашему опыту лафет стремится обычно к скручиванию в стене. Замок с шипом держит лафет надёжно и не дает ему выкручиваться. Важно что лафет рубится из выдержанных, высушенных брёвен.</p>
+  `,
+  textImage = { src: '/images/dev/1.jpg' },
+  mainImage = { src: '/images/dev/2.jpg' },
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<div class="showcase-6">
+  <SectionHeading
+    class="showcase-6__heading"
+    text={heading}
+  />
+
+  <Showcase
+    class="showcase-6__content"
+    direction={direction}
+  >
+    <Image
+      slot={'col-1'}
+      {...textImage}
+      lazy
+      lazyBackground
+      cover
+      rounded
+      class="showcase-6__text-image"
+    />
+    <RichText
+      slot={'col-1'}
+      text={text}
+      class="showcase-6__rich"
+    />
+    <Image
+      slot={'col-2'}
+      {...mainImage}
+      lazy
+      lazyBackground
+      cover
+      rounded
+      class="showcase-6__main-image"
+    />
+  </Showcase>
+</div>
+
+<style is:global>
+  .showcase-6 {
+    width: 100%;
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+  }
+
+  .showcase-6__content {
+    width: 100%;
+    padding: 0;
+  }
+
+  .showcase-6__heading {
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .showcase-6__rich {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      text-indent: 0;
+      font-family: 'IBM';
+      font-weight: 500;
+      margin-bottom: 1.6rem;
+
+      @media (max-width: 768px) {
+        margin-bottom: 0.8rem;
+      }
+    }
+  }
+
+  .showcase-6__text-image {
+    width: 100%;
+    height: 31.4rem;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
+
+      height: 23.7rem;
+
+      [data-direction='rtl'] & {
+        order: 2;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .showcase-6__main-image {
+    width: 92.8rem;
+    height: 68.2rem;
+
+    @media (max-width: 768px) {
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
+      height: 33.9rem;
+    }
+  }
+</style>
