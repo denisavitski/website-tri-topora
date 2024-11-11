@@ -3,6 +3,7 @@ import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import CompareBlock from '@blocks/CompareBlock.astro'
 import Feedback from '@blocks/Feedback.astro'
 import Showcase3 from '@blocks/Showcase3.astro'
+import Showcase4 from '@blocks/Showcase4.astro'
 import TechnologyIntro from '@blocks/TechnologyIntro.astro'
 import Layout from '@layout/Layout.astro'
 import { getHref } from '@utils/url'
@@ -82,6 +83,22 @@ import { getHref } from '@utils/url'
     image1={{ src: '/images/dev/1.jpg' }}
     image2={{ src: '/images/dev/2.jpg' }}
     image3={{ src: '/images/dev/3.jpg' }}
+  />
+
+  <Showcase4
+    text=`
+      <ul>
+        <li>Эстетически брус премиального качества выглядит соответствующим образом. Это ровная стена с минимальным из всех вариантов деревянного домостроения количеством трещин так как используются заготовки с исходной влажностью по ГОСТ на производство клееного бурса 8-12%</li>
+        <li>Возможно использование без сучковой технологии производства, это когда на внешних и внутренних ламелях используется доска 1-го сорта, которая подразумевает отсутствие сучков</li>
+      </ul>
+      <h3>Клееный брус материал, с которым можно и нужно работать в как в частной, так и в коммерческой стройке.</h3>
+    `
+    image={{ src: '/images/dev/1.jpg' }}
+    images={[
+      { src: '/images/dev/2.jpg' },
+      { src: '/images/dev/3.jpg' },
+      { src: '/images/dev/4.jpg' },
+    ]}
   />
 
   <Feedback />

@@ -1,0 +1,105 @@
+---
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import RichText from '@elements/RichText.astro'
+import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
+
+export interface Props {
+  direction?: ShowcaseDirection
+  text?: string
+  image?: ImageDataProps
+  images?: Array<ImageDataProps>
+}
+
+const {
+  direction = 'ltr',
+  text = `
+    <ul>
+      <li>Эстетически брус премиального качества выглядит соответствующим образом. Это ровная стена с минимальным из всех вариантов деревянного домостроения количеством трещин так как используются заготовки с исходной влажностью по ГОСТ на производство клееного бурса 8-12%</li>
+      <li>Возможно использование без сучковой технологии производства, это когда на внешних и внутренних ламелях используется доска 1-го сорта, которая подразумевает отсутствие сучков</li>
+    </ul>
+    <h3>Клееный брус материал, с которым можно и нужно работать в как в частной, так и в коммерческой стройке.</h3>
+  `,
+  image = { src: '/images/dev/1.jpg' },
+  images = [
+    { src: '/images/dev/2.jpg' },
+    { src: '/images/dev/3.jpg' },
+    { src: '/images/dev/4.jpg' },
+  ],
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<Showcase
+  class="showcase-4"
+  direction={direction}
+>
+  <div
+    class="showcase-4__text-images"
+    slot={'col-1'}
+  >
+    {
+      images.map((image) => {
+        return (
+          <Image
+            {...image}
+            lazy
+            lazyBackground
+            cover
+            rounded
+            class="showcase-4__text-images__image"
+          />
+        )
+      })
+    }
+  </div>
+
+  <RichText
+    slot={'col-1'}
+    text={text}
+  />
+
+  <Image
+    slot={'col-2'}
+    {...image}
+    lazy
+    lazyBackground
+    cover
+    rounded
+    class="showcase-4__main-image"
+  />
+</Showcase>
+
+<style is:global>
+  .showcase-4 {
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .showcase-4__text-images {
+    display: flex;
+    gap: 0.5rem;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .showcase-4__text-images__image {
+    width: 21.5rem;
+    height: 21.5rem;
+  }
+
+  .showcase-4__main-image {
+    width: 92.8rem;
+    height: 59.2rem;
+
+    @media (max-width: 768px) {
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
+      height: 38.6rem;
+    }
+  }
+</style>
