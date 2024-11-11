@@ -1,0 +1,56 @@
+---
+export type ShowcaseDirection = 'ltr' | 'rtl'
+
+export interface Props {
+  class?: string
+  direction?: ShowcaseDirection
+}
+
+const { class: className, direction = 'ltr', ...rest } = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['showcase', className]}
+  data-direction={direction}
+>
+  <div class="showcase__col">
+    <slot name="col-1" />
+  </div>
+
+  <div class="showcase__col">
+    <slot name="col-2" />
+  </div>
+</div>
+
+<style is:global>
+  .showcase {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+
+    display: flex;
+    gap: 2.4rem;
+
+    @media (min-width: 769px) {
+      &[data-direction='rtl'] {
+        flex-direction: row-reverse;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 1.6rem;
+
+      &[data-direction='rtl'] {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+
+  .showcase__col {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

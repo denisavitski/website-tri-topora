@@ -1,0 +1,42 @@
+---
+import Compare, { type Props as CompareProps } from '@elements/Compare.astro'
+import RichText from '@elements/RichText.astro'
+import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
+
+export interface Props extends Omit<CompareProps, 'class'> {
+  direction?: ShowcaseDirection
+  text?: string
+}
+
+const {
+  direction = 'ltr',
+  text = `
+  <h3>Давайте рассмотрим основные выгоды работать с клееным брусом:</h3>
+  <ul>
+    <li>Быстрое изготовление домокомплекта. Комплект на дом примерно на 300-400 м2 в условиях современного производства изготавливается не более 2 недель.</li>
+    <li>Возможность максимально быстро зайти на отделочные работы и ввести дом в эксплуатацию так как усадка минимальна, а в случае с каркасно-брусовой технологией (фахверк, тимбер фрэйм) усадка отсутствует.</li>
+    <li>Каналы под скрытую проводку и коммуникации возможно сделать одновременно с изготовлением домокомплекта максимально точно и быстро на станке.</li>
+    <li>Решение сложных конструктивных и архитектурных задач в стройке так как возможно изготовление балок до 14 метров и деталей бруса до 12 метров длинной. Есть возможность изготовления элементов кровли с гнутой конструкционной балкой, радиальных элементов.</li>
+  </ul>
+  `,
+  title,
+  titlePosition = 'left',
+  image1 = { src: '/images/dev/1.jpg' },
+  image2 = { src: '/images/dev/2.jpg' },
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<Showcase direction={direction}>
+  <RichText
+    slot={'col-1'}
+    text={text}
+  />
+  <Compare
+    slot={'col-2'}
+    {title}
+    {titlePosition}
+    {image1}
+    {image2}
+  />
+</Showcase>

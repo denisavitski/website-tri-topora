@@ -1,4 +1,6 @@
 ---
+import { omit } from 'aptechka/utils'
+
 export interface Props {
   class?: string
   text?: string
@@ -8,13 +10,16 @@ const { class: className, text = '', ...rest } = Astro.props
 ---
 
 <div
-  {...rest}
+  {...omit(rest, ['slot'] as any)}
   class:list={['rich-text', className]}
   set:html={text}
 />
 
 <style is:global>
   .rich-text {
+    display: flex;
+    flex-direction: column;
+
     h1,
     h2,
     h3,
@@ -32,10 +37,26 @@ const { class: className, text = '', ...rest } = Astro.props
     h2 {
       font-size: 4.8rem;
 
-      margin-bottom: 2.4rem;
-
       @media (max-width: 768px) {
         font-size: 2.8rem;
+      }
+    }
+
+    h3 {
+      font-size: 2.4rem;
+
+      @media (max-width: 768px) {
+        font-size: 1.6rem;
+      }
+    }
+
+    h4,
+    h5,
+    h6 {
+      font-size: 2.2rem;
+
+      @media (max-width: 768px) {
+        font-size: 1.6rem;
       }
     }
 
@@ -43,16 +64,20 @@ const { class: className, text = '', ...rest } = Astro.props
     h4,
     h5,
     h6 {
-      font-size: 2.4rem;
       text-indent: 7.5rem;
 
       @media (max-width: 768px) {
-        font-size: 1.6rem;
         text-indent: 5rem;
       }
     }
 
-    h3 {
+    h1,
+    h2 {
+      margin-bottom: 2.4rem;
+    }
+
+    h3,
+    h4 {
       margin-bottom: 4rem;
 
       @media (max-width: 768px) {
@@ -60,7 +85,6 @@ const { class: className, text = '', ...rest } = Astro.props
       }
     }
 
-    h4,
     h5,
     h6 {
       margin-bottom: 2.4rem;
@@ -137,6 +161,10 @@ const { class: className, text = '', ...rest } = Astro.props
     a {
       text-decoration: underline;
       text-decoration-skip-ink: none;
+    }
+
+    img {
+      max-width: 100%;
     }
   }
 </style>

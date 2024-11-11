@@ -4,13 +4,15 @@ import Image, { type ImageDataProps } from './Image.astro'
 
 export interface Props {
   class?: string
-  title?: string
-  image1?: ImageDataProps
-  image2?: ImageDataProps
+  title?: string | undefined
+  image1?: ImageDataProps | undefined
+  image2?: ImageDataProps | undefined
+  titlePosition?: 'left' | 'right'
 }
 
 const {
   title,
+  titlePosition = 'left',
   image1 = { src: '/images/dev/1.jpg' },
   image2 = { src: '/images/dev/2.jpg' },
   class: className,
@@ -21,6 +23,7 @@ const {
 <e-compare
   {...rest}
   class:list={['compare', className]}
+  title-position={titlePosition}
 >
   {
     title && (
@@ -64,32 +67,40 @@ const {
 
 <style is:global>
   .compare {
+    position: relative;
     display: block;
-
-    width: 92.8rem;
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
   }
 
   .compare__title {
+    position: absolute;
+    bottom: 100%;
+
     font-size: 2rem;
     font-weight: 300;
 
     margin-bottom: 1.6rem;
 
+    .compare[title-position='right'] & {
+      right: 0;
+    }
+
     @media (max-width: 768px) {
+      position: relative;
+      bottom: unset;
+
+      .compare[title-position='right'] & {
+        right: unset;
+      }
+
       font-size: 1.2rem;
       margin-bottom: 0.8rem;
-
-      padding: 0 var(--screen-horisontal-padding);
     }
   }
 
   .compare__images {
     position: relative;
 
+    width: 92.8rem;
     height: 59.2rem;
 
     overflow: hidden;
@@ -101,8 +112,9 @@ const {
     border-radius: 0.8rem;
 
     @media (max-width: 768px) {
-      width: 100%;
-      height: 24rem;
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
+      height: 26.4rem;
     }
   }
 
@@ -219,14 +231,16 @@ const {
   import { setupDrag } from 'aptechka/utils'
 
   export class CompareElement extends HTMLElement {
+    #imagesElement: HTMLElement | null = null
     #linePosition: Damped = null!
     #lineElement: HTMLElement | null = null
     #firstResize = false
 
     protected connectedCallback() {
+      this.#imagesElement = this.querySelector('.compare__images')
       this.#lineElement = this.querySelector('.compare__line')
 
-      if (this.#lineElement) {
+      if (this.#imagesElement && this.#lineElement) {
         this.#linePosition = new Damped(0)
 
         this.#lineElement.addEventListener(
@@ -280,11 +294,11 @@ const {
       )
     }
 
-    #resizeListener: ElementResizerCallback = (e) => {
+    #resizeListener: ElementResizerCallback = () => {
       const lineRect = this.#lineElement!.getBoundingClientRect()
 
       this.#linePosition.min = 0
-      this.#linePosition.max = e.contentRect.width - lineRect.width
+      this.#linePosition.max = this.#imagesElement!.offsetWidth - lineRect.width
 
       if (!this.#firstResize) {
         this.#firstResize = true

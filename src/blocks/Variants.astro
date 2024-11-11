@@ -94,6 +94,9 @@ const {
             {...item.image}
             class="variants__slider__image"
             cover
+            rounded
+            lazy
+            lazyBackground
           />
         )
       })
@@ -240,8 +243,6 @@ const {
 
   .variants__slider__image {
     width: 92.4rem;
-    border-radius: 0.8rem;
-    overflow: hidden;
 
     &::after {
       content: '';

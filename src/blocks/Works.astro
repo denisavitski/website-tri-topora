@@ -71,6 +71,7 @@ const {
             lazyBackground
             cover
             aria-hidden={i > 9}
+            rounded
           />
         )
       })
@@ -169,9 +170,6 @@ const {
   }
 
   .works__list__item {
-    border-radius: 0.8rem;
-    overflow: hidden;
-
     &[aria-hidden='true'] {
       display: none;
     }

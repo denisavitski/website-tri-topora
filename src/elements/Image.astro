@@ -1,6 +1,7 @@
 ---
 import { getHref } from '@utils/url'
 import MediaWrapper from './MediaWrapper.astro'
+import { omit } from 'aptechka/utils'
 
 export interface ImageDataProps {
   src?: string | undefined
@@ -13,6 +14,7 @@ export interface Props extends ImageDataProps {
   cover?: boolean | undefined
   contain?: boolean | undefined
   lazyBackground?: boolean | undefined
+  rounded?: boolean | undefined
 }
 
 const {
@@ -30,7 +32,7 @@ const {
 <MediaWrapper
   class:list={['media-wrapper', className]}
   tag={'image-cloak'}
-  {...rest}
+  {...omit(rest, ['slot'] as any)}
   cover={cover}
   contain={contain}
   lazyBackground={lazyBackground}
