@@ -1,152 +1,184 @@
 ---
-import type { ImageDataProps } from './Image.astro'
-import Image from './Image.astro'
+import Icon from './Icon.astro'
+import Image, { type ImageDataProps } from './Image.astro'
 
 export interface Props {
   class?: string
-  image?: ImageDataProps | false
-  href?: string
-  hashtags?: Array<string> | false
-  date?: string
   title?: string
   description?: string
+  image?: ImageDataProps
+  href?: string
 }
 
 const {
   class: className,
+  title = 'Подходит, если хочется заехать в рубленый дом поскорее',
+  description = 'Это соединение проще бриллиантового замка-на бревнах нет нижних затёсов. Комлей тоже нет как правило, а выпуски брёвен отторцованы прямо, иногда фигурно. Стиль дома уже не дикий природный, а классический, формы плавные и простые. За счёт этих решений сруб рубится в 1,5 раза быстрее. Но при этом он сохраняет все свойства рубленных домов в бриллиантовом замке.',
   image = { src: '/images/dev/1.jpg' },
-  href = '/blog/article',
-  hashtags = ['cтроительство'],
-  date = '03.09.2024',
-  title = 'Норвежская рубка: искусство и традиции плотницкого мастерства',
-  description = 'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+  href = '/',
   ...rest
 } = Astro.props
 ---
 
 <a
   {...rest}
-  class:list={['article-card', className]}
-  href={href}
+  {href}
   data-prefetch
+  class:list={['article-card', className]}
 >
-  {
-    image && (
-      <Image
-        {...image}
-        class="article-card__image"
-        lazy
-        lazyBackground
-        cover
-        rounded
-      />
-    )
-  }
-
-  <span class="article-card__content">
-    <span class="article-card__top">
-      {
-        hashtags !== false && hashtags.length && (
-          <span class="article-card__hashtags">
-            {hashtags.map((hashtag) => {
-              return <span set:html={`#${hashtag}`} />
-            })}
-          </span>
-        )
-      }
+  <Image
+    class="article-card__image"
+    lazy
+    lazyBackground
+    cover
+    rounded
+    {...image}
+  />
+  <div class="article-card__text">
+    <div class="article-card__title">
       <span
-        class="article-card__date"
-        set:html={date}
+        class="article-card__title__value"
+        set:html={title}
       />
-    </span>
+      <Icon
+        class="article-card__title__icon"
+        name="tail-arrow"
+      />
+    </div>
 
-    <span
-      class="article-card__title"
-      set:html={title}
-    />
-
-    <span
+    <e-size-element
       class="article-card__description"
       set:html={description}
+      target="parent"
     />
-  </span>
+  </div>
 </a>
 
 <style is:global>
   .article-card {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    position: relative;
+
+    @media (min-width: 769px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      width: 79.2rem;
+      height: 71.5rem;
+
+      padding: 2.4rem;
+      padding-bottom: 0;
+
+      border-radius: 0.8rem;
+      overflow: hidden;
+    }
   }
 
   .article-card__image {
-    width: 100%;
-    height: 42rem;
+    position: relative;
 
-    margin-bottom: 2.4rem;
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      z-index: 1;
+
+      width: 100%;
+      height: 100%;
+
+      background-image: linear-gradient(
+        to bottom,
+        rgba(58, 58, 58, 0),
+        rgba(46, 46, 46, 1) 140%
+      );
+
+      opacity: 0.5;
+
+      transition: opacity var(--duration-button);
+    }
+
+    @media (min-width: 769px) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+
+      width: 100%;
+      height: 100%;
+
+      .article-card:hover &::after {
+        opacity: 1;
+      }
+    }
 
     @media (max-width: 768px) {
+      width: 100%;
+      height: 33.9rem;
       margin-bottom: 1.6rem;
-      height: 30.3rem;
     }
   }
 
-  .article-card__top {
-    font-size: 2.2rem;
-    font-weight: 300;
+  .article-card__text {
+    @media (min-width: 769px) {
+      transition: transform var(--duration-button);
+      transform: translateY(var(--height));
 
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-
-    margin-bottom: 1.6rem;
+      .article-card:hover & {
+        transform: translateY(0px);
+      }
+    }
 
     @media (max-width: 768px) {
-      font-size: 1.6rem;
-
-      gap: 1rem;
-
-      margin-bottom: 0.8rem;
+      padding: 0 var(--screen-horisontal-padding);
     }
-  }
-
-  .article-card__content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .article-card__hashtags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 0.5rem;
-
-    @media (max-width: 768px) {
-      gap: 0.1rem 0.25rem;
-    }
-  }
-
-  .article-card__date {
   }
 
   .article-card__title {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     font-weight: 500;
+    line-height: 120%;
+    text-transform: uppercase;
 
     margin-bottom: 1.6rem;
 
     @media (max-width: 768px) {
       font-size: 1.6rem;
+
       margin-bottom: 0.8rem;
+    }
+  }
+
+  .article-card__title__value {
+    white-space: pre-wrap;
+  }
+
+  .article-card__title__icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    fill: var(--color-white-1);
+    transform: translateY(10%);
+
+    @media (max-width: 768px) {
+      display: none;
     }
   }
 
   .article-card__description {
+    display: block;
+
     font-size: 2.2rem;
-    line-height: 120%;
     font-weight: 300;
+    line-height: 120%;
+    white-space: pre-wrap;
+
+    padding-bottom: 2.4rem;
 
     @media (max-width: 768px) {
       font-size: 1.6rem;
+      padding-bottom: 0;
     }
   }
 </style>

@@ -5,6 +5,7 @@ import 'aptechka/slicer'
 import 'aptechka/scroll'
 import 'aptechka/iframe'
 import 'aptechka/masonry-layout'
+import 'aptechka/size-element'
 
 import '@globals/main.css'
 
