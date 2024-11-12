@@ -6,7 +6,25 @@ export interface Props {
   text?: string
 }
 
-const { class: className, text = '', ...rest } = Astro.props
+const {
+  class: className,
+  text = `\
+<h1>h1  -  шрифт Code</h1>\
+<h2>h2  -  шрифт Code</h2>\
+<h3>h3  -  шрифт Code</h3>\
+<h4>h4  -  шрифт Code</h4>\
+<h5>h5  -  шрифт IBM</h5>\
+<h6>h6  -  шрифт IBM</h6>\
+<ul>\
+  <li>Элемент списка 1</li>\
+  <li>Элемент списка 2</li>\
+  <li>Элемент списка 3</li>\
+</ul>\
+<p>Параграф</p>\
+Обычный текст. <b>Жирный</b> текст. <a href="/" target="_blank">Ссылка</a> в тексте.\
+`,
+  ...rest
+} = Astro.props
 ---
 
 <div
@@ -17,91 +35,96 @@ const { class: className, text = '', ...rest } = Astro.props
 
 <style is:global>
   .rich-text {
-    display: flex;
-    flex-direction: column;
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 120%;
+    white-space: pre-wrap;
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: 'Code', sans-serif;
-      text-transform: uppercase;
-      font-weight: 400;
-      line-height: 120%;
-
-      white-space: pre-wrap;
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
     }
 
     h1,
     h2 {
+      font-family: 'Code', sans-serif;
       font-size: 4.8rem;
+      text-transform: uppercase;
+
+      font-weight: 400;
+      line-height: 120%;
+
+      margin-bottom: 4rem;
 
       @media (max-width: 768px) {
         font-size: 2.8rem;
+        margin-bottom: 2.4rem;
+      }
+    }
+
+    h3,
+    h4 {
+      font-family: 'Code', sans-serif;
+      text-transform: uppercase;
+      text-indent: 7.5rem;
+
+      font-weight: 400;
+
+      margin-bottom: 2.4rem;
+
+      @media (max-width: 768px) {
+        font-size: 2.8rem;
+        text-indent: 5rem;
+        margin-bottom: 2.4rem;
       }
     }
 
     h3 {
       font-size: 2.4rem;
+      line-height: normal;
 
       @media (max-width: 768px) {
         font-size: 1.6rem;
       }
     }
 
-    h4,
-    h5,
-    h6 {
-      font-size: 2.2rem;
-
-      @media (max-width: 768px) {
-        font-size: 1.6rem;
-      }
-    }
-
-    h3,
-    h4,
-    h5,
-    h6 {
-      text-indent: 7.5rem;
-
-      @media (max-width: 768px) {
-        text-indent: 5rem;
-      }
-    }
-
-    h1,
-    h2 {
-      margin-bottom: 2.4rem;
-    }
-
-    h3,
     h4 {
-      margin-bottom: 4rem;
+      font-size: 2.2rem;
+      line-height: 120%;
 
       @media (max-width: 768px) {
-        margin-bottom: 2.4rem;
+        font-size: 1.6rem;
       }
     }
 
+    h5 {
+      text-transform: uppercase;
+      font-size: 2.2rem;
+      font-weight: 500;
+
+      @media (max-width: 768px) {
+        font-size: 1.6rem;
+      }
+    }
+
+    h6 {
+      font-size: 4rem;
+      font-weight: 300;
+      line-height: 120%;
+
+      @media (max-width: 768px) {
+        font-size: 2rem;
+      }
+    }
+
+    h3,
+    h4,
     h5,
     h6 {
       margin-bottom: 2.4rem;
     }
 
     p {
-      font-size: 2.2rem;
-      font-weight: 300;
-      line-height: 120%;
       margin-bottom: 1.6rem;
-
-      white-space: pre-wrap;
-
-      @media (max-width: 768px) {
-        font-size: 1.6rem;
-      }
     }
 
     ul,
@@ -116,11 +139,6 @@ const { class: className, text = '', ...rest } = Astro.props
     }
 
     li {
-      font-size: 2.2rem;
-      font-weight: 300;
-
-      white-space: pre-wrap;
-
       display: inline-flex;
 
       &::before {
@@ -147,15 +165,11 @@ const { class: className, text = '', ...rest } = Astro.props
           margin-top: 0.5em;
         }
       }
-
-      @media (max-width: 768px) {
-        font-size: 1.6rem;
-        line-height: normal;
-      }
     }
 
     b {
       font-weight: 500;
+      display: contents;
     }
 
     a {

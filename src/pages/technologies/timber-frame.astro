@@ -1,7 +1,12 @@
 ---
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import Feedback from '@blocks/Feedback.astro'
+import Showcase1 from '@blocks/Showcase1.astro'
+import Showcase2 from '@blocks/Showcase2.astro'
+import Showcase6 from '@blocks/Showcase6.astro'
+import Showcase8 from '@blocks/Showcase8.astro'
 import TechnologyIntro from '@blocks/TechnologyIntro.astro'
+import Variants from '@blocks/Variants.astro'
 import Layout from '@layout/Layout.astro'
 import { getHref } from '@utils/url'
 ---
@@ -38,6 +43,81 @@ import { getHref } from '@utils/url'
       src: '/images/technologies/timber-frame/cover.jpg',
     }}
     description="<p>Уникальная каркасно-брусовая технология стройки. Современная и классическая архитектура и дизайн. Брусовый каркас дома из массива дерева и из клееной балки.</p>"
+  />
+
+  <Variants
+    heading="История"
+    description="«Timber Frame» является родственником других традиций каркасного строительства:"
+    types={[
+      {
+        name: 'Fachwerk в Германии',
+        image: { src: '/images/technologies/timber-frame/showcase/1.png' },
+      },
+      {
+        name: 'daiku в Японии',
+        image: { src: '/images/technologies/timber-frame/showcase/2.png' },
+      },
+      {
+        name: 'half-timber в Англии',
+        image: { src: '/images/technologies/timber-frame/showcase/3.png' },
+      },
+      {
+        name: 'colombage во Франции',
+        image: { src: '/images/technologies/timber-frame/showcase/4.png' },
+      },
+    ]}
+  />
+
+  <Showcase1
+    direction={'ltr'}
+    heading={'Технология'}
+    textImage={{
+      src: '/images/technologies/timber-frame/showcase/6.png',
+    }}
+    mainImage={{
+      src: '/images/technologies/timber-frame/showcase/5.png',
+    }}
+    text="<p>«Timber Frame» переводится как «каркас из бруса» Технология сильно напоминает немецкий Фахверк, но Интерьер 1 у немцев силовой каркаса находятся на виду на фасаде здания, а североамериканский Timber Frame это видовой каркас внутри дома, что позволяет создать неповторимый интерьер. Часто используются фигурные, изогнутые балки и консоли.</p>"
+  />
+
+  <Showcase8
+    blocks={[
+      `<h2>Эстетика</h2><p>Timber Frame это уникальная возможность для творчества. Технология позволяет не просто построить дом-создать произведение искусства.</p>`,
+      [
+        { src: '/images/technologies/timber-frame/showcase/8.png' },
+        { src: '/images/technologies/timber-frame/showcase/9.png' },
+      ],
+      `<p>Timber Frame это уникальные интерьеры дома: массивные колонны из цельного бруса, фигурные арки, фермы, ригели и консоли. Возможность реализации витражных окон и второго света в неповторимом оформлении. Можно полностью остеклить фасад, подарив удивительное ощущение простора и единения с окружающей природой. Можно сочетать дерево с натуральным камнем, стеклом, витражами.</p>`,
+    ]}
+    image={{ src: '/images/technologies/timber-frame/showcase/7.png' }}
+  />
+
+  <Showcase1
+    direction={'rtl'}
+    heading={'Искушенная архитектура'}
+    textImage={{
+      src: '/images/technologies/timber-frame/showcase/11.png',
+    }}
+    mainImage={{
+      src: '/images/technologies/timber-frame/showcase/10.png',
+    }}
+    text="<p>Timber Frame инструмент для создания сложной архитектуры. У архитектора появляются огромные возможности для воплощения самых смелых идей, как по внешнему виду дома, так и по планировкам. Если нужен уникальный план дома, открытые помещения с минимумом стоек, то это только Timber Frame! </p><p>Отсутствие усадки тоже облегчает задачи проектировщику, доступны сложно-комбинированные кровли. Мощные фигурные фермы закрывают широкие пролеты. </p>"
+  />
+
+  <Showcase2
+    text=`<h2>Экологичность</h2><h3>Timber Frame это по-настоящему экологичный дом</h3><ul><li>Ни капли клея!</li><li>Натуральная древесина, заготовленная в сибирской тайге.</li><li>При желании каркас можно не красить и сохранить красоту и естественность дерева.</li><li>Для изготовления используется сосновый брус, высушенный в вакуумных камерах.</li><li>При использовании клеёной балки применяются сертифицированные клеевые системы с индексом эмиссии E1, который разрешен в производстве даже детских игрушек.</li> </ul>`
+    image={{ src: '/images/technologies/timber-frame/showcase/12.png' }}
+    imageSize={'large'}
+  />
+
+  <Showcase6
+    heading="Скорость и точность"
+    text=`<h3>Timber Frame это быстрая и качественная стройка.</h3><p>Домокомплект изготавливается на станке ЧПУ, позволяющем производить детали быстро и точно. Комплекта дома среднего размера производится за 2-4 недели.</p><p>Дом под ключ можно построить за 9 месяцев. Отсутствует усадка и это ускоряет процесс стройки. Можно сразу монтировать лестницы, окна и двери, завершая работу финишной отделкой. Строительный сезон у таких домов круглый год.</p>`
+    images={[
+      { src: '/images/technologies/timber-frame/showcase/13.png' },
+      { src: '/images/technologies/timber-frame/showcase/14.png' },
+      { src: '/images/technologies/timber-frame/showcase/15.png' },
+    ]}
   />
 
   <Feedback />

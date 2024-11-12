@@ -5,6 +5,7 @@ import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
 
 export interface Props {
   direction?: ShowcaseDirection
+  heading?: string
   text?: string
   image1?: ImageDataProps
   image2?: ImageDataProps
@@ -13,13 +14,14 @@ export interface Props {
 
 const {
   direction = 'ltr',
-  text = `
-  <ul>
-    <li>Безопасность клеевых составов соответствует классу эмиссии Е1. Класс, разрешенный для применения при изготовлении детской мебели и игрушек.</li>
-    <li>Готовый брус доставляется исключительно в транспортировочных пакетах до места сборки, чтосохраняет внешний</li>
-    <li>Размеры клееного бруса могут быть от 185(h)х152 мм до 365(h)х302 мм что позволяет закрыть любую потребность. Брус большого сечения выглядит очень представительно. (здесь если разрешение позволяет можно вставить картинки Brus001, Brus002, Brus003)</li>
-  </ul>
-  `,
+  heading,
+  text = `\
+<ul>\
+  <li>Безопасность клеевых составов соответствует классу эмиссии Е1. Класс, разрешенный для применения при изготовлении детской мебели и игрушек.</li>\
+  <li>Готовый брус доставляется исключительно в транспортировочных пакетах до места сборки, чтосохраняет внешний</li>\
+  <li>Размеры клееного бруса могут быть от 185(h)х152 мм до 365(h)х302 мм что позволяет закрыть любую потребность. Брус большого сечения выглядит очень представительно. (здесь если разрешение позволяет можно вставить картинки Brus001, Brus002, Brus003)</li>\
+</ul>\
+`,
   image1 = { src: '/images/dev/1.jpg' },
   image2 = { src: '/images/dev/2.jpg' },
   image3 = { src: '/images/dev/3.jpg' },
@@ -30,6 +32,7 @@ const {
 <Showcase
   class="showcase-3"
   direction={direction}
+  {heading}
 >
   <RichText
     slot={'col-1'}
@@ -84,7 +87,9 @@ const {
         margin-top: auto;
       }
     }
+  }
 
+  .showcase-3 .showcase__cols {
     @media (max-width: 768px) {
       flex-direction: column-reverse;
     }
@@ -108,7 +113,6 @@ const {
     --hibernate: true;
 
     width: 79.2rem;
-    height: 59.2rem;
 
     @media (max-width: 768px) {
       --gap: 0.8rem;

@@ -1,0 +1,137 @@
+---
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import RichText from '@elements/RichText.astro'
+import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
+
+export interface Props {
+  direction?: ShowcaseDirection
+  heading?: string
+  image?: ImageDataProps
+  blocks?: Array<string | Array<ImageDataProps>>
+}
+
+const {
+  direction = 'ltr',
+  heading,
+  blocks = [
+    `<h2>Эстетика</h2><p>Timber Frame это уникальная возможность для творчества. Технология позволяет не просто построить дом-создать произведение искусства.</p>`,
+    [{ src: '/images/dev/1.jpg' }, { src: '/images/dev/2.jpg' }],
+    `<p>Timber Frame это уникальные интерьеры дома: массивные колонны из цельного бруса, фигурные арки, фермы, ригели и консоли. Возможность реализации витражных окон и второго света в неповторимом оформлении. Можно полностью остеклить фасад, подарив удивительное ощущение простора и единения с окружающей природой. Можно сочетать дерево с натуральным камнем, стеклом, витражами.</p>`,
+  ],
+  image = { src: '/images/dev/1.jpg' },
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<Showcase
+  class="showcase-8"
+  direction={direction}
+  {heading}
+>
+  {
+    blocks.map((block) => {
+      if (typeof block === 'string') {
+        return (
+          <RichText
+            slot={'col-1'}
+            text={block}
+            class="showcase-8__rich"
+          />
+        )
+      } else {
+        return (
+          <div class="showcase-8__images">
+            {block.map((image) => {
+              return (
+                <Image
+                  {...image}
+                  lazy
+                  lazyBackground
+                  cover
+                  rounded
+                  class="showcase-8__images__image"
+                />
+              )
+            })}
+          </div>
+        )
+      }
+    })
+  }
+  <Image
+    slot={'col-2'}
+    {...image}
+    lazy
+    lazyBackground
+    cover
+    rounded
+    class="showcase-8__image"
+  />
+</Showcase>
+
+<style is:global>
+  .showcase-8 {
+    @media (max-width: 768px) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .showcase-8 .showcase__col {
+    min-height: 100%;
+  }
+
+  .showcase-8 .showcase__col:nth-child(1) {
+    padding: 4rem;
+
+    background-color: var(--color-white-1);
+    color: var(--color-grey-1);
+    border-radius: 0.8rem;
+
+    @media (max-width: 768px) {
+      padding: 2.4rem var(--screen-horisontal-padding);
+    }
+  }
+
+  .showcase-8__images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  .showcase-8__images__image {
+    width: 42rem;
+    height: 32rem;
+
+    &:nth-child(even) {
+      width: 28rem;
+    }
+
+    @media (max-width: 768px) {
+      width: 20rem;
+      height: 15.2rem;
+
+      &:nth-child(even) {
+        width: 13.5rem;
+      }
+    }
+  }
+
+  .showcase-8__image {
+    width: 79.2rem;
+    height: 79rem;
+    min-height: 100%;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 37.4rem;
+      min-height: unset;
+    }
+  }
+</style>

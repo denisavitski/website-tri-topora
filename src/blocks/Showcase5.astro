@@ -5,33 +5,36 @@ import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
 
 export interface Props {
   direction?: ShowcaseDirection
+  heading?: string
   text?: string
   image?: ImageDataProps
 }
 
 const {
   direction = 'ltr',
-  text = `
-    <h2>Бриллиантовый замок</h2>
-    <h5>Идеален если нужен дом для нескольких поколений семьи</h5>
-    <p>Это дикий, природный стиль. При усадке верхнее бревно находит на нижнее и соединение заклинивается. Дом после усадки — это монолит без щелей</p>
-    <p>Строгаем бревна так, чтобы замять волокна дерева в его структуру. Поэтому поверхность бревна плотная. Вода стекает по затёсам и не попадает в чашу, так сруб не впитывает влагу и не гниёт.</p>
-    <p>Этот тип рубки исключает продувание углов и стен, а в пазах используется упругий утеплитель, который не слёживается годами.</p>
-    <p>Это очень красивый тип соединения. Комли по углам дома сохраняем в первозданном виде. Возможно, нарезать на комле уникальный узор-«чешую»</p>
-  `,
+  heading,
+  text = `\
+<h2>Бриллиантовый замок</h2>\
+<h5>Идеален если нужен дом для нескольких поколений семьи</h5>\
+<p>Это дикий, природный стиль. При усадке верхнее бревно находит на нижнее и соединение заклинивается. Дом после усадки — это монолит без щелей</p>\
+<p>Строгаем бревна так, чтобы замять волокна дерева в его структуру. Поэтому поверхность бревна плотная. Вода стекает по затёсам и не попадает в чашу, так сруб не впитывает влагу и не гниёт.</p>\
+<p>Этот тип рубки исключает продувание углов и стен, а в пазах используется упругий утеплитель, который не слёживается годами.</p>\
+<p>Это очень красивый тип соединения. Комли по углам дома сохраняем в первозданном виде. Возможно, нарезать на комле уникальный узор-«чешую»</p>\
+`,
   image = { src: '/images/dev/1.jpg' },
 } = Astro.props
 ---
 
 <!-- BLOCK -->
 <Showcase
-  class="showcase-2"
+  class="showcase-5"
   direction={direction}
+  {heading}
 >
   <RichText
     slot={'col-1'}
     text={text}
-    class="showcase-2__rich"
+    class="showcase-5__rich"
   />
   <Image
     slot={'col-2'}
@@ -40,50 +43,31 @@ const {
     lazyBackground
     cover
     rounded
-    class="showcase-2__image"
+    class="showcase-5__image"
   />
 </Showcase>
 
 <style is:global>
-  .showcase-2 {
+  .showcase-5 {
     @media (max-width: 768px) {
       padding-left: 0;
       padding-right: 0;
     }
   }
 
-  .showcase-2__rich {
+  .showcase-5 .showcase__col:nth-child(1) {
     padding: 4rem;
-    min-height: 100%;
 
     background-color: var(--color-white-1);
     color: var(--color-grey-1);
     border-radius: 0.8rem;
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      text-indent: 0;
-    }
-
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: 'IBM';
-      font-weight: 500;
-    }
 
     @media (max-width: 768px) {
       padding: 2.4rem var(--screen-horisontal-padding);
     }
   }
 
-  .showcase-2__image {
+  .showcase-5__image {
     width: 79.2rem;
     height: 64rem;
 

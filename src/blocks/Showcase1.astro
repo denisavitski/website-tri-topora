@@ -6,34 +6,37 @@ import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
 export interface Props {
   direction?: ShowcaseDirection
   text?: string
-  image1?: ImageDataProps
-  image2?: ImageDataProps
+  heading?: string
+  textImage?: ImageDataProps
+  mainImage?: ImageDataProps
 }
 
 const {
   direction = 'ltr',
-  text = `
-  <h3>Давайте рассмотрим основные выгоды работать с клееным брусом:</h3>
-  <ul>
-    <li>Быстрое изготовление домокомплекта. Комплект на дом примерно на 300-400 м2 в условиях современного производства изготавливается не более 2 недель.</li>
-    <li>Возможность максимально быстро зайти на отделочные работы и ввести дом в эксплуатацию так как усадка минимальна, а в случае с каркасно-брусовой технологией (фахверк, тимбер фрэйм) усадка отсутствует.</li>
-    <li>Каналы под скрытую проводку и коммуникации возможно сделать одновременно с изготовлением домокомплекта максимально точно и быстро на станке.</li>
-    <li>Решение сложных конструктивных и архитектурных задач в стройке так как возможно изготовление балок до 14 метров и деталей бруса до 12 метров длинной. Есть возможность изготовления элементов кровли с гнутой конструкционной балкой, радиальных элементов.</li>
-  </ul>
-  `,
-  image1 = { src: '/images/dev/1.jpg' },
-  image2 = { src: '/images/dev/2.jpg' },
+  heading,
+  text = `\
+<h4>Давайте рассмотрим основные выгоды работать с клееным брусом:</h4>\
+<ul>\
+  <li>Быстрое изготовление домокомплекта. Комплект на дом примерно на 300-400 м2 в условиях современного производства изготавливается не более 2 недель.</li>\
+  <li>Возможность максимально быстро зайти на отделочные работы и ввести дом в эксплуатацию так как усадка минимальна, а в случае с каркасно-брусовой технологией (фахверк, тимбер фрэйм) усадка отсутствует.</li>\
+  <li>Каналы под скрытую проводку и коммуникации возможно сделать одновременно с изготовлением домокомплекта максимально точно и быстро на станке.</li>\
+  <li>Решение сложных конструктивных и архитектурных задач в стройке так как возможно изготовление балок до 14 метров и деталей бруса до 12 метров длинной. Есть возможность изготовления элементов кровли с гнутой конструкционной балкой, радиальных элементов.</li>\
+</ul>\
+`,
+  textImage = { src: '/images/dev/1.jpg' },
+  mainImage = { src: '/images/dev/2.jpg' },
 } = Astro.props
 ---
 
 <!-- BLOCK -->
 <Showcase
   class="showcase-1"
-  direction={direction}
+  {heading}
+  {direction}
 >
   <Image
     slot={'col-1'}
-    {...image1}
+    {...textImage}
     lazy
     lazyBackground
     cover
@@ -46,7 +49,7 @@ const {
   />
   <Image
     slot={'col-2'}
-    {...image2}
+    {...mainImage}
     lazy
     lazyBackground
     cover
@@ -61,15 +64,12 @@ const {
 
   .showcase-1__text-image {
     width: 100%;
-    height: 37.6rem;
 
     margin-bottom: 2.4rem;
 
     @media (max-width: 768px) {
       width: calc(100% + var(--screen-horisontal-padding) * 2);
       margin-left: calc(var(--screen-horisontal-padding) * -1);
-
-      height: 23.7rem;
 
       [data-direction='rtl'] & {
         order: 2;
@@ -80,12 +80,10 @@ const {
 
   .showcase-1__main-image {
     width: 92.8rem;
-    height: 59.2rem;
 
     @media (max-width: 768px) {
       width: calc(100% + var(--screen-horisontal-padding) * 2);
       margin-left: calc(var(--screen-horisontal-padding) * -1);
-      height: 32rem;
     }
   }
 </style>

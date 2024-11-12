@@ -1,12 +1,15 @@
 ---
+import SectionHeading from './SectionHeading.astro'
+
 export type ShowcaseDirection = 'ltr' | 'rtl'
 
 export interface Props {
-  class?: string
+  class?: string | undefined
+  heading?: string | undefined
   direction?: ShowcaseDirection
 }
 
-const { class: className, direction = 'ltr', ...rest } = Astro.props
+const { class: className, direction = 'ltr', heading, ...rest } = Astro.props
 ---
 
 <div
@@ -14,12 +17,22 @@ const { class: className, direction = 'ltr', ...rest } = Astro.props
   class:list={['showcase', className]}
   data-direction={direction}
 >
-  <div class="showcase__col">
-    <slot name="col-1" />
-  </div>
+  {
+    heading && (
+      <SectionHeading
+        class="showcase__heading"
+        text={heading}
+      />
+    )
+  }
+  <div class="showcase__cols">
+    <div class="showcase__col">
+      <slot name="col-1" />
+    </div>
 
-  <div class="showcase__col">
-    <slot name="col-2" />
+    <div class="showcase__col">
+      <slot name="col-2" />
+    </div>
   </div>
 </div>
 
@@ -29,21 +42,30 @@ const { class: className, direction = 'ltr', ...rest } = Astro.props
     z-index: calc(var(--z-lines) + 1);
 
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+  }
 
+  .showcase__heading {
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .showcase__cols {
     display: flex;
     gap: 2.4rem;
 
     @media (min-width: 769px) {
-      &[data-direction='rtl'] {
+      .showcase[data-direction='rtl'] & {
         flex-direction: row-reverse;
       }
     }
 
     @media (max-width: 768px) {
       flex-direction: column;
-      gap: 1.6rem;
 
-      &[data-direction='rtl'] {
+      .showcase[data-direction='rtl'] & {
         flex-direction: column-reverse;
       }
     }
