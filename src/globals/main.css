@@ -111,9 +111,7 @@ html {
 
 body {
   font-family: 'IBM', sans-serif;
-
-  background-color: var(--color-1);
-  color: var(--color-4);
+  white-space: pre-line;
 
   -webkit-tap-highlight-color: transparent;
 }
@@ -138,6 +136,7 @@ e-scroll-set-button,
 e-scroll-step-button,
 e-popover-button {
   cursor: pointer;
+  white-space: normal;
 }
 
 p,
@@ -190,10 +189,6 @@ img {
 .word,
 .letter {
   display: inline-flex;
-}
-
-.wspw {
-  white-space: pre-wrap;
 }
 
 .custom-scrollbar {

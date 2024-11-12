@@ -3,8 +3,10 @@ import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import Feedback from '@blocks/Feedback.astro'
 import Showcase1 from '@blocks/Showcase1.astro'
 import Showcase2 from '@blocks/Showcase2.astro'
+import Showcase3 from '@blocks/Showcase3.astro'
 import Showcase6 from '@blocks/Showcase6.astro'
 import Showcase8 from '@blocks/Showcase8.astro'
+import Showcase9 from '@blocks/Showcase9.astro'
 import TechnologyIntro from '@blocks/TechnologyIntro.astro'
 import Variants from '@blocks/Variants.astro'
 import Layout from '@layout/Layout.astro'
@@ -118,6 +120,49 @@ import { getHref } from '@utils/url'
       { src: '/images/technologies/timber-frame/showcase/14.png' },
       { src: '/images/technologies/timber-frame/showcase/15.png' },
     ]}
+  />
+
+  <Showcase1
+    direction={'ltr'}
+    heading={'Практичность'}
+    textImage={{
+      src: '/images/technologies/timber-frame/showcase/16.png',
+    }}
+    mainImage={{
+      src: '/images/technologies/timber-frame/showcase/17.png',
+    }}
+    text="<p>Фасад дома Timber Frame требует минимального внимания и обслуживания. Классический деревянный дом — это уход за фасадом каждые 8-10 лет В случае с Timber Frame интервал составляет 20-25 лет. Силовые элементы каркаса скрыты от воздействия осадков и ультрафиолета.</p><p>В отделке используются такие стойкие материалы, как фиброцементные панели, шиндель из лиственницы, облицовочный клинкерный кирпич, стекло. Как результат долговечность и минимум ухода.</p>"
+  />
+
+  <Showcase9
+    heading="Сложные задачи в архитектуре"
+    text=`<h5>Timber Frame для сложных задач в стройке</h5><p>Выраженный уклон на участке?</p><p>Сложные условия подъезда спецтехники и подвоза строительных материалов?</p><p>Сейсмически активные зоны?</p><p>Грунт со слабой несущей способностью?</p>`
+    images={[
+      { src: '/images/technologies/timber-frame/showcase/18.png' },
+      { src: '/images/technologies/timber-frame/showcase/19.png' },
+      { src: '/images/technologies/timber-frame/showcase/20.png' },
+    ]}
+    plaque="Эти задачи по плечу технологии Timber Frame"
+  />
+
+  <Showcase3
+    text=`<h2>Модульная стройка</h2>    <h6>Тимбер Фрэйм позволяет планировать стройку.</h6><p>Это одна из немногих технологий по которые позволяют возводиться дом этапами. Если непрерывная стройка затруднительна, то здание можно спроектировать из нескольких модулей. К уже построенному объекту можно пристроить следующий модуль, объединяя пространство в единое целое. Отсутствие усадки и относительно невысокая масса дома это допускают.</p>`
+    image1={{ src: '/images/technologies/timber-frame/showcase/21.png' }}
+    image2={{ src: '/images/technologies/timber-frame/showcase/22.png' }}
+    image3={{ src: '/images/technologies/timber-frame/showcase/23.png' }}
+  />
+
+  <Showcase8
+    direction={'rtl'}
+    blocks={[
+      `<h2>Дома на века</h2><p>Timber Frame это дом который можно оставить детям и внукам Каркас из массивного бруса необычайно прочен и долговечен.</p>`,
+      [
+        { src: '/images/technologies/timber-frame/showcase/25.png' },
+        { src: '/images/technologies/timber-frame/showcase/26.png' },
+      ],
+      `<p>В наше время существуют дома построенный по данной технологии более 200 лет назад. Силовые элементы защищены от осадков и солнечного света так как находятся внутри дома. Основной крепёж это шканты из лиственницы.</p>`,
+    ]}
+    image={{ src: '/images/technologies/timber-frame/showcase/24.png' }}
   />
 
   <Feedback />
