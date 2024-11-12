@@ -373,7 +373,7 @@ const {
         element?.addEventListener('click', this.#resetListener)
       })
 
-      this.#swipeElement = this.querySelector('.filter__swipe')
+      this.#swipeElement = this.querySelector('[data-swipe]')
 
       scrollElement.current.addEventListener(
         'scroll',
