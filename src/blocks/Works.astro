@@ -170,8 +170,15 @@ const {
   }
 
   .works__list__item {
+    width: 100%;
+    min-height: 20rem;
+
     &[aria-hidden='true'] {
       display: none;
+    }
+
+    @media (max-width: 768px) {
+      min-height: 15rem;
     }
   }
 
