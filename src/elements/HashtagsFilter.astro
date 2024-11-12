@@ -1,0 +1,218 @@
+---
+import SwipeModal from './SwipeModal.astro'
+
+export const modal = '#hashtags-filter'
+
+export interface Props {
+  class?: string
+  hashtags?: Map<string, number>
+}
+
+const {
+  class: className,
+  hashtags = new Map([
+    ['Все', 1],
+    ['Some', 1],
+  ]),
+  ...rest
+} = Astro.props
+---
+
+<!-- 
+  После изменений, фильтр генерирует событие hashtagsFilterChange.
+
+  // Кастомные элементы готовы к работе
+  addEventListener('load', () => {
+    const filterElement = document.querySelector("hashtags-filter")
+
+    filterElement.addEventListener('filterChange', (e) => {
+      // Значение
+      console.log(e.detail, filterElement.value)
+    })
+  })
+-->
+<SwipeModal
+  {...rest}
+  class={`hashtags-filter ${className || ''}`}
+  id="hashtags-filter"
+  tag="hashtags-filter"
+>
+  <div class="hashtags-filter__buttons">
+    {
+      Array.from(hashtags).map(([hashtag, amount], i) => {
+        return (
+          <label class="hashtags-filter__button">
+            <input
+              type="radio"
+              name="hashtag"
+              value={hashtag}
+              checked={i === 0}
+              class="visually-hidden hashtags-filter__button__input"
+            />
+            <span class="hashtags-filter__button__value">
+              <span
+                class="hashtags-filter__button__value__name"
+                set:html={hashtag}
+              />
+              <span
+                class="hashtags-filter__button__value__amount"
+                set:html={amount}
+              />
+            </span>
+          </label>
+        )
+      })
+    }
+  </div>
+</SwipeModal>
+
+<style is:global>
+  .hashtags-filter__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .hashtags-filter__button {
+    cursor: pointer;
+  }
+
+  .hashtags-filter__button__input {
+  }
+
+  .hashtags-filter__button__value {
+    padding: 0.8rem 2.4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
+    border-radius: 4rem;
+    border: 0.1rem solid var(--color-white-1);
+
+    transition-property: border-color, color, background-color;
+    transition-duration: var(--duration-button);
+
+    .hashtags-filter__button__input:checked ~ & {
+      border-color: transparent;
+      background-color: var(--color-white-1);
+      color: var(--color-grey-1);
+    }
+
+    @media (min-width: 769px) {
+      .hashtags-filter__button:hover & {
+        border-color: transparent;
+        background-color: var(--color-white-1);
+        color: var(--color-grey-1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 0.8rem 1.6rem;
+    }
+  }
+
+  .hashtags-filter__button__value__name {
+    text-transform: capitalize;
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .hashtags-filter__button__value__amount {
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+
+    color: var(--color-grey-5);
+  }
+</style>
+
+<script>
+  import { SwipePopoverElement } from '@lib/SwipePopoverElement'
+  import { dispatchEvent } from 'aptechka/utils'
+
+  export interface HashtagsFilterEvents {
+    hashtagsFilterChange: CustomEvent<string>
+  }
+
+  export class HashtagsFilterElement extends SwipePopoverElement {
+    #inputElements: Array<HTMLInputElement> = []
+
+    #value: string = ''
+
+    constructor() {
+      super()
+
+      this.addEventListener('popoverOpened', () => {
+        window.dispatchEvent(new Event('resize'))
+      })
+    }
+
+    public get value() {
+      return this.#value
+    }
+
+    protected override connectedCallback() {
+      super.connectedCallback()
+
+      this.#inputElements = [
+        ...this.querySelectorAll<HTMLInputElement>('input'),
+      ]
+
+      this.#updateValue()
+
+      this.#inputElements.forEach((input) => {
+        input.addEventListener('change', this.#inputListener)
+      })
+    }
+
+    protected override disconnectedCallback() {
+      super.disconnectedCallback()
+
+      this.#inputElements.forEach((input) => {
+        input.removeEventListener('change', this.#inputListener)
+      })
+    }
+
+    #inputListener = () => {
+      this.#updateValue()
+
+      dispatchEvent(this, 'hashtagsFilterChange', {
+        custom: true,
+        detail: this.#value,
+      })
+    }
+
+    #updateValue() {
+      const input = this.#inputElements.find((input) => input.checked)
+
+      if (input) {
+        this.#value = input.value
+      } else {
+        this.#value = ''
+      }
+    }
+  }
+
+  if (!customElements.get('hashtags-filter')) {
+    customElements.define('hashtags-filter', HashtagsFilterElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'hashtags-filter': HashtagsFilterElement
+    }
+
+    interface HTMLElementEventMap extends HashtagsFilterEvents {}
+  }
+</script>

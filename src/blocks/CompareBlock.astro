@@ -1,6 +1,6 @@
 ---
 import Compare, { type Props as CompareProps } from '@elements/Compare.astro'
-import RichText from '@elements/RichText.astro'
+import TechnologyRichText from '@elements/TechnologyRichText.astro'
 import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
 
 export interface Props extends Omit<CompareProps, 'class'> {
@@ -28,7 +28,7 @@ const {
 
 <!-- BLOCK -->
 <Showcase direction={direction}>
-  <RichText
+  <TechnologyRichText
     slot={'col-1'}
     text={text}
   />

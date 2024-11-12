@@ -1,0 +1,427 @@
+---
+import HashtagsFilter from '@elements/HashtagsFilter.astro'
+import NewsCard, { type Props as NewsCardProps } from '@elements/NewsCard.astro'
+import SectionHeading from '@elements/SectionHeading.astro'
+import SimpleButton from '@elements/SimpleButton.astro'
+
+export interface Props {
+  heading?: string
+  articles?: Array<NewsCardProps>
+}
+
+const {
+  heading = 'Блог',
+  articles = [
+    {
+      image: { src: '/images/dev/1.jpg' },
+      href: '/blog/article',
+      hashtags: ['Cтроительство'],
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+    {
+      image: { src: '/images/dev/2.jpg' },
+      href: '/blog/article',
+      hashtags: ['Дизайн'],
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+    {
+      image: { src: '/images/dev/3.jpg' },
+      href: '/blog/article',
+      hashtags: ['Ланшафт'],
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+    {
+      image: { src: '/images/dev/4.jpg' },
+      href: '/blog/article',
+      hashtags: ['Архитектура'],
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+    {
+      image: { src: '/images/dev/5.jpg' },
+      href: '/blog/article',
+      hashtags: ['Строительство'],
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+    {
+      image: { src: '/images/dev/6.jpg' },
+      href: '/blog/article',
+      hashtags: ['Технологии'],
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+    {
+      image: { src: '/images/dev/7.jpg' },
+      href: '/blog/article',
+      hashtags: ['Ремонт'],
+      date: '03.09.2024',
+      title: 'Норвежская рубка: искусство и традиции плотницкого мастерства',
+      description:
+        'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
+    },
+  ],
+} = Astro.props
+
+const marticles = [...articles, ...articles, ...articles, ...articles]
+
+const hashtags = new Map<string, number>()
+
+hashtags.set('Все', marticles.length)
+
+marticles.forEach((article) => {
+  if (article.hashtags) {
+    article.hashtags.forEach((hashtag) => {
+      let amount = hashtags.get(hashtag)
+
+      if (!amount) {
+        hashtags.set(hashtag, 1)
+      } else {
+        hashtags.set(hashtag, amount + 1)
+      }
+    })
+  }
+})
+---
+
+<!-- BLOCK -->
+<e-blog class="blog">
+  <SectionHeading
+    class="blog__heading"
+    text={heading}
+  />
+
+  <e-popover-button
+    target="hashtags-filter"
+    class="blog__mobile-filter-button"
+  ></e-popover-button>
+
+  <HashtagsFilter
+    hashtags={hashtags}
+    class="blog__filter"
+  />
+
+  <div class="blog__sheet">
+    <div class="blog__list">
+      {
+        marticles.map((article) => {
+          return (
+            <NewsCard
+              class="blog__list__item"
+              {...article}
+            />
+          )
+        })
+      }
+    </div>
+
+    <SimpleButton class="blog__more">Смотреть ещё</SimpleButton>
+  </div>
+</e-blog>
+
+<style is:global>
+  .blog {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
+    display: block;
+
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+    padding-top: 0;
+  }
+
+  .blog [aria-hidden='true'] {
+    display: none;
+  }
+
+  .blog__heading {
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .blog__filter {
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .blog__sheet {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .blog__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.4rem;
+
+    width: 100%;
+    margin-bottom: 4.8rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100%;
+      gap: 0.8rem;
+
+      width: 100%;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .blog__list__item {
+  }
+
+  .blog__more {
+  }
+
+  .blog__mobile-filter-button {
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+
+      width: 100%;
+      height: 4.5rem;
+      margin-bottom: 2.4rem;
+
+      border-radius: 4rem;
+
+      background-color: var(--color-white-1);
+
+      &::before,
+      &::after {
+        font-size: 1.6rem;
+      }
+
+      &::before {
+        content: attr(data-value);
+        color: var(--color-grey-1);
+      }
+
+      &::after {
+        content: attr(data-amount);
+        color: #9f9f9f;
+      }
+    }
+  }
+</style>
+
+<script>
+  import type { HashtagsFilterElement } from '@elements/HashtagsFilter.astro.0.mjs'
+
+  export interface AllProjectsAPIEmulationPagination {
+    totalItems: number
+    totalPages: number
+    currentPage: number
+  }
+
+  export interface BlogAPIEmulationParameters {
+    filter?: string | undefined
+    page?: number | undefined
+    itemsPerPage?: number | undefined
+  }
+
+  export class BlogElement extends HTMLElement {
+    #articleElements: Array<HTMLElement> = []
+    #moreButtonElement: HTMLElement | null = null
+    #filterElement: HashtagsFilterElement | null = null
+    #filterButtonElement: HTMLElement | null = null
+    #itemsPerPage = 12
+    #page = 1
+
+    protected connectedCallback() {
+      this.#articleElements = [
+        ...this.querySelectorAll<HTMLElement>('.blog__list__item'),
+      ]
+
+      this.#moreButtonElement = this.querySelector('.blog__more')
+      this.#moreButtonElement?.addEventListener(
+        'click',
+        this.#moreButtonListener,
+      )
+
+      this.#filterElement = this.querySelector('.blog__filter')
+
+      this.#filterElement?.addEventListener(
+        'hashtagsFilterChange',
+        this.#filterListener,
+      )
+
+      customElements.whenDefined('hashtags-filter').then(() => {
+        if (this.isConnected) {
+          this.#filter(false)
+        }
+      })
+
+      this.#filterButtonElement = this.querySelector(
+        '.blog__mobile-filter-button',
+      )
+    }
+
+    protected disconnectedCallback() {
+      this.#moreButtonElement?.removeEventListener(
+        'click',
+        this.#moreButtonListener,
+      )
+
+      this.#filterElement?.removeEventListener(
+        'hashtagsFilterChange',
+        this.#filterListener,
+      )
+    }
+
+    #moreButtonListener = () => {
+      this.#page++
+
+      const { elements, pagination } = this.#apiEmulation({
+        filter: this.#filterElement?.value,
+        page: this.#page,
+        itemsPerPage: this.#itemsPerPage,
+      })
+
+      elements.forEach((element) => {
+        element.ariaHidden = 'false'
+      })
+
+      this.#toggleMoreButton(pagination)
+
+      window.dispatchEvent(new Event('resize'))
+    }
+
+    #filterListener = () => {
+      this.#filter()
+    }
+
+    #filter(scroll = true) {
+      this.#page = 1
+
+      const value = this.#filterElement?.value
+
+      const { elements, pagination } = this.#apiEmulation({
+        filter: this.#filterElement?.value,
+        page: this.#page,
+        itemsPerPage: this.#itemsPerPage,
+      })
+
+      this.#articleElements.forEach((element) => {
+        if (elements.includes(element)) {
+          element.ariaHidden = 'false'
+        } else {
+          element.ariaHidden = 'true'
+        }
+      })
+
+      if (this.#filterButtonElement) {
+        this.#filterButtonElement.setAttribute('data-value', value || 'Все')
+        this.#filterButtonElement.setAttribute(
+          'data-amount',
+          pagination.totalItems.toString(),
+        )
+      }
+
+      this.#toggleMoreButton(pagination)
+
+      window.dispatchEvent(new Event('resize'))
+
+      if (scroll) {
+        this.parentElement!.scrollIntoView({
+          block: 'start',
+          behavior: 'instant',
+        })
+      }
+    }
+
+    #toggleMoreButton(pagination: AllProjectsAPIEmulationPagination) {
+      if (this.#moreButtonElement) {
+        if (
+          !pagination.totalPages ||
+          pagination.totalPages === pagination.currentPage
+        ) {
+          this.#moreButtonElement.ariaHidden = 'true'
+        } else {
+          this.#moreButtonElement.ariaHidden = 'false'
+        }
+      }
+    }
+
+    #apiEmulation({
+      page = 1,
+      filter,
+      itemsPerPage = 8,
+    }: BlogAPIEmulationParameters) {
+      let filteredElements: Array<HTMLElement> = []
+
+      if (!filter || filter.toLowerCase() === 'все') {
+        filteredElements = this.#articleElements
+      } else {
+        filteredElements = this.#articleElements.filter((project) => {
+          const projectHashtags = project.getAttribute('data-hashtags')
+
+          if (projectHashtags) {
+            const splitted = projectHashtags
+              .split(',')
+              .map((v) => v.trim().toLowerCase())
+
+            if (splitted.includes(filter.toLowerCase())) {
+              return true
+            }
+          }
+
+          return false
+        })
+      }
+
+      const start = (page - 1) * itemsPerPage
+      const end = start + itemsPerPage
+      const elements = filteredElements.slice(start, end)
+
+      const pagination: AllProjectsAPIEmulationPagination = {
+        totalItems: filteredElements.length,
+        totalPages: Math.ceil(filteredElements.length / itemsPerPage),
+        currentPage: page,
+      }
+
+      return {
+        elements,
+        pagination,
+      }
+    }
+  }
+
+  if (!customElements.get('e-blog')) {
+    customElements.define('e-blog', BlogElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'e-blog': BlogElement
+    }
+  }
+</script>

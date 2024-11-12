@@ -1,6 +1,6 @@
 ---
 import Image, { type ImageDataProps } from '@elements/Image.astro'
-import RichText from '@elements/RichText.astro'
+import TechnologyRichText from '@elements/TechnologyRichText.astro'
 import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
 
 export interface Props {
@@ -35,7 +35,7 @@ const {
   data-image-size={imageSize}
   {heading}
 >
-  <RichText
+  <TechnologyRichText
     slot={'col-1'}
     text={text}
   />
@@ -64,7 +64,7 @@ const {
     }
   }
 
-  .showcase-2 .rich-text {
+  .showcase-2 .technology-rich-text {
     min-height: 100%;
 
     display: flex;

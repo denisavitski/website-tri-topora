@@ -471,13 +471,7 @@ const {
 
       this.#resetButtonElement?.addEventListener('click', this.#resetListener)
 
-      this.#toggleMoreButton({
-        currentPage: 1,
-        totalItems: this.#projectElements.length,
-        totalPages: Math.ceil(
-          this.#projectElements.length / this.#itemsPerPage,
-        ),
-      })
+      this.#filter(false)
     }
 
     protected disconnectedCallback() {
@@ -518,6 +512,10 @@ const {
     }
 
     #filterListener = () => {
+      this.#filter(true)
+    }
+
+    #filter(scroll = true) {
       this.#page = 1
 
       const values = this.#filterElement?.values
@@ -541,10 +539,12 @@ const {
 
       window.dispatchEvent(new Event('resize'))
 
-      this.scrollIntoView({
-        block: 'start',
-        behavior: 'smooth',
-      })
+      if (scroll) {
+        this.scrollIntoView({
+          block: 'start',
+          behavior: 'smooth',
+        })
+      }
     }
 
     #resetListener = () => {

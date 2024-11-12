@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro'
 import SimpleButton from './SimpleButton.astro'
+import SwipeModal from './SwipeModal.astro'
 
 export const modal = '#filter'
 
@@ -83,245 +84,90 @@ const {
     filterElement.reset()
   })
 -->
-<e-filter
+<SwipeModal
   {...rest}
-  class:list={['filter', className]}
+  class={`filter ${className || ''}`}
   id="filter"
+  tag="e-filter"
 >
-  <div class="filter__inner hidden-scrollbar">
-    <div
-      class="filter__swipe hidden-scrollbar"
-      data-swipe
-    >
-      <div class="filter__content">
-        <div
-          class="filter__swipe__top"
-          data-swipe-knob
-        >
-          <div class="filter__swipe__top__decoration"></div>
-          <div class="filter__swipe__top__buttons">
-            <e-popover-button
-              class="filter__back"
-              target="filter"
-            >
+  <button
+    class="filter__reset"
+    slot="buttons"
+  >
+    Очистить фильтры
+  </button>
+
+  <e-accordion
+    class="filter__accordion"
+    multiple
+  >
+    {
+      folders.map((folder) => {
+        return (
+          <div
+            class="filter__folder"
+            data-opened={folder.opened}
+          >
+            <div class="filter__folder__head">
+              <div
+                class="filter__folder__name"
+                set:html={folder.name}
+              />
               <Icon
-                class="filter__back__arrow"
+                class="filter__folder__icon"
                 name="tail-arrow"
               />
-              <span class="filter__back__name">Назад</span>
-            </e-popover-button>
-            <button class="filter__reset"> Очистить фильтры </button>
+            </div>
+            <div class="filter__folder__body">
+              <div class="filter__folder__content">
+                {folder.items.map((item) => {
+                  return (
+                    <label class="filter__item">
+                      <input
+                        class="visually-hidden"
+                        type="radio"
+                        name={folder.type}
+                        value={
+                          typeof item.value === 'string'
+                            ? item.value
+                            : item.name
+                        }
+                        checked={item.checked}
+                        data-checked-default={item.checked}
+                      />
+                      <span
+                        class="filter__item__name"
+                        set:html={item.name}
+                      />
+                    </label>
+                  )
+                })}
+              </div>
+            </div>
           </div>
-        </div>
-        <e-accordion
-          class="filter__accordion"
-          multiple
-        >
-          {
-            folders.map((folder) => {
-              return (
-                <div
-                  class="filter__folder"
-                  data-opened={folder.opened}
-                >
-                  <div class="filter__folder__head">
-                    <div
-                      class="filter__folder__name"
-                      set:html={folder.name}
-                    />
-                    <Icon
-                      class="filter__folder__icon"
-                      name="tail-arrow"
-                    />
-                  </div>
-                  <div class="filter__folder__body">
-                    <div class="filter__folder__content">
-                      {folder.items.map((item) => {
-                        return (
-                          <label class="filter__item">
-                            <input
-                              class="visually-hidden"
-                              type="radio"
-                              name={folder.type}
-                              value={
-                                typeof item.value === 'string'
-                                  ? item.value
-                                  : item.name
-                              }
-                              checked={item.checked}
-                              data-checked-default={item.checked}
-                            />
-                            <span
-                              class="filter__item__name"
-                              set:html={item.name}
-                            />
-                          </label>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )
-            })
-          }
-        </e-accordion>
+        )
+      })
+    }
+  </e-accordion>
 
-        <SimpleButton class="filter__reset filter__reset-desktop"
-          >Очистить фильтры</SimpleButton
-        >
-      </div>
-      <div class="filter__apply">
-        <e-popover-button
-          class="filter__apply__button"
-          target="filter"
-          >Применить</e-popover-button
-        >
-      </div>
-    </div>
-  </div>
-</e-filter>
+  <SimpleButton class="filter__reset filter__reset-desktop"
+    >Очистить фильтры</SimpleButton
+  >
+</SwipeModal>
 
 <style is:global>
   .filter {
-    --escape: true;
-    --click-outside: true;
-
-    --modal-duration: 0.4s;
-    --accordion-duration: 0.3s;
-
     @media (min-width: 769px) {
       position: sticky;
       top: 0;
 
       height: calc(var(--viewport-height) - var(--header-height));
-
-      opacity: 1 !important;
-      display: block !important;
-    }
-
-    @media (max-width: 768px) {
-      --swipe-enabled: true;
-
-      position: fixed;
-      top: 0;
-      left: 0;
-
-      z-index: var(--z-filter);
-
-      width: 100%;
-      height: 100%;
-
-      opacity: 0;
-      display: none;
-
-      transition: opacity var(--modal-duration);
-
-      pointer-events: none;
-
-      background-color: rgba(0, 0, 0, 0.4);
     }
   }
 
-  .filter__inner {
-    @media (min-width: 769px) {
-      height: 100%;
-    }
-
-    @media (max-width: 768px) {
-      width: 100%;
-      height: 100%;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-
-      overflow: hidden auto;
-
-      transform: translateY(101%);
-      transition: transform var(--modal-duration);
-
-      .filter.opened & {
-        transform: translateY(0%);
-      }
-
-      .filter.closing & {
-        transform: translateY(101%);
-      }
-    }
-  }
-
-  .filter__swipe {
-    @media (min-width: 769px) {
-      overscroll-behavior: contain;
-
-      overflow: hidden auto;
-      height: 100%;
-    }
-
-    @media (max-width: 768px) {
-      position: relative;
-
-      max-height: 85vh;
-
-      pointer-events: auto;
-      overflow: hidden auto;
-
-      border-top-left-radius: 0.8rem;
-      border-top-right-radius: 0.8rem;
-    }
-  }
-
-  .filter__swipe__top {
-    @media (min-width: 769px) {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      position: sticky;
-      top: 0;
-      left: 0;
-
-      z-index: 1;
-
-      background-color: var(--color-grey-1);
-    }
-  }
-
-  .filter__swipe__top__decoration {
-    width: 100%;
-    height: 2rem;
-    margin-bottom: 2rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background-color: var(--color-grey-1);
-
-    &::after {
-      content: '';
-
-      display: block;
-
-      width: 4rem;
-      height: 0.2rem;
-
-      border-radius: 100rem;
-
-      background-color: var(--color-white-1);
-    }
-  }
-
-  .filter__content {
+  .filter .swipe-modal__content {
     @media (min-width: 769px) {
       width: 38.4rem;
-    }
-
-    @media (max-width: 768px) {
-      padding: 0rem var(--screen-horisontal-padding)
-        var(--screen-horisontal-padding) var(--screen-horisontal-padding);
-
-      background-color: var(--color-grey-1);
     }
   }
 
@@ -449,77 +295,6 @@ const {
     @media (max-width: 768px) {
       display: none;
     }
-  }
-
-  .filter__apply {
-    @media (min-width: 769px) {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      position: sticky;
-      bottom: -1px;
-
-      width: 100%;
-      height: 9.3rem;
-
-      padding: 0 var(--screen-horisontal-padding);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background-color: var(--color-grey-1);
-
-      filter: drop-shadow(0 -0.3rem 0.4rem rgba(63, 63, 63, 0.25));
-    }
-  }
-
-  .filter__apply__button {
-    --type: close;
-
-    @media (max-width: 768px) {
-      font-size: 1.6rem;
-      text-transform: uppercase;
-
-      width: 100%;
-      height: 4.5rem;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      color: var(--color-grey-1);
-      border-radius: 4rem;
-      background-color: var(--color-white-1);
-
-      cursor: pointer;
-    }
-  }
-
-  .filter__swipe__top__buttons {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 3rem;
-  }
-
-  .filter__back {
-    --type: close;
-    display: flex;
-    align-items: center;
-  }
-
-  .filter__back__arrow {
-    width: 1.8rem;
-    height: 1.8rem;
-    margin-right: 0.8rem;
-
-    fill: var(--color-white-1);
-    transform: rotate(-180deg);
-  }
-
-  .filter__back__name {
-    font-size: 1.6rem;
   }
 
   .filter__reset {
