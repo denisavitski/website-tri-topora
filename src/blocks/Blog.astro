@@ -274,9 +274,15 @@ marticles.forEach((article) => {
         this.#filterListener,
       )
 
+      const initialHashtag = decodeURI(location.hash).replace('#', '')
+
       customElements.whenDefined('hashtags-filter').then(() => {
         if (this.isConnected) {
-          this.#filter(false)
+          if (initialHashtag) {
+            this.#filterElement?.changeValue(initialHashtag)
+          } else {
+            this.#filter(false)
+          }
         }
       })
 
@@ -323,6 +329,7 @@ marticles.forEach((article) => {
       this.#page = 1
 
       const value = this.#filterElement?.value
+      location.hash = value || ''
 
       const { elements, pagination } = this.#apiEmulation({
         filter: this.#filterElement?.value,

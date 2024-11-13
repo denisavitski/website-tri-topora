@@ -1,0 +1,279 @@
+---
+import Counter, { type Props as CounterProps } from '@elements/Counter.astro'
+import FullArticle from '@elements/FullArticle.astro'
+
+export interface Props {
+  restHeading?: string
+  rest?: Array<{ hashtags?: Array<string>; title?: string; href?: string }>
+  hashtags?: Array<Omit<CounterProps, 'class'>>
+}
+
+const {
+  restHeading = 'Другие статьи',
+  rest = [
+    {
+      hashtags: ['Строительство'],
+      title: 'Из каких материалов строятся деревянные дома',
+      href: '/blog',
+    },
+    {
+      hashtags: ['Строительство'],
+      title: 'Из каких материалов строятся деревянные дома',
+      href: '/blog',
+    },
+    {
+      hashtags: ['Строительство'],
+      title: 'Из каких материалов строятся деревянные дома',
+      href: '/blog',
+    },
+    {
+      hashtags: ['Строительство'],
+      title: 'Из каких материалов строятся деревянные дома',
+      href: '/blog',
+    },
+  ],
+  hashtags = [
+    {
+      name: 'Все',
+      amount: 24,
+    },
+    {
+      name: 'Дизайн',
+      amount: 4,
+    },
+    {
+      name: 'Ланшафт',
+      amount: 4,
+    },
+    {
+      name: 'Архитектура',
+      amount: 4,
+    },
+    {
+      name: 'Строительство',
+      amount: 4,
+    },
+    {
+      name: 'Технологии',
+      amount: 4,
+    },
+    {
+      name: 'Ремонт',
+      amount: 4,
+    },
+  ],
+} = Astro.props
+---
+
+<!-- BLOCK -->
+<e-article class="article">
+  <FullArticle class="article__right" />
+
+  <div class="article__left">
+    <div class="article__rest">
+      <h3
+        class="article__rest__heading"
+        set:html={restHeading}
+      />
+      <ul class="article__rest__list">
+        {
+          rest.map((item) => {
+            return (
+              <a
+                href={item.href}
+                class="article__rest__link"
+              >
+                <span class="article__rest__link__hashtags">
+                  {item.hashtags?.map((hashtag) => {
+                    return <span set:html={`#${hashtag}`} />
+                  })}
+                </span>
+                <span
+                  class="article__rest__link__title"
+                  set:html={item.title}
+                />
+              </a>
+            )
+          })
+        }
+      </ul>
+    </div>
+    <!-- 
+      На каждую ссылку нужно добавить атрибут data-hashtag.
+
+      Пример: 
+        data-hashtag="Строительство, Дизайн"
+        data-hashtag="Архитектура"
+    -->
+    <div class="article__hashtags">
+      {
+        hashtags.map((hashtag) => {
+          return (
+            <Counter
+              tag="a"
+              {...hashtag}
+              href={`/blog#${hashtag.name}`}
+              class="article__hashtag"
+              data-hashtag={hashtag.name}
+            />
+          )
+        })
+      }
+    </div>
+  </div>
+</e-article>
+
+<style is:global>
+  .article {
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+    padding-top: 0;
+
+    @media (min-width: 769px) {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 2.4rem;
+    }
+
+    @media (max-width: 768px) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .article__left {
+    width: 38.4rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .article__right {
+    width: 120rem;
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .article__rest {
+    margin-bottom: 4rem;
+  }
+
+  .article__rest__heading {
+    font-size: 2.4rem;
+    font-weight: 500;
+
+    margin-bottom: 2.4rem;
+  }
+
+  .article__rest__list {
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: 1.6rem;
+  }
+
+  .article__rest__link {
+    padding-bottom: 1.6rem;
+    border-bottom: 0.1rem solid var(--color-grey-4);
+
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .article__rest__link__hashtags {
+    font-size: 2rem;
+    line-height: 120%;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    margin-bottom: 1.6rem;
+  }
+
+  .article__rest__link__title {
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 120%;
+  }
+
+  .article__hashtags {
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+  }
+
+  .article__hashtag {
+  }
+</style>
+
+<script>
+  export class ArticleElement extends HTMLElement {
+    protected connectedCallback() {
+      const articleElement = this.querySelector('.full-article')
+
+      const hashtagElements = [
+        ...this.querySelectorAll<HTMLElement>('.article__hashtag'),
+      ]
+
+      const pickDefault = () => {
+        hashtagElements.forEach((el) => {
+          const hashtag = el.getAttribute('data-hashtag')?.toLowerCase().trim()
+
+          if (hashtag === 'все') {
+            el.setAttribute('data-active', 'true')
+          }
+        })
+      }
+
+      if (articleElement) {
+        const articleHashtags = articleElement.getAttribute('data-hashtags')
+
+        if (articleHashtags) {
+          const splitted = articleHashtags
+            .split(',')
+            .map((v) => v.trim().toLowerCase())
+            .filter((v) => !!v)
+
+          if (!splitted.length) {
+            pickDefault()
+          } else {
+            hashtagElements.forEach((el) => {
+              const hashtag = el
+                .getAttribute('data-hashtag')
+                ?.toLowerCase()
+                .trim()
+
+              if (hashtag && splitted.includes(hashtag)) {
+                el.setAttribute('data-active', 'true')
+              } else {
+                el.removeAttribute('data-active')
+              }
+            })
+          }
+        } else {
+          pickDefault()
+        }
+      }
+    }
+  }
+
+  if (!customElements.get('e-article')) {
+    customElements.define('e-article', ArticleElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'e-article': ArticleElement
+    }
+  }
+</script>

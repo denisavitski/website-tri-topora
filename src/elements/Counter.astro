@@ -1,0 +1,90 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+export interface Props extends HTMLAttributes<any> {
+  class?: string
+  name?: string
+  amount?: string | number
+  tag?: string
+}
+
+const {
+  class: className,
+  name = 'Все',
+  amount = '20',
+  tag = 'span',
+  ...rest
+} = Astro.props
+
+const Tag = tag
+---
+
+<Tag
+  {...rest}
+  class:list={['counter', className]}
+>
+  <span
+    class="counter__name"
+    set:html={name}
+  />
+  <span
+    class="counter__amount"
+    set:html={amount}
+  />
+</Tag>
+
+<style is:global>
+  .counter {
+    padding: 0.8rem 2.4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
+    cursor: pointer;
+    border-radius: 4rem;
+    border: 0.1rem solid var(--color-white-1);
+
+    transition-property: border-color, color, background-color;
+    transition-duration: var(--duration-button);
+
+    input:checked ~ &,
+    &[data-active] {
+      border-color: transparent;
+      background-color: var(--color-white-1);
+      color: var(--color-grey-1);
+    }
+
+    @media (min-width: 769px) {
+      &:hover {
+        border-color: transparent;
+        background-color: var(--color-white-1);
+        color: var(--color-grey-1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 0.8rem 1.6rem;
+    }
+  }
+
+  .counter__name {
+    text-transform: capitalize;
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+  }
+
+  .counter__amount {
+    font-size: 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+
+    color: var(--color-grey-5);
+  }
+</style>
