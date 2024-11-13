@@ -1,6 +1,6 @@
 ---
 import Image, { type ImageDataProps } from '@elements/Image.astro'
-import TechnologyRichText from '@elements/TechnologyRichText.astro'
+import RichText from '@elements/RichText.astro'
 import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
 
 export interface Props {
@@ -35,7 +35,7 @@ const {
   data-image-size={imageSize}
   {heading}
 >
-  <TechnologyRichText
+  <RichText
     slot={'col-1'}
     text={text}
   />

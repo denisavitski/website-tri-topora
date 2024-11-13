@@ -1,6 +1,6 @@
 ---
 import Image, { type ImageDataProps } from '@elements/Image.astro'
-import TechnologyRichText from '@elements/TechnologyRichText.astro'
+import RichText from '@elements/RichText.astro'
 import Showcase, { type ShowcaseDirection } from '@elements/Showcase.astro'
 
 export interface Props {
@@ -48,7 +48,7 @@ const {
     rounded
     class="showcase-7__left-image"
   />
-  <TechnologyRichText
+  <RichText
     slot={'col-1'}
     text={text2}
     class="showcase-7__left-rich"
@@ -74,7 +74,7 @@ const {
       class="showcase-7__left-images__image"
     />
   </div>
-  <TechnologyRichText
+  <RichText
     slot={'col-2'}
     text={text1}
     class="showcase-7__right-rich"

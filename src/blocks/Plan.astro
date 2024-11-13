@@ -1,0 +1,88 @@
+---
+import Image, { type ImageDataProps } from '@elements/Image.astro'
+import RichText from '@elements/RichText.astro'
+
+export interface Props {
+  class?: string
+  text1?: string
+  text2?: string
+  image?: ImageDataProps
+}
+
+const {
+  text1 = '<h3>Для ответа на эти вопросы нужен проект дизайна будущего строения. Получается одновременно с проектирование и расчётом фундамента стартует несколько направлений проектной работы</h3>',
+  text2 = '<h3>а именно:</h3><ul><li>Схема планировки участка;</li><li>Архитектурный и конструктивный разделы проекта строения;</li><li>Проект дизайна, который является техническим заданием для разработки инженерных разделов;</li><li>Проекты отоплению, вентиляции, водоснабжения, канализации;</li><li>Электросети. Слаботочные сети такие как интернет, видеонаблюдение, охранная и пожарная сигнализации.</li><li>Проект благоустройства ландшафта</li></ul>',
+  image = { src: '/images/dev/1.jpg' },
+} = Astro.props
+---
+
+<section class="plan">
+  <div class="plan__left">
+    <RichText
+      class="plan__left__right"
+      text={text1}
+    />
+    <Image
+      class="plan__image"
+      cover
+      lazy
+      lazyBackground
+      rounded
+      {...image}
+    />
+  </div>
+
+  <RichText
+    class="plan__right"
+    text={text2}
+  />
+</section>
+
+<style is:global>
+  .plan {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+
+    display: flex;
+    gap: 2.4rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .plan__left {
+    flex-shrink: 0;
+    width: 79.4rem;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .plan__image {
+    height: 22rem;
+
+    @media (max-width: 768px) {
+      width: calc(100% + var(--screen-horisontal-padding) * 2);
+      margin-left: calc(var(--screen-horisontal-padding) * -1);
+      height: 19rem;
+    }
+  }
+
+  .plan__right {
+    line-height: normal;
+
+    h3 {
+      text-indent: 0;
+
+      margin-bottom: 2.4rem;
+
+      @media (max-width: 768px) {
+        margin-bottom: 1.6rem;
+      }
+    }
+  }
+</style>
