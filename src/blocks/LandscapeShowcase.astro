@@ -1,0 +1,94 @@
+---
+import ServiceSlider, {
+  type Props as ServiceSliderProps,
+} from '@elements/ServiceSlider.astro'
+
+export interface Props {
+  heading?: string
+  sliders?: Array<ServiceSliderProps>
+}
+
+const {
+  heading = 'Значимыми и запоминающимися работами для нас были:',
+  sliders = [
+    {
+      name: 'Стройка пруда с биоплато площадью зеркала 1630 м2 в рамках работ по проекту <b>«Лесная Усадьба»</b>',
+      images: [
+        { src: '/images/dev/1.jpg' },
+        { src: '/images/dev/2.jpg' },
+        { src: '/images/dev/3.jpg' },
+        { src: '/images/dev/4.jpg' },
+        { src: '/images/dev/5.jpg' },
+      ],
+    },
+    {
+      name: 'Работа над проектом ландшафтного дизайна курорта <b>«Добрые Горы»</b>',
+      images: [
+        { src: '/images/dev/1.jpg' },
+        { src: '/images/dev/2.jpg' },
+        { src: '/images/dev/3.jpg' },
+        { src: '/images/dev/4.jpg' },
+        { src: '/images/dev/5.jpg' },
+      ],
+    },
+  ],
+} = Astro.props
+---
+
+<!-- BLOCk -->
+<section class="landscape-showcase">
+  <h2
+    class="landscape-showcase__heading"
+    set:html={heading}
+  />
+
+  <div class="landscape-showcase__sliders">
+    {
+      sliders.map((slider) => {
+        return <ServiceSlider {...slider} />
+      })
+    }
+  </div>
+</section>
+
+<style is:global>
+  .landscape-showcase {
+    position: relative;
+
+    z-index: calc(var(--z-lines) + 1);
+
+    padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
+    padding-bottom: 16rem;
+
+    @media (max-width: 768px) {
+      padding-bottom: 11.4rem;
+    }
+  }
+
+  .landscape-showcase__heading {
+    font-family: 'Code', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    text-transform: uppercase;
+
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .landscape-showcase__sliders {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: max-content;
+    gap: 8rem;
+
+    @media (max-width: 768px) {
+      gap: 5.8rem;
+    }
+  }
+</style>

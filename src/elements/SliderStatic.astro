@@ -1,0 +1,105 @@
+---
+import SliderButtons from './SliderButtons.astro'
+
+export interface Props {
+  class?: string
+}
+
+const { class: className, ...rest } = Astro.props
+---
+
+<slider-static
+  {...rest}
+  class:list={['slider-static', className]}
+  slot={'static'}
+>
+  <div class="slider-static__info">
+    Фотографии (<span class="slider-static__info__current"></span> из <span
+      class="slider-static__info__total"></span>)
+  </div>
+  <SliderButtons class="slider-static__buttons" />
+</slider-static>
+
+<style is:global>
+  .slider-static {
+    position: absolute;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 19rem;
+
+    @media (max-width: 768px) {
+      width: 14rem;
+      right: unset;
+      left: var(--screen-horisontal-padding);
+      bottom: calc(100% + 1.6rem);
+    }
+  }
+
+  .slider-static__info {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+      margin-bottom: unset;
+    }
+  }
+
+  .slider-static__buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+</style>
+
+<script>
+  import type { ScrollElement } from 'aptechka/scroll'
+
+  export class SliderStaticElement extends HTMLElement {
+    #scrollElement: ScrollElement | null = null
+    #currentElement: HTMLElement | null = null
+    #totalElement: HTMLElement | null = null
+
+    protected connectedCallback() {
+      this.#scrollElement = this.closest('e-scroll')
+
+      customElements.whenDefined('e-scroll').then(() => {
+        setTimeout(() => {
+          if (this.isConnected) {
+            this.#scrollElement?.counter.subscribe(this.#scrollCounterListener)
+          }
+        }, 10)
+      })
+
+      this.#currentElement = this.querySelector('.slider-static__info__current')
+
+      this.#totalElement = this.querySelector('.slider-static__info__total')
+    }
+
+    #scrollCounterListener = () => {
+      const length = this.#scrollElement?.sections.length || 0
+      const counter = this.#scrollElement?.counter.current || 0
+
+      if (this.#currentElement) {
+        this.#currentElement.textContent = (counter + 1).toString()
+      }
+
+      if (this.#totalElement) {
+        this.#totalElement.textContent = length.toString()
+      }
+    }
+  }
+
+  if (!customElements.get('slider-static')) {
+    customElements.define('slider-static', SliderStaticElement)
+  }
+
+  declare global {
+    interface HTMLElementTagNameMap {
+      'slider-static': SliderStaticElement
+    }
+  }
+</script>

@@ -2,7 +2,7 @@
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
-import SliderButtons from '@elements/SliderButtons.astro'
+import SliderStatic from '@elements/SliderStatic.astro'
 
 export interface Props {
   heading?: string
@@ -76,16 +76,7 @@ const {
   </div>
 
   <e-scroll class="variants__slider">
-    <div
-      class="variants__slider__static"
-      slot={'static'}
-    >
-      <div class="variants__slider__info">
-        Фотографии (<span class="variants__slider__info__current"></span> из <span
-          class="variants__slider__info__total"></span>)
-      </div>
-      <SliderButtons class="variants__slider__buttons" />
-    </div>
+    <SliderStatic class="variants__slider__static" />
 
     {
       types.map((item) => {
@@ -243,6 +234,17 @@ const {
     }
   }
 
+  .variants__slider__static {
+    right: calc(100% + 2.4rem);
+    bottom: 0;
+
+    @media (max-width: 768px) {
+      right: unset;
+      left: var(--screen-horisontal-padding);
+      bottom: calc(100% + 1.6rem);
+    }
+  }
+
   .variants__slider__image {
     width: 92.4rem;
 
@@ -273,40 +275,6 @@ const {
       width: 34.3rem;
     }
   }
-
-  .variants__slider__static {
-    position: absolute;
-    z-index: 1;
-    right: calc(100% + 2.4rem);
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 19rem;
-
-    @media (max-width: 768px) {
-      width: 14rem;
-      right: unset;
-      left: var(--screen-horisontal-padding);
-      bottom: calc(100% + 1.6rem);
-    }
-  }
-
-  .variants__slider__info {
-    font-size: 2rem;
-    font-weight: 300;
-    margin-bottom: 2.4rem;
-
-    @media (max-width: 768px) {
-      font-size: 1.4rem;
-      margin-bottom: unset;
-    }
-  }
-
-  .variants__slider__buttons {
-    width: 100%;
-    justify-content: space-between;
-  }
 </style>
 
 <script>
@@ -315,8 +283,6 @@ const {
   export class VariantsElement extends HTMLElement {
     #scrollElement: ScrollElement | null = null
     #listButtonElements: Array<HTMLElement> = []
-    #currentSlideInfoElement: HTMLElement | null = null
-    #totalSlidesInfoElement: HTMLElement | null = null
 
     protected connectedCallback() {
       this.#listButtonElements = [
@@ -336,13 +302,6 @@ const {
           }
         }, 10)
       })
-
-      this.#currentSlideInfoElement = document.querySelector(
-        '.variants__slider__info__current',
-      )
-      this.#totalSlidesInfoElement = document.querySelector(
-        '.variants__slider__info__total',
-      )
     }
 
     protected disconnectedCallback() {
@@ -361,7 +320,6 @@ const {
     }
 
     #scrollCounterListener = () => {
-      const length = this.#scrollElement?.sections.length || 0
       const counter = this.#scrollElement?.counter.current || 0
 
       this.style.setProperty('--counter', counter.toString())
@@ -373,14 +331,6 @@ const {
           element.classList.remove('current')
         }
       })
-
-      if (this.#currentSlideInfoElement) {
-        this.#currentSlideInfoElement.textContent = (counter + 1).toString()
-      }
-
-      if (this.#totalSlidesInfoElement) {
-        this.#totalSlidesInfoElement.textContent = length.toString()
-      }
     }
   }
 

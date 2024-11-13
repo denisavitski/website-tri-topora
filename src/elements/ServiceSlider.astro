@@ -1,0 +1,136 @@
+---
+import type { ImageDataProps } from './Image.astro'
+import Image from './Image.astro'
+import SliderStatic from './SliderStatic.astro'
+
+export interface Props {
+  class?: string
+  name?: string
+  images?: Array<ImageDataProps>
+}
+
+const {
+  class: className,
+  name = 'Стройка пруда с биоплато площадью зеркала 1630 м2 в рамках работ по проекту <b>«Лесная Усадьба»</b>',
+  images = [
+    { src: '/images/dev/1.jpg' },
+    { src: '/images/dev/2.jpg' },
+    { src: '/images/dev/3.jpg' },
+    { src: '/images/dev/4.jpg' },
+    { src: '/images/dev/5.jpg' },
+  ],
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={['service-slider', className]}
+>
+  <div
+    class="service-slider__name"
+    set:html={name}
+  />
+
+  <e-scroll class="service-slider__scroll">
+    <SliderStatic
+      class="service-slider__scroll__buttons"
+      slot="static"
+    />
+
+    {
+      images.map((image) => {
+        return (
+          <div class="service-slider__scroll__item">
+            <Image
+              class="service-slider__scroll__image"
+              cover
+              lazy
+              lazyBackground
+              rounded
+              {...image}
+            />
+          </div>
+        )
+      })
+    }
+  </e-scroll>
+</div>
+
+<style is:global>
+  .service-slider {
+  }
+
+  .service-slider__name {
+    font-size: 2.2rem;
+    font-weight: 300;
+
+    width: 53.3rem;
+    margin-bottom: 1.6rem;
+
+    b {
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      font-size: 1.6rem;
+    }
+  }
+
+  .service-slider__scroll {
+    --axis: x;
+    --sectional: true;
+    --gap: 2.4rem;
+    --sections-in-view: 2;
+    --classes: true;
+    --auto-size: true;
+    --overflow: hidden;
+
+    width: 100%;
+    height: 48rem;
+
+    @media (max-width: 768px) {
+      --gap: 0.8rem;
+      --sections-in-view: 1;
+      --overflow: unset;
+      height: 28.1rem;
+    }
+  }
+
+  .service-slider__scroll__buttons {
+    position: absolute;
+
+    width: max-content;
+
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+
+    .slider-static__info {
+      white-space: nowrap;
+      margin-bottom: 0;
+    }
+
+    @media (min-width: 769px) {
+      bottom: calc(100% + 2.4rem);
+      right: 0;
+    }
+
+    @media (max-width: 768px) {
+      top: calc(100% + 2.4rem);
+      left: unset;
+      right: 0;
+    }
+  }
+
+  .service-slider__scroll__item {
+    width: 106.4rem;
+    height: 100%;
+  }
+
+  .service-slider__scroll__image {
+    width: 100%;
+    height: 100%;
+  }
+</style>

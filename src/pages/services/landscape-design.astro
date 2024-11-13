@@ -2,6 +2,7 @@
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import Expert from '@blocks/Expert.astro'
 import Feedback from '@blocks/Feedback.astro'
+import LandscapeShowcase from '@blocks/LandscapeShowcase.astro'
 import ServiceIntro from '@blocks/ServiceIntro.astro'
 import Works from '@blocks/Works.astro'
 import Layout from '@layout/Layout.astro'
@@ -48,6 +49,32 @@ import { getHref } from '@utils/url'
       {
         description:
           'Вопросы ландшафтного дизайна, устройства ограждений, дорожек, детских площадок и малых архитектурных форм Вы можете поручить нам. В случае сложных и специфических задач Три Топора привлекает партнерские организации.',
+      },
+    ]}
+  />
+
+  <LandscapeShowcase
+    heading="Значимыми и запоминающимися работами для нас были:"
+    sliders={[
+      {
+        name: 'Стройка пруда с биоплато площадью зеркала 1630 м2 в рамках работ по проекту <b>«Лесная Усадьба»</b>',
+        images: [
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+        ],
+      },
+      {
+        name: 'Работа над проектом ландшафтного дизайна курорта <b>«Добрые Горы»</b>',
+        images: [
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+          { src: '/images/services/landscape-design/example.jpg' },
+        ],
       },
     ]}
   />
