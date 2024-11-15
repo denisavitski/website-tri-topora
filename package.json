@@ -3,10 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev --host",
+    "dev": "NODE_ENV=development astro dev --host",
     "start": "astro dev",
-    "build": "astro check && astro build",
-    "bap": "astro build && astro preview",
+    "build": "astro check && NODE_ENV=production astro build",
+    "bap": "NODE_ENV=production astro build && astro preview",
     "preview": "astro preview",
     "astro": "astro",
     "optimize": "tsx ./optimize/index.ts"
