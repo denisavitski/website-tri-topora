@@ -73,12 +73,17 @@ const {
           })
         }
       </div>
-      <ArrowButton
-        class="approach__letter-button"
-        target="founder-letter"
-        tag="e-popover-button"
-        >Написать управляющему</ArrowButton
+      <Toaster
+        vector={'up'}
+        class="approach__letter-button-wrapper"
       >
+        <ArrowButton
+          class="approach__letter-button"
+          target="founder-letter"
+          tag="e-popover-button"
+          >Написать управляющему</ArrowButton
+        >
+      </Toaster>
     </div>
   </div>
 </CaptureOnce>
@@ -182,9 +187,17 @@ const {
     }
   }
 
-  .approach__letter-button {
+  .approach__letter-button-wrapper {
+    --transition: 0.4s 0.5s;
+
     margin-left: auto;
 
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .approach__letter-button {
     @media (max-width: 768px) {
       width: 100%;
     }
