@@ -2,10 +2,12 @@
   "singleQuote": true,
   "tabWidth": 2,
   "semi": false,
-  "printWidth": 80,
+  "printWidth": 123213213,
   "arrowParens": "always",
+  "bracketSameLine": true,
   "bracketSpacing": true,
-  "singleAttributePerLine": true,
+  "singleAttributePerLine": false,
+  "htmlWhitespaceSensitivity": "strict",
   "plugins": ["prettier-plugin-astro"],
   "overrides": [
     {
