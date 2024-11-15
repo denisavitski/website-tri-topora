@@ -9,10 +9,12 @@ import Toaster from '@elements/Toaster.astro'
 export interface Props {
   heading?: string
   list?: Array<ServiceCardProps>
+  cols?: 2 | 3
 }
 
 const {
   heading = 'Услуги',
+  cols = 3,
   list = [
     {
       href: '/services/carpentry',
@@ -55,7 +57,10 @@ const {
 ---
 
 <!-- BLOCK -->
-<CaptureOnce class="services">
+<CaptureOnce
+  class="services"
+  data-cols={cols}
+>
   <SectionHeading
     class="services__heading"
     text={heading}
@@ -112,8 +117,16 @@ const {
 
   .services__list {
     display: grid;
+
     grid-template-columns: repeat(3, 1fr);
+
     gap: 2.4rem;
+
+    @media (min-width: 769px) {
+      .services[data-cols='2'] & {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
     @media (max-width: 768px) {
       grid-template-columns: 100%;
@@ -125,6 +138,12 @@ const {
     --transition: 0.7s calc(0.05s * var(--index, 0));
 
     height: 42rem;
+
+    @media (min-width: 769px) {
+      .services[data-cols='2'] & {
+        height: 50rem;
+      }
+    }
 
     @media (max-width: 768px) {
       height: 31.5rem;

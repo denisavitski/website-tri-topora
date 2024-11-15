@@ -33,6 +33,7 @@ const {
   <Image
     class="service-card__image"
     {...image}
+    cover
     lazy
     lazyBackground
   />
@@ -106,10 +107,11 @@ const {
     height: 100%;
 
     @media (hover: hover) {
+      will-change: transform;
       transition: transform var(--duration-button);
 
       .service-card:hover & {
-        transform: scale(1.01);
+        transform: scale(1.02);
       }
     }
   }
