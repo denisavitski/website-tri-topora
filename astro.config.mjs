@@ -7,8 +7,6 @@ import { loadEnv } from 'vite'
 // https://astro.build/config
 const { PUBLIC_DOMAIN } = loadEnv(process.env.NODE_ENV || '', process.cwd(), '')
 
-console.log('AAAA', PUBLIC_DOMAIN)
-
 // https://astro.build/config
 export default defineConfig({
   site: `https://${PUBLIC_DOMAIN || 'my-site'}/`,
