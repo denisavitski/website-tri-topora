@@ -99,6 +99,13 @@ export class SegmentElement extends HTMLElement {
   }
 
   protected connectedCallback() {
+    const morphElement = this.closest('[data-morph]') as HTMLElement
+    const morphDuration =
+      parseFloat(
+        getComputedStyle(morphElement).getPropertyValue('--morph-duration') ||
+          '0',
+      ) * 1000
+
     this.#scrollElement = findScrollParentElement(this)
 
     setTimeout(
@@ -128,7 +135,7 @@ export class SegmentElement extends HTMLElement {
           this.#captureOnceCSSProperty.observe()
         }
       },
-      SegmentElement.__loaded ? 10 : 500,
+      SegmentElement.__loaded ? morphDuration / 4 : 500,
     )
 
     SegmentElement.__setLoaded()

@@ -98,7 +98,7 @@ const { header = true, footer = true, lines = true, seo } = Astro.props
     grid-template-columns: 100%;
     overflow: hidden;
 
-    --morph-duration: 0.4s;
+    --morph-duration: 0.6s;
     --ease: var(--ease-1);
 
     background-color: var(--color-grey-1);
@@ -133,20 +133,29 @@ const { header = true, footer = true, lines = true, seo } = Astro.props
       transition-timing-function: var(--ease);
       transition-property: transform, opacity;
 
-      /* transform: translate3d(0, -2rem, 0) scale(0.97); */
-      transform-origin: top;
+      transform-origin: bottom;
 
       pointer-events: none;
+
+      @media (min-width: 769px) {
+        transform: translateY(10rem) scale(0.96);
+      }
     }
 
     .out &.old {
-      opacity: 0.5;
+      opacity: 0.3;
     }
 
     &.new {
-      /* clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); */
-      /* transform: translate3d(0, 2rem, 0); */
-      opacity: 0;
+      z-index: 1;
+
+      @media (min-width: 769px) {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      }
+
+      @media (max-width: 768px) {
+        opacity: 0;
+      }
     }
 
     &.in {
@@ -154,9 +163,13 @@ const { header = true, footer = true, lines = true, seo } = Astro.props
       transition-timing-function: var(--ease);
       transition-property: transform, clip-path, opacity;
 
-      /* clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); */
-      /* transform: translate3d(0, 0, 0); */
-      opacity: 1;
+      @media (min-width: 769px) {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+
+      @media (max-width: 768px) {
+        opacity: 1;
+      }
     }
   }
 

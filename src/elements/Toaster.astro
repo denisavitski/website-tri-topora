@@ -44,23 +44,24 @@ const {
       }
 
       .toaster[data-type='clip'] & {
+        will-change: clip-path;
         transition: clip-path var(--transition, 0.8s);
       }
 
       .toaster[data-vector='up'][data-type='translate'] & {
-        transform: translateY(calc(101% * var(--__cooked)));
+        transform: translate3d(0, calc(101% * var(--__cooked)), 0);
       }
 
       .toaster[data-vector='right'][data-type='translate'] & {
-        transform: translateX(calc(-101% * var(--__cooked)));
+        transform: translate3d(calc(-101% * var(--__cooked)), 0, 0);
       }
 
       .toaster[data-vector='down'][data-type='translate'] & {
-        transform: translateY(calc(-101% * var(--__cooked)));
+        transform: translate3d(0, calc(-101% * var(--__cooked)), 0);
       }
 
       .toaster[data-vector='left'][data-type='translate'] & {
-        transform: translateX(calc(101% * var(--__cooked)));
+        transform: translate3d(calc(101% * var(--__cooked)), 0, 0);
       }
 
       .toaster[data-vector='up'][data-type='clip'] & {

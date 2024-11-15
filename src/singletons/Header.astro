@@ -226,7 +226,7 @@ const {
 
   .header__reveal {
     @media (min-width: 769px) {
-      transition: transform 1s calc(var(--reveal-index) * 0.05s)
+      transition: transform 1s calc(var(--reveal-index, 0) * 0.05s)
         var(--ease-out-expo);
 
       transform: translateY(calc(var(--header-height) * -1));
