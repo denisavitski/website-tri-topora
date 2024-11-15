@@ -1,6 +1,8 @@
 ---
+import CaptureOnce from './CaptureOnce.astro'
 import type { ImageDataProps } from './Image.astro'
 import Image from './Image.astro'
+import ScrollToaster from './ScrollToaster.astro'
 import SliderStatic from './SliderStatic.astro'
 
 export interface Props {
@@ -27,34 +29,41 @@ const {
   {...rest}
   class:list={['service-slider', className]}
 >
-  <div
+  <ScrollToaster
+    type={'clip'}
+    vector={'right'}
     class="service-slider__name"
     set:html={name}
   />
 
-  <e-scroll class="service-slider__scroll">
-    <SliderStatic
-      class="service-slider__scroll__buttons"
-      slot="static"
-    />
+  <CaptureOnce class="service-slider__scroll-wrapper">
+    <e-scroll class="service-slider__scroll">
+      {
+        images.map((image, i) => {
+          return (
+            <div
+              class="service-slider__scroll__item"
+              style={{ '--index': i }}
+            >
+              <Image
+                class="service-slider__scroll__image"
+                cover
+                lazy
+                lazyBackground
+                rounded
+                {...image}
+              />
+            </div>
+          )
+        })
+      }
 
-    {
-      images.map((image) => {
-        return (
-          <div class="service-slider__scroll__item">
-            <Image
-              class="service-slider__scroll__image"
-              cover
-              lazy
-              lazyBackground
-              rounded
-              {...image}
-            />
-          </div>
-        )
-      })
-    }
-  </e-scroll>
+      <SliderStatic
+        class="service-slider__scroll__buttons"
+        slot="static"
+      />
+    </e-scroll>
+  </CaptureOnce>
 </div>
 
 <style is:global>
@@ -110,6 +119,10 @@ const {
     .slider-static__info {
       white-space: nowrap;
       margin-bottom: 0;
+
+      @media (min-width: 769px) {
+        display: none;
+      }
     }
 
     @media (min-width: 769px) {
@@ -127,6 +140,18 @@ const {
   .service-slider__scroll__item {
     width: 106.4rem;
     height: 100%;
+
+    @media (min-width: 769px) {
+      &:nth-of-type(1),
+      &:nth-of-type(2) {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 1.5s calc(0.1s * var(--index, 0));
+
+        .service-slider__scroll-wrapper.captured & {
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+      }
+    }
   }
 
   .service-slider__scroll__image {

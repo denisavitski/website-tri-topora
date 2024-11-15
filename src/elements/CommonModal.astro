@@ -49,21 +49,30 @@ const Tag = tag as any
     height: 100%;
 
     display: none;
-    opacity: 0;
+    opacity: 1 !important;
 
     transition: opacity var(--duration);
-  }
 
-  .common-modal::before {
-    content: '';
+    &::before {
+      content: '';
 
-    position: absolute;
-    width: 100%;
-    height: 100%;
+      position: absolute;
+      width: 100%;
+      height: 100%;
 
-    z-index: -1;
+      z-index: -1;
 
-    background-color: rgba(0, 0, 0, 0.85);
+      background-color: rgba(0, 0, 0, 0.85);
+
+      opacity: 0;
+
+      transition: opacity var(--duration);
+    }
+
+    &.opened::before {
+      transition-duration: var(--duration);
+      opacity: 1;
+    }
   }
 
   .common-modal__inner {
@@ -81,6 +90,19 @@ const Tag = tag as any
     max-height: 100%;
 
     overflow: hidden auto;
+
+    transition: clip-path var(--duration);
+
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+
+    .common-modal.opened & {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .common-modal.closing & {
+      transition-duration: calc(var(--duration) / 2);
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
 
     @media (max-width: 768px) {
       width: 100%;

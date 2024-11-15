@@ -1,8 +1,10 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import ServiceCard, {
   type Props as ServiceCardProps,
 } from '@elements/ServiceCard.astro'
+import Toaster from '@elements/Toaster.astro'
 
 export interface Props {
   heading?: string
@@ -53,24 +55,34 @@ const {
 ---
 
 <!-- BLOCK -->
-<div class="services">
+<CaptureOnce class="services">
   <SectionHeading
     class="services__heading"
     text={heading}
+    revealOnScroll
   />
 
   <ul class="services__list">
     {
-      list.map((item) => {
+      list.map((item, i) => {
         return (
-          <li class="services__list__item">
-            <ServiceCard {...item} />
+          <li
+            class="services__list__item"
+            style={{ '--index': i }}
+          >
+            <Toaster
+              class="services__list__item__inner"
+              vector={'down'}
+              type={'clip'}
+            >
+              <ServiceCard {...item} />
+            </Toaster>
           </li>
         )
       })
     }
   </ul>
-</div>
+</CaptureOnce>
 
 <style is:global>
   .services {
@@ -80,6 +92,10 @@ const {
     @media (max-width: 768px) {
       padding-left: 0;
       padding-right: 0;
+    }
+
+    &.captured {
+      --cooked: 1;
     }
   }
 
@@ -104,10 +120,25 @@ const {
   }
 
   .services__list__item {
+    --transition: 0.7s calc(0.05s * var(--index, 0));
+
     height: 42rem;
 
     @media (max-width: 768px) {
       height: 31.5rem;
+    }
+
+    @media (min-width: 769px) {
+    }
+  }
+
+  .services__list__item__inner {
+    width: 100%;
+    height: 100%;
+
+    .toaster__toast {
+      width: 100%;
+      height: 100%;
     }
   }
 </style>

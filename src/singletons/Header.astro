@@ -91,12 +91,14 @@ const {
 <!-- SINGLETON -->
 <header class="header">
   <Logo
-    class="header__logo"
+    class="header__logo header__reveal"
     src={logo}
+    style={{ '--reveal-index': 0 }}
   />
 
   <Contact
-    class="header__phone"
+    class="header__phone header__reveal"
+    style={{ '--reveal-index': 5 }}
     value={phone}
   />
 
@@ -117,14 +119,15 @@ const {
 
       <nav class="header__nav">
         {
-          nav.map((item) => {
+          nav.map((item, i) => {
             return item.sub ? (
               <div class="header__nav__group">
                 {item.href ? (
                   <a
-                    class="header__nav__link"
+                    class="header__nav__link header__reveal"
                     href={item.href}
                     data-prefetch
+                    style={{ '--reveal-index': i + 1 }}
                   >
                     <span>{item.name}</span>
                   </a>
@@ -152,9 +155,10 @@ const {
               </div>
             ) : (
               <a
-                class="header__nav__link"
+                class="header__nav__link header__reveal"
                 href={item.href}
                 data-prefetch
+                style={{ '--reveal-index': i + 1 }}
               >
                 <span>{item.name}</span>
               </a>
@@ -169,7 +173,8 @@ const {
       />
 
       <Social
-        class="header__social"
+        class="header__social header__reveal"
+        style={{ '--reveal-index': 6 }}
         {...social}
       />
     </div>
@@ -216,6 +221,19 @@ const {
 
     .scrolled &::before {
       opacity: 1;
+    }
+  }
+
+  .header__reveal {
+    @media (min-width: 769px) {
+      transition: transform 1s calc(var(--reveal-index) * 0.05s)
+        var(--ease-out-expo);
+
+      transform: translateY(calc(var(--header-height) * -1));
+
+      .page-loaded & {
+        transform: translateY(0);
+      }
     }
   }
 

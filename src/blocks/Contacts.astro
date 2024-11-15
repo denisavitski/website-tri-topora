@@ -7,7 +7,8 @@ import ContactFolder, {
   type Props as ContactFolderProps,
 } from '@elements/ContactFolder.astro'
 import Icon from '@elements/Icon.astro'
-import Requisites from '@elements/Requisites.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
+import ScrollTextToaster from '@elements/ScrollTextToaster.astro'
 
 export interface Props {
   heading?: string
@@ -108,6 +109,7 @@ const {
   <SectionHeading
     class="contacts__heading"
     text={heading}
+    revealOnScroll
   />
 
   <div class="contacts__content">
@@ -120,7 +122,10 @@ const {
         class="contacts__folder"
         {...schedule}
       />
-      <div class="contacts__messengers">
+      <ScrollToaster
+        vector={'up'}
+        class="contacts__messengers"
+      >
         <div
           class="contacts__messengers__title"
           set:html={messengers.title}
@@ -143,7 +148,7 @@ const {
             })
           }
         </div>
-      </div>
+      </ScrollToaster>
     </div>
     <div class="contacts__col-2">
       <ContactFolder
@@ -160,30 +165,34 @@ const {
         manufacturers.map((item) => {
           return (
             <div class="contacts__manufacturer">
-              <Image
-                {...item.logo}
-                lazy
-                contain
-                class="contacts__manufacturer__logo"
-              />
-              <div
+              <ScrollToaster vector={'up'}>
+                <Image
+                  {...item.logo}
+                  lazy
+                  contain
+                  class="contacts__manufacturer__logo"
+                />
+              </ScrollToaster>
+              <ScrollTextToaster
                 class="contacts__manufacturer__address"
-                set:html={item.address}
+                text={item.address}
               />
             </div>
           )
         })
       }
     </div>
-    <div class="contacts__col-4">
+    <ScrollToaster
+      vector={'up'}
+      class="contacts__col-4"
+    >
       <ArrowButton
         tag="e-popover-button"
         target="requisites"
         class="contacts__requisites-button"
         >Открыть Реквизиты</ArrowButton
       >
-      <Requisites class="contacts__requisites" />
-    </div>
+    </ScrollToaster>
   </div>
 </section>
 
@@ -225,12 +234,14 @@ const {
   }
 
   .contacts__messengers {
-    display: flex;
-    align-items: center;
-    gap: 2.4rem;
+    .toaster__toast {
+      display: flex;
+      align-items: center;
+      gap: 2.4rem;
 
-    @media (max-width: 768px) {
-      gap: 1.6rem;
+      @media (max-width: 768px) {
+        gap: 1.6rem;
+      }
     }
   }
 
@@ -320,8 +331,16 @@ const {
   }
 
   .contacts__col-4 {
-    display: flex;
-    flex-direction: column;
+    .toaster,
+    .toaster__toast {
+      height: 100%;
+    }
+
+    .toaster__toast {
+      display: flex;
+      flex-direction: column;
+    }
+
     margin-left: auto;
 
     @media (max-width: 768px) {

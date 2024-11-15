@@ -1,6 +1,7 @@
 ---
 import Diagonal from '@elements/Diagonal.astro'
 import Image from '@elements/Image.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 
 export interface Props {
@@ -71,8 +72,13 @@ const {
   <SectionHeading
     class="expert__title"
     text={title}
+    revealOnScroll
   />
-  <div class="expert__image-box">
+  <ScrollToaster
+    vector={'down'}
+    type={'clip'}
+    class="expert__image-box"
+  >
     <Image
       class="expert__image"
       src={image}
@@ -102,19 +108,25 @@ const {
         />
       )
     }
-  </div>
+  </ScrollToaster>
   <div class="expert__descriptions">
     <Diagonal class="expert__diagonal-top" />
     <Diagonal class="expert__diagonal-bottom" />
     {
       descriptions.map((description) => {
         return (
-          <p
-            class="expert__description"
-            set:html={description.value}
-            data-align={description.align || 'start'}
-            data-indent={description.indent}
-          />
+          <ScrollToaster
+            vector={'right'}
+            type={'clip'}
+            class="expert__description-wrapper"
+          >
+            <p
+              class="expert__description"
+              set:html={description.value}
+              data-align={description.align || 'start'}
+              data-indent={description.indent}
+            />
+          </ScrollToaster>
         )
       })
     }
@@ -125,17 +137,22 @@ const {
         {areas.map((area) => {
           return (
             <li class="expert__area">
-              <Image
-                class="expert__area__image"
-                src={area.image}
-                alt={area.name}
-                lazy
-                contain
-              />
-              <div
-                class="expert__area__name"
-                set:html={area.name}
-              />
+              <ScrollToaster
+                vector={'up'}
+                class="expert__area__inner"
+              >
+                <Image
+                  class="expert__area__image"
+                  src={area.image}
+                  alt={area.name}
+                  lazy
+                  contain
+                />
+                <div
+                  class="expert__area__name"
+                  set:html={area.name}
+                />
+              </ScrollToaster>
             </li>
           )
         })}
@@ -206,19 +223,25 @@ const {
     }
   }
 
+  .expert__description-wrapper {
+    --transition: 1.5s;
+
+    .toaster {
+      padding: 0.8rem 0;
+      padding-left: var(--padding-left);
+      padding-right: var(--padding-right);
+
+      border-bottom: 0.1rem solid var(--color-white-2);
+    }
+
+    &:first-of-type .toaster {
+      border-top: 0.1rem solid var(--color-white-2);
+    }
+  }
+
   .expert__description {
     font-size: 2.4rem;
     text-transform: uppercase;
-
-    padding: 0.8rem 0;
-    padding-left: var(--padding-left);
-    padding-right: var(--padding-right);
-
-    border-bottom: 0.1rem solid var(--color-white-2);
-
-    &:first-of-type {
-      border-top: 0.1rem solid var(--color-white-2);
-    }
 
     &[data-align='end'] {
       text-align: end;
@@ -263,9 +286,14 @@ const {
   }
 
   .expert__area {
-    display: flex;
-    align-items: flex-end;
-    gap: 1.6rem;
+  }
+
+  .expert__area__inner {
+    .toaster__toast {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.6rem;
+    }
   }
 
   .expert__area__image {

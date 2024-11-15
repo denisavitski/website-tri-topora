@@ -2,6 +2,7 @@
 import SectionHeading from '@elements/SectionHeading.astro'
 import NewsCard, { type Props as NewsCardProps } from '@elements/NewsCard.astro'
 import ArrowButton from '@elements/ArrowButton.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 
 export interface Props {
   heading?: string
@@ -45,10 +46,15 @@ const {
   <SectionHeading
     class="latest-news__heading"
     text={heading}
+    revealOnScroll
   />
 
   <div class="latest-news__content">
-    <div class="latest-news__large">
+    <ScrollToaster
+      vector={'right'}
+      type={'clip'}
+      class="latest-news__large"
+    >
       {
         largeArticles.map((article) => {
           return (
@@ -60,19 +66,24 @@ const {
           )
         })
       }
-    </div>
+    </ScrollToaster>
 
     <div class="latest-news__small">
       <div class="latest-news__small__list">
         {
           smallArticles.map((article) => {
             return (
-              <NewsCard
-                class="latest-news__small__card"
-                image={false}
-                hashtags={false}
-                {...article}
-              />
+              <ScrollToaster
+                vector={'right'}
+                type={'clip'}
+              >
+                <NewsCard
+                  class="latest-news__small__card"
+                  image={false}
+                  hashtags={false}
+                  {...article}
+                />
+              </ScrollToaster>
             )
           })
         }
@@ -105,6 +116,8 @@ const {
   }
 
   .latest-news__content {
+    --transition: 1.2s;
+
     display: flex;
 
     @media (max-width: 768px) {

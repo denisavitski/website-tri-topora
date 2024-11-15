@@ -1,4 +1,5 @@
 ---
+import CaptureOnce from './CaptureOnce.astro'
 import SectionHeading from './SectionHeading.astro'
 
 export type ShowcaseDirection = 'ltr' | 'rtl'
@@ -22,10 +23,11 @@ const { class: className, direction = 'ltr', heading, ...rest } = Astro.props
       <SectionHeading
         class="showcase__heading"
         text={heading}
+        revealOnScroll
       />
     )
   }
-  <div class="showcase__cols">
+  <CaptureOnce class="showcase__cols">
     <div class="showcase__col">
       <slot name="col-1" />
     </div>
@@ -33,7 +35,7 @@ const { class: className, direction = 'ltr', heading, ...rest } = Astro.props
     <div class="showcase__col">
       <slot name="col-2" />
     </div>
-  </div>
+  </CaptureOnce>
 </div>
 
 <style is:global>
@@ -74,5 +76,19 @@ const { class: className, direction = 'ltr', heading, ...rest } = Astro.props
   .showcase__col {
     display: flex;
     flex-direction: column;
+
+    @media (min-width: 769px) {
+      transition: clip-path 1.5s;
+
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+      &:nth-of-type(2) {
+        transition-delay: 0.2s;
+      }
+
+      .showcase__cols.captured & {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+    }
   }
 </style>

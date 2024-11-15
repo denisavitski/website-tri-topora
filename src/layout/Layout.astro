@@ -11,6 +11,7 @@ import Consultation from '@singletons/Consultation.astro'
 import ImagesModal from '@singletons/ImagesModal.astro'
 import FounderLetter from '@singletons/FounderLetter.astro'
 import Lines from '@singletons/Lines.astro'
+import Requisites from '@singletons/Requisites.astro'
 
 export interface Props {
   header?: boolean
@@ -38,6 +39,7 @@ const { header = true, footer = true, lines = true, seo } = Astro.props
       <ImagesModal />
       <FounderLetter />
       <Consultation />
+      <Requisites />
       <FormAnswer />
 
       <div
@@ -70,7 +72,7 @@ const { header = true, footer = true, lines = true, seo } = Astro.props
 
     .page-loaded & {
       opacity: 1;
-      transition: opacity 1.5s;
+      transition: opacity 1s;
       pointer-events: auto;
     }
   }

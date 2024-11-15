@@ -2,10 +2,13 @@
 import CardInfo, { type Props as CardInfoProps } from '@elements/CardInfo.astro'
 import type { ImageDataProps } from './Image.astro'
 import Image from './Image.astro'
+import type { HTMLAttributes } from 'astro/types'
 
 export type ProjectProps = Omit<CardInfoProps, 'size' | 'class'> & {}
 
-export interface Props extends Omit<CardInfoProps, 'size' | 'class'> {
+export interface Props
+  extends Omit<CardInfoProps, 'size' | 'class'>,
+    HTMLAttributes<any> {
   class?: string
   href?: string | undefined
   image?: ImageDataProps | undefined

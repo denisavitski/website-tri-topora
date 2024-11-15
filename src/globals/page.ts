@@ -54,7 +54,7 @@ document.addEventListener('morphStart', (e) => {
   updateScrollElement(e.detail.newDocument)
 })
 
-addEventListener('DOMContentLoaded', () => {
+addEventListener('load', () => {
   document.documentElement.classList.add('page-loaded')
   updateSize()
 })

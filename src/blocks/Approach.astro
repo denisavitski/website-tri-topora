@@ -2,6 +2,8 @@
 import ArrowButton from '@elements/ArrowButton.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import Manager, { type Props as ManagerProps } from '@elements/Manager.astro'
+import CaptureOnce from '@elements/CaptureOnce.astro'
+import Toaster from '@elements/Toaster.astro'
 
 export interface Props {
   heading?: string
@@ -29,30 +31,47 @@ const {
 ---
 
 <!-- BLOCK -->
-<div class="approach">
+<CaptureOnce class="approach">
   <SectionHeading
     class="approach__heading"
     text={heading}
+    revealOnScroll
   />
   <div class="approach__content">
-    <Manager
-      {...founder}
-      class="approach__founder"
-    />
-    <div class="approach__texts">
-      <h3
-        class="approach__subtitle"
-        set:html={subtitle}
+    <Toaster
+      vector={'down'}
+      type={'clip'}
+    >
+      <Manager
+        {...founder}
+        class="approach__founder"
       />
+    </Toaster>
+    <div class="approach__texts">
+      <Toaster
+        vector={'right'}
+        type={'clip'}
+        class="approach__subtitle"
+      >
+        <h3
+          class="approach__subtitle"
+          set:html={subtitle}
+        /></Toaster
+      >
       <div class="approach__paragraphs">
-        <p
-          class="approach__paragraph"
-          set:html={paragraph1}
-        />
-        <p
-          class="approach__paragraph"
-          set:html={paragraph2}
-        />
+        {
+          [paragraph1, paragraph2].map((item) => {
+            return (
+              <Toaster
+                vector={'right'}
+                type={'clip'}
+                class="approach__paragraph"
+              >
+                <p set:html={item} />
+              </Toaster>
+            )
+          })
+        }
       </div>
       <ArrowButton
         class="approach__letter-button"
@@ -62,7 +81,7 @@ const {
       >
     </div>
   </div>
-</div>
+</CaptureOnce>
 
 <style is:global>
   .approach {
@@ -71,6 +90,10 @@ const {
 
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
     padding-top: 0;
+
+    .page-loaded &.captured {
+      --cooked: 1;
+    }
   }
 
   .approach__heading {
@@ -114,7 +137,7 @@ const {
   .approach__subtitle {
     font-family: 'Code', sans-serif;
     font-size: 2.4rem;
-    text-indent: 6.3rem;
+
     text-transform: uppercase;
 
     width: 79.2rem;
@@ -126,6 +149,10 @@ const {
 
       width: 100%;
       margin-bottom: 1.6rem;
+    }
+
+    .word:first-of-type {
+      text-indent: 6.3rem;
     }
   }
 

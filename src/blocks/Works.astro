@@ -1,5 +1,6 @@
 ---
 import Image, { type ImageDataProps } from '@elements/Image.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import SimpleButton from '@elements/SimpleButton.astro'
 
@@ -43,11 +44,16 @@ const {
   <SectionHeading
     class="works__heading"
     text={heading}
+    revealOnScroll
   />
 
   {
     description && description.length && (
-      <div class="works__description">
+      <ScrollToaster
+        vector={'right'}
+        type={'clip'}
+        class="works__description"
+      >
         {description.map((item) => {
           return (
             <div
@@ -56,7 +62,7 @@ const {
             />
           )
         })}
-      </div>
+      </ScrollToaster>
     )
   }
 
@@ -64,15 +70,20 @@ const {
     {
       list.map((item, i) => {
         return (
-          <Image
-            class="works__list__item"
-            {...item}
-            lazy
-            lazyBackground
-            cover
-            aria-hidden={i > 9}
-            rounded
-          />
+          <ScrollToaster
+            type={'clip'}
+            vector={i % 2 === 0 ? 'left' : 'right'}
+          >
+            <Image
+              class="works__list__item"
+              {...item}
+              lazy
+              lazyBackground
+              cover
+              aria-hidden={i > 9}
+              rounded
+            />
+          </ScrollToaster>
         )
       })
     }
@@ -154,6 +165,8 @@ const {
   }
 
   .works__list {
+    --transition: 1.5s;
+
     --columns: 2;
     --gap: 2.4rem;
 

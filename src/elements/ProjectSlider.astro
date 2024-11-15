@@ -1,5 +1,7 @@
 ---
+import CaptureOnce from './CaptureOnce.astro'
 import Image from './Image.astro'
+import ScrollToaster from './ScrollToaster.astro'
 import SectionHeading from './SectionHeading.astro'
 import SliderButton from './SliderButton.astro'
 import Stats, { type StatsItem } from './Stats.astro'
@@ -91,7 +93,11 @@ const {
   {...rest}
   class:list={['project-slider', className]}
 >
-  <div class="project-slider__main-window">
+  <ScrollToaster
+    vector={'down'}
+    type={'clip'}
+    class="project-slider__main-window"
+  >
     <SectionHeading
       class="project-slider__heading"
       text={name}
@@ -123,31 +129,34 @@ const {
       type={'next'}
       tag="button"
     />
-  </div>
+  </ScrollToaster>
 
-  <div class="project-slider__miniatures-wrapper">
+  <CaptureOnce class="project-slider__miniatures-wrapper">
     <e-scroll class="project-slider__miniatures">
       {
-        items.map((item) => {
+        items.map((item, i) => {
           return (
             <div
               class="project-slider__miniature"
               data-full-src={item.full}
+              style={{ '--index': i }}
             >
-              <Image
-                class="project-slider__miniature__image"
-                src={item.miniature}
-                alt={item.alt}
-                lazy
-                lazyBackground
-                cover
-              />
+              <div class="project-slider__miniature__clip">
+                <Image
+                  class="project-slider__miniature__image"
+                  src={item.miniature}
+                  alt={item.alt}
+                  lazy
+                  lazyBackground
+                  cover
+                />
+              </div>
             </div>
           )
         })
       }
     </e-scroll>
-  </div>
+  </CaptureOnce>
 </project-slider>
 
 <style is:global>
@@ -168,29 +177,38 @@ const {
     position: relative;
     height: 100%;
 
-    padding: 4rem;
-
-    &::after {
-      content: '';
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      z-index: -1;
-
-      width: 100%;
+    .toaster,
+    .toaster__toast {
       height: 100%;
-
-      background-image: linear-gradient(
-        to bottom,
-        rgba(44, 44, 44, 1) -20%,
-        rgba(58, 58, 58, 0)
-      );
     }
 
-    @media (max-width: 768px) {
-      padding: 1.6rem;
+    .toaster__toast {
+      position: relative;
+
+      padding: 4rem;
+
+      &::after {
+        content: '';
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        z-index: -1;
+
+        width: 100%;
+        height: 100%;
+
+        background-image: linear-gradient(
+          to bottom,
+          rgba(44, 44, 44, 1) -20%,
+          rgba(58, 58, 58, 0)
+        );
+      }
+
+      @media (max-width: 768px) {
+        padding: 1.6rem;
+      }
     }
   }
 
@@ -234,7 +252,7 @@ const {
   .project-slider__button_prev {
     @media (min-width: 769px) {
       left: 0;
-      transform: scaleX(-1) translate(0.3rem, -50%) !important;
+      transform: scaleX(-1) translate(0, -50%) !important;
     }
 
     @media (max-width: 768px) {
@@ -246,7 +264,7 @@ const {
   .project-slider__button_next {
     @media (min-width: 769px) {
       right: 0;
-      transform: scaleX(1) translate(0.3rem, -50%) !important;
+      transform: scaleX(1) translate(0, -50%) !important;
     }
 
     @media (max-width: 768px) {
@@ -285,6 +303,23 @@ const {
 
   .project-slider__miniature {
     width: 100%;
+    cursor: pointer;
+  }
+
+  .project-slider__miniature__clip {
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: 769px) {
+      transition: clip-path 0.8s calc(var(--index) * 0.1s);
+      will-change: clip-path;
+
+      clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+
+      .project-slider__miniatures-wrapper.captured & {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+    }
   }
 
   .project-slider__miniature__image {

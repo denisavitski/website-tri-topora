@@ -53,14 +53,25 @@ const {
 <style is:global>
   .showcase-2__image {
     width: 79.2rem;
+    height: 59.2rem;
 
     .showcase-2[data-image-size='large'] & {
       width: 92.8rem;
     }
 
+    @media (min-width: 769px) {
+      min-height: 100%;
+    }
+
     @media (max-width: 768px) {
       width: calc(100% + var(--screen-horisontal-padding) * 2);
+
       margin-left: calc(var(--screen-horisontal-padding) * -1);
+      width: 32rem;
+
+      img {
+        height: 32rem;
+      }
     }
   }
 

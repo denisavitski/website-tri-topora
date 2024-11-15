@@ -1,5 +1,6 @@
 ---
 import { tryCreateHrefFromContact } from '@utils/href'
+import ScrollTextToaster from './ScrollTextToaster.astro'
 
 export interface Props {
   class?: string
@@ -34,9 +35,9 @@ const {
   {...rest}
   class:list={['contacts-folder', className]}
 >
-  <div
+  <ScrollTextToaster
     class="contacts-folder__title"
-    set:html={title}
+    text={title}
   />
 
   <div class="contacts-folder__body">
@@ -46,15 +47,16 @@ const {
 
         return (
           <div class="contacts-folder__item">
-            {item.title && <div set:html={item.title} />}
+            {item.title && <ScrollTextToaster text={item.title} />}
             {href.href ? (
               <a
                 href={href.href}
-                set:html={item.value}
                 data-type={href.type}
-              />
+              >
+                <ScrollTextToaster text={item.value} />
+              </a>
             ) : (
-              <div set:html={item.value} />
+              <ScrollTextToaster text={item.value} />
             )}
           </div>
         )

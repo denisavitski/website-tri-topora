@@ -2,6 +2,7 @@
 import Diagonal from '@elements/Diagonal.astro'
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 
 export interface ConfortListItem {
@@ -75,6 +76,7 @@ const lists = [list1, list2]
   <SectionHeading
     class="explanation__heading"
     text={heading}
+    revealOnScroll
   />
 
   {
@@ -82,23 +84,28 @@ const lists = [list1, list2]
       return (
         <div class="explanation__list">
           <Diagonal class="explanation__list__diagonal" />
-          {list.map((item) => {
+          {list.map((item, i) => {
             return (
-              <div class="explanation__item">
-                <Image
-                  class="explanation__item__image"
-                  {...item.image}
-                  lazy
-                  contain
-                />
-                <div
-                  class="explanation__item__title"
-                  set:html={item.title}
-                />
-                <div
-                  class="explanation__item__description"
-                  set:html={item.description}
-                />
+              <div
+                class="explanation__item"
+                style={{ '--index': i }}
+              >
+                <ScrollToaster
+                  class="explanation__item__image xxxx"
+                  data-i={i}
+                >
+                  <Image
+                    {...item.image}
+                    lazy
+                    contain
+                  />
+                </ScrollToaster>
+                <ScrollToaster class="explanation__item__title">
+                  <div set:html={item.title} />
+                </ScrollToaster>
+                <ScrollToaster class="explanation__item__description">
+                  <div set:html={item.description} />
+                </ScrollToaster>
               </div>
             )
           })}
@@ -248,6 +255,8 @@ const lists = [list1, list2]
   }
 
   .explanation__item {
+    --transition: 0.7s calc(var(--index) * 0.2s);
+
     [data-theme='1'] & {
       width: 38.4rem;
 

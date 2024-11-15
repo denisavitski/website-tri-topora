@@ -1,8 +1,9 @@
 ---
 import { tryCreateHrefFromContact } from '@utils/href'
 import Icon from './Icon.astro'
+import type { HTMLAttributes } from 'astro/types'
 
-export interface Props {
+export interface Props extends HTMLAttributes<any> {
   class?: string
   value?: string | undefined
 }
@@ -43,14 +44,6 @@ const icon = href
   .contact {
     display: inline-flex;
     align-items: center;
-
-    @media (hover: hover) {
-      transition: opacity var(--duration-button);
-
-      &:hover {
-        opacity: var(--opacity-hover);
-      }
-    }
   }
 
   .contact__icon {
@@ -68,6 +61,14 @@ const icon = href
       width: 2rem;
       height: 2rem;
     }
+
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      .contact:hover & {
+        opacity: var(--opacity-hover);
+      }
+    }
   }
 
   .contact__value {
@@ -75,6 +76,14 @@ const icon = href
 
     @media (max-width: 768px) {
       font-size: 1.6rem;
+    }
+
+    @media (hover: hover) {
+      transition: opacity var(--duration-button);
+
+      .contact:hover & {
+        opacity: var(--opacity-hover);
+      }
     }
   }
 </style>

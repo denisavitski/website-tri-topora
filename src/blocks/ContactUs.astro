@@ -2,6 +2,7 @@
 import ArrowButton from '@elements/ArrowButton.astro'
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 import Social, { type Props as SocialProps } from '@elements/Social.astro'
 
 export interface Props {
@@ -26,7 +27,11 @@ const {
 
 <!-- BLOCK -->
 <section class="contact-us">
-  <div class="contact-us__inner">
+  <ScrollToaster
+    type={'clip'}
+    vector={'down'}
+    class="contact-us__inner"
+  >
     <Image
       class="contact-us__background"
       {...background}
@@ -55,7 +60,7 @@ const {
       />
       <Social {...social} />
     </div>
-  </div>
+  </ScrollToaster>
 </section>
 
 <style is:global>
@@ -68,20 +73,23 @@ const {
   }
 
   .contact-us__inner {
-    position: relative;
+    --transition: 1.2s;
 
-    padding: 4rem;
-    height: 55rem;
-
-    display: flex;
-    justify-content: space-between;
-
-    overflow: hidden;
-
-    @media (max-width: 768px) {
-      padding: 1.6rem;
+    .toaster__toast {
+      position: relative;
+      padding: 4rem;
       height: 55rem;
-      flex-direction: column-reverse;
+
+      display: flex;
+      justify-content: space-between;
+
+      overflow: hidden;
+
+      @media (max-width: 768px) {
+        padding: 1.6rem;
+        height: 55rem;
+        flex-direction: column-reverse;
+      }
     }
   }
 
@@ -121,6 +129,9 @@ const {
   }
 
   .contact-us__button {
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   .contact-us__social {

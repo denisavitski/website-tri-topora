@@ -64,11 +64,13 @@ const {
 
   .showcase-1__text-image {
     width: 100%;
+    height: 37.6rem;
 
     margin-bottom: 2.4rem;
 
     @media (max-width: 768px) {
       width: calc(100% + var(--screen-horisontal-padding) * 2);
+      height: 23.7rem;
       margin-left: calc(var(--screen-horisontal-padding) * -1);
 
       [data-direction='rtl'] & {
@@ -80,9 +82,15 @@ const {
 
   .showcase-1__main-image {
     width: 92.8rem;
+    height: 59.2rem;
+
+    @media (min-width: 769px) {
+      min-height: 100%;
+    }
 
     @media (max-width: 768px) {
       width: calc(100% + var(--screen-horisontal-padding) * 2);
+      height: 32rem;
       margin-left: calc(var(--screen-horisontal-padding) * -1);
     }
   }

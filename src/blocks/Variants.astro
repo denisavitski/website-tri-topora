@@ -1,6 +1,8 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
+import ScrollTextToaster from '@elements/ScrollTextToaster.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import SliderStatic from '@elements/SliderStatic.astro'
 
@@ -55,44 +57,51 @@ const {
     <SectionHeading
       class="variants__heading"
       text={heading}
+      revealOnScroll
     />
-    <p
-      class="variants__description"
-      set:html={description}
-    />
+    <p class="variants__description">
+      <ScrollTextToaster text={description} />
+    </p>
     <div class="variants__list">
-      <div class="variants__list__inner">
+      <CaptureOnce class="variants__list__inner">
         {
-          types.map((item) => {
+          types.map((item, i) => {
             return (
-              <button class="variants__list__button">
-                <span>{item.name}</span>
+              <button
+                class="variants__list__button"
+                style={{ '--index': i }}
+              >
+                <span class="variants__list__button__value">{item.name}</span>
               </button>
             )
           })
         }
-      </div>
+      </CaptureOnce>
     </div>
   </div>
 
-  <e-scroll class="variants__slider">
-    <SliderStatic class="variants__slider__static" />
+  <CaptureOnce class="variants__slider-wrapper">
+    <e-scroll class="variants__slider">
+      <SliderStatic class="variants__slider__static" />
 
-    {
-      types.map((item) => {
-        return (
-          <Image
-            {...item.image}
-            class="variants__slider__image"
-            cover
-            rounded
-            lazy
-            lazyBackground
-          />
-        )
-      })
-    }
-  </e-scroll>
+      {
+        types.map((item) => {
+          return (
+            <div class="variants__slider__item">
+              <Image
+                {...item.image}
+                class="variants__slider__image"
+                cover
+                rounded
+                lazy
+                lazyBackground
+              />
+            </div>
+          )
+        })
+      }
+    </e-scroll>
+  </CaptureOnce>
 </e-variants>
 
 <style is:global>
@@ -162,11 +171,14 @@ const {
   }
 
   .variants__list__inner {
+    --start-offset: -80vh;
+    --capture-once: true;
+
     display: flex;
     flex-direction: column;
     height: max-content;
 
-    transition: transform var(--duration-button);
+    transition: transform var(--duration-button) ease-in-out;
     transform: translateY(calc(var(--counter) * var(--item-height) * -1));
   }
 
@@ -197,20 +209,41 @@ const {
 
     color: var(--color-grey-5);
 
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+
+    @media (min-width: 769px) {
+      transform: translateX(-101%);
+      transition: transform 1s calc(0.1s * var(--index, 0));
+
+      .variants__list__inner.captured & {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .variants__list__button__value {
     transition: color var(--duration-button);
 
-    &.current {
+    .variants__list__button.current & {
       color: var(--color-white-1);
     }
 
     @media (hover: hover) {
-      &:hover {
+      .variants__list__button:hover & {
         color: var(--color-white-1);
       }
     }
+  }
+
+  .variants__slider-wrapper {
+    width: 122rem;
+    height: 59.2rem;
 
     @media (max-width: 768px) {
-      font-size: 1.6rem;
+      width: 100%;
+      height: 28.1rem;
     }
   }
 
@@ -224,13 +257,8 @@ const {
     display: flex;
     gap: var(--gap);
 
-    width: 122rem;
-    height: 59.2rem;
-
     @media (max-width: 768px) {
       --gap: 1.7rem;
-      width: 100%;
-      height: 28.1rem;
     }
   }
 
@@ -245,8 +273,19 @@ const {
     }
   }
 
-  .variants__slider__image {
+  .variants__slider__item {
+    position: relative;
+
     width: 92.4rem;
+
+    @media (max-width: 768px) {
+      width: 34.3rem;
+    }
+  }
+
+  .variants__slider__image {
+    width: 100%;
+    height: 100%;
 
     &::after {
       content: '';
@@ -267,12 +306,30 @@ const {
       background-color: rgba(0, 0, 0, 0.3);
     }
 
-    &.current::after {
+    .variants__slider__item.current &::after {
       opacity: 0;
     }
 
-    @media (max-width: 768px) {
-      width: 34.3rem;
+    @media (min-width: 769px) {
+      .variants__slider__item:nth-of-type(1) &,
+      .variants__slider__item:nth-of-type(2) &,
+      .variants__slider__item:nth-of-type(3) & {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+        transition: clip-path 1.5s calc(0.2s * var(--index, 0));
+      }
+
+      .variants__slider__item:nth-of-type(1) & {
+        --index: 0;
+      }
+
+      .variants__slider__item:nth-of-type(2) & {
+        --index: 1;
+      }
+
+      .variants__slider-wrapper.captured & {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
     }
   }
 </style>

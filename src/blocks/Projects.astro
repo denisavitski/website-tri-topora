@@ -4,6 +4,7 @@ import SectionHeading from '@elements/SectionHeading.astro'
 import CardInfo, { type Props as CardInfoProps } from '@elements/CardInfo.astro'
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
+import CaptureOnce from '@elements/CaptureOnce.astro'
 
 export interface Props {
   background?: ImageDataProps
@@ -115,6 +116,7 @@ const {
 <section class="projects">
   <SectionHeading
     class="projects__heading"
+    revealOnScroll
     text={heading}
   />
 
@@ -126,41 +128,43 @@ const {
     cover
   />
 
-  <ul class="projects__list">
-    {
-      projects.map((project, i) => {
-        return (
-          <li
-            class="projects__card"
-            style={{ '--index': i }}
-          >
-            <Image
-              {...project.image}
-              class="projects__card__image"
-              lazy
-              lazyBackground
-              cover
-            />
-            <CardInfo
-              class="projects__card__info"
-              name={project.name}
-              size={'large'}
-              stats={project.stats}
-            />
-            <ArrowButton
-              class="projects__card__explore-button"
-              tag="a"
-              href={project.href}
-              data-prefetch
-              transparent
+  <CaptureOnce class="projects__list-wrapper">
+    <ul class="projects__list">
+      {
+        projects.map((project, i) => {
+          return (
+            <li
+              class="projects__card"
+              style={{ '--index': i }}
             >
-              Перейти
-            </ArrowButton>
-          </li>
-        )
-      })
-    }
-  </ul>
+              <Image
+                {...project.image}
+                class="projects__card__image"
+                lazy
+                lazyBackground
+                cover
+              />
+              <CardInfo
+                class="projects__card__info"
+                name={project.name}
+                size={'large'}
+                stats={project.stats}
+              />
+              <ArrowButton
+                class="projects__card__explore-button"
+                tag="a"
+                href={project.href}
+                data-prefetch
+                transparent
+              >
+                Перейти
+              </ArrowButton>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </CaptureOnce>
   <ArrowButton
     class="projects__more-button"
     tag="a"
@@ -170,10 +174,12 @@ const {
 
 <style is:global>
   .projects {
-    --offset: 9vh;
+    --offset: 0vh;
+    --stick-offset: 5vh;
     --gap: var(--header-height);
     --card-height: calc(
-      (var(--viewport-height) - var(--offset)) - var(--header-height) * 2
+      (var(--viewport-height) - var(--offset)) - var(--header-height) -
+        var(--stick-offset) * 2
     );
 
     display: flex;
@@ -225,20 +231,25 @@ const {
     }
   }
 
-  .projects__list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
-
+  .projects__list-wrapper {
     margin-bottom: 4rem;
 
     @media (min-width: 769px) {
-      padding: 0 var(--screen-horisontal-padding);
       margin-top: calc(var(--card-height) * -1);
     }
 
     @media (max-width: 768px) {
       margin-bottom: 2.4rem;
+    }
+  }
+
+  .projects__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+
+    @media (min-width: 769px) {
+      padding: 0 var(--screen-horisontal-padding);
     }
   }
 
@@ -273,7 +284,19 @@ const {
 
     @media (min-width: 769px) {
       position: sticky;
-      top: calc(var(--offset) * var(--index));
+      top: calc(var(--offset) * var(--index, 0) + var(--stick-offset));
+
+      &:first-of-type {
+        @media (min-width: 769px) {
+          transition: clip-path 1.5s;
+
+          clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+          .projects__list-wrapper.captured & {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+          }
+        }
+      }
     }
 
     @media (max-width: 768px) {

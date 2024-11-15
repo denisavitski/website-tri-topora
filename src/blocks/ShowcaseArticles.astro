@@ -2,6 +2,7 @@
 import ArticleCard, {
   type Props as ArticleCardProps,
 } from '@elements/ArticleCard.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import { omit } from 'aptechka/utils'
 
@@ -41,8 +42,14 @@ const {
             tag="h3"
             class="showcase-articles__item__heading"
             text={article.heading}
+            revealOnScroll
           />
-          <ArticleCard {...omit(article, ['heading'])} />
+          <ScrollToaster
+            type={'clip'}
+            vector={'down'}
+          >
+            <ArticleCard {...omit(article, ['heading'])} />
+          </ScrollToaster>
         </div>
       )
     })

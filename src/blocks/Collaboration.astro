@@ -2,6 +2,8 @@
 import CollaboratorCard, {
   type Props as CollaboratorCardProps,
 } from '@elements/CollaboratorCard.astro'
+import ScrollTextToaster from '@elements/ScrollTextToaster.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 
 export interface Props {
   heading?: string
@@ -35,19 +37,22 @@ const {
 
 <!-- BLOCK -->
 <section class="collaboration">
-  <h2
-    class="collaboration__heading"
-    set:html={heading}
-  />
+  <h2 class="collaboration__heading">
+    <ScrollTextToaster text={heading} />
+  </h2>
 
   <ul class="collaborators__list">
     {
-      collaborators.map((item) => {
+      collaborators.map((item, i) => {
         return (
-          <CollaboratorCard
+          <ScrollToaster
+            type={'clip'}
+            vector={'down'}
+            style={{ '--index': i }}
             class="collaborators__list__item"
-            {...item}
-          />
+          >
+            <CollaboratorCard {...item} />
+          </ScrollToaster>
         )
       })
     }
@@ -66,15 +71,22 @@ const {
     font-family: 'Code', sans-serif;
     font-size: 4.8rem;
     text-transform: uppercase;
-    text-indent: 20.4rem;
 
     width: 106.5rem;
     margin-bottom: 3.2rem;
 
+    .word:first-of-type {
+      text-indent: 20.4rem;
+
+      @media (max-width: 768px) {
+        text-indent: 9.2rem;
+      }
+    }
+
     @media (max-width: 768px) {
       font-size: 2.2rem;
       width: 100%;
-      text-indent: 9.2rem;
+
       margin-bottom: 2.4rem;
     }
   }
@@ -91,5 +103,6 @@ const {
   }
 
   .collaborators__list__item {
+    --transition: 1.5s calc(0.1s * var(--index, 0));
   }
 </style>

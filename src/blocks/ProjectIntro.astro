@@ -3,6 +3,7 @@ import ArrowButton from '@elements/ArrowButton.astro'
 import ProjectSlider, {
   type Props as ProjectSliderProps,
 } from '@elements/ProjectSlider.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 import type { StatsItem } from '@elements/Stats.astro'
 
 export interface Props extends ProjectSliderProps {
@@ -115,7 +116,11 @@ const {
   />
 
   <div class="project-intro__info">
-    <div class="project-intro__info__left">
+    <ScrollToaster
+      type={'clip'}
+      vector={'left'}
+      class="project-intro__info__left"
+    >
       <h3
         class="project-intro__info__title"
         set:html={title}
@@ -138,8 +143,12 @@ const {
           })
         }
       </ul>
-    </div>
-    <div class="project-intro__info__right">
+    </ScrollToaster>
+    <ScrollToaster
+      type={'clip'}
+      vector={'right'}
+      class="project-intro__info__right"
+    >
       <p
         class="project-intro__info__description"
         set:html={description}
@@ -150,7 +159,7 @@ const {
         class="project-intro__info__consultation-button"
         >{consultationButton}</ArrowButton
       >
-    </div>
+    </ScrollToaster>
   </div>
 </div>
 

@@ -1,4 +1,5 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import LookCard, { type Props as LookCardProps } from '@elements/LookCard.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import SliderButtons from '@elements/SliderButtons.astro'
@@ -56,25 +57,30 @@ const {
   <SectionHeading
     class="gallery__heading"
     text={heading}
+    revealOnScroll
   />
 
-  <e-scroll class="gallery__slider">
-    <SliderButtons
-      class="gallery__slider__buttons"
-      slot="static"
-    />
+  <CaptureOnce class="gallery__slider-wrapper">
+    <e-scroll class="gallery__slider">
+      {
+        cards.map((card) => {
+          return (
+            <div class="gallery__slider__item">
+              <LookCard
+                class="gallery__slider__card"
+                {...card}
+              />
+            </div>
+          )
+        })
+      }
 
-    {
-      cards.map((card) => {
-        return (
-          <LookCard
-            class="gallery__slider__card"
-            {...card}
-          />
-        )
-      })
-    }
-  </e-scroll>
+      <SliderButtons
+        class="gallery__slider__buttons"
+        slot="static"
+      />
+    </e-scroll>
+  </CaptureOnce>
 </section>
 
 <style is:global>
@@ -100,6 +106,15 @@ const {
     }
   }
 
+  .gallery__slider-wrapper {
+    width: 100%;
+    height: 42rem;
+
+    @media (max-width: 768px) {
+      height: 27.6rem;
+    }
+  }
+
   .gallery__slider {
     --axis: x;
     --gap: 2.4rem;
@@ -110,13 +125,13 @@ const {
     gap: var(--gap);
 
     width: 100%;
-    height: 42rem;
+    height: 100%;
+
     padding-right: var(--screen-horisontal-padding);
 
     @media (max-width: 768px) {
       --gap: 0.8rem;
       --sections-in-view: 1;
-      height: 27.6rem;
       padding-right: 0;
     }
   }
@@ -127,16 +142,49 @@ const {
     bottom: calc(100% + 5rem);
   }
 
-  .gallery__slider__card {
+  .gallery__slider__item {
     width: 65.6rem;
     height: 100%;
 
     overflow: hidden;
-
     border-radius: 0.8rem;
 
     @media (max-width: 768px) {
       width: 35.3rem;
+    }
+  }
+
+  .gallery__slider__card {
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+    border-radius: 0.8rem;
+
+    @media (min-width: 769px) {
+      .gallery__slider__item:nth-of-type(1) &,
+      .gallery__slider__item:nth-of-type(2) &,
+      .gallery__slider__item:nth-of-type(3) & {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+        transition: clip-path 1.5s calc(0.2s * var(--index, 0));
+      }
+
+      .gallery__slider__item:nth-of-type(1) & {
+        --index: 0;
+      }
+
+      .gallery__slider__item:nth-of-type(2) & {
+        --index: 1;
+      }
+
+      .gallery__slider__item:nth-of-type(3) & {
+        --index: 2;
+      }
+
+      .gallery__slider-wrapper.captured & {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
     }
   }
 </style>

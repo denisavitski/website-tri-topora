@@ -1,4 +1,5 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import type { ImageDataProps } from '@elements/Image.astro'
 import Image from '@elements/Image.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
@@ -37,27 +38,35 @@ const {
   <SectionHeading
     class="layouts__heading"
     text={heading}
+    revealOnScroll
   />
 
-  <e-scroll class="layouts__slider">
-    <SliderButtons
-      class="layouts__slider__buttons"
-      slot="static"
-    />
-    {
-      images.map((image) => {
-        return (
-          <Image
-            class="layouts__slider__image"
-            {...image}
-            lazy
-            lazyBackground
-            rounded
-          />
-        )
-      })
-    }
-  </e-scroll>
+  <CaptureOnce class="layouts__slider-wrapper">
+    <e-scroll class="layouts__slider">
+      {
+        images.map((image, i) => {
+          return (
+            <div
+              class="layouts__slider__item"
+              style={{ '--index': i }}
+            >
+              <Image
+                class="layouts__slider__image"
+                {...image}
+                lazy
+                lazyBackground
+                rounded
+              />
+            </div>
+          )
+        })
+      }
+      <SliderButtons
+        class="layouts__slider__buttons"
+        slot="static"
+      />
+    </e-scroll>
+  </CaptureOnce>
 </section>
 
 <style is:global>
@@ -106,5 +115,22 @@ const {
     position: absolute;
     right: 0;
     bottom: calc(100% + 4.4rem);
+  }
+
+  .layouts__slider__item {
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: 769px) {
+      &:nth-of-type(1),
+      &:nth-of-type(2) {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 1.5s calc(0.1s * var(--index, 0));
+
+        .layouts__slider-wrapper.captured & {
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+      }
+    }
   }
 </style>

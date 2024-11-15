@@ -1,11 +1,21 @@
 ---
-export interface Props {
+import type { HTMLAttributes } from 'astro/types'
+import ScrollToaster from './ScrollToaster.astro'
+
+export interface Props extends HTMLAttributes<any> {
   class?: string
-  text?: string | undefined
+  text?: string | undefined | false
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  revealOnScroll?: boolean
 }
 
-const { class: className, text = 'heading', tag = 'h2', ...rest } = Astro.props
+const {
+  class: className,
+  text = 'heading',
+  tag = 'h2',
+  revealOnScroll = false,
+  ...rest
+} = Astro.props
 
 const Tag = tag
 ---
@@ -13,8 +23,24 @@ const Tag = tag
 <Tag
   {...rest}
   class:list={['section-heading', className]}
-  set:html={text}
-/>
+>
+  {
+    text ? (
+      revealOnScroll ? (
+        <ScrollToaster
+          type={'clip'}
+          vector={'right'}
+        >
+          <span set:html={text} />
+        </ScrollToaster>
+      ) : (
+        <span set:html={text} />
+      )
+    ) : (
+      <slot />
+    )
+  }
+</Tag>
 
 <style is:global>
   .section-heading {
@@ -23,6 +49,8 @@ const Tag = tag
     text-transform: uppercase;
     font-weight: 400;
     line-height: 120%;
+
+    display: inline-block;
 
     @media (max-width: 768px) {
       font-size: 2.8rem;

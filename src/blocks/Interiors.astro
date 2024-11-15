@@ -1,4 +1,5 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import LookCard, { type Props as LookCardProps } from '@elements/LookCard.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import SliderButtons from '@elements/SliderButtons.astro'
@@ -19,7 +20,6 @@ const {
         lazyBackground: true,
       },
       value: '/images/dev/1.jpg',
-
     },
     {
       circleText: 'Смотреть',
@@ -76,33 +76,41 @@ const {
   <SectionHeading
     class="interiors__heading"
     text={heading}
+    revealOnScroll
   />
 
-  <e-scroll class="interiors__slider">
-    <SliderButtons
-      class="interiors__slider__buttons"
-      slot="static"
-    />
-    {
-      cards.map((card) => {
-        return (
-          <LookCard
-            class="interiors__slider__card"
-            modal='images-modal',
-            group='interiors',
-            {...card}
-          />
-        )
-      })
-    }
-  </e-scroll>
+  <CaptureOnce class="interiors__slider-wrapper">
+    <e-scroll class="interiors__slider">
+      {
+        cards.map((card, i) => {
+          return (
+            <div
+              class="interiors__slider__item"
+              style={{ '--index': i }}
+            >
+              <LookCard
+                class="interiors__slider__card"
+                modal="images-modal"
+                group="interiors"
+                {...card}
+              />
+            </div>
+          )
+        })
+      }
+      <SliderButtons
+        class="interiors__slider__buttons"
+        slot="static"
+      />
+    </e-scroll>
+  </CaptureOnce>
 </section>
 
 <style is:global>
   .interiors {
     position: relative;
     z-index: calc(var(--z-lines) + 1);
-    
+
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
 
     @media (max-width: 768px) {
@@ -146,6 +154,26 @@ const {
     bottom: calc(100% + 4.4rem);
   }
 
+  .interiors__slider__item {
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: 769px) {
+      &:nth-of-type(1),
+      &:nth-of-type(2),
+      &:nth-of-type(3) {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 1.5s calc(0.1s * var(--index, 0));
+
+        .interiors__slider-wrapper.captured & {
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+      }
+    }
+  }
+
   .interiors__slider__card {
+    width: 100%;
+    height: 100%;
   }
 </style>

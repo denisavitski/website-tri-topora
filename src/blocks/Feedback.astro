@@ -3,6 +3,7 @@ import Form, { type CommmonFormProps } from '@elements/Form.astro'
 import Image, { type ImageDataProps } from '@elements/Image.astro'
 import Input from '@elements/Input.astro'
 import ArrowButton from '@elements/ArrowButton.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 
 export interface Props {
   heading?: string
@@ -69,7 +70,11 @@ const {
 
 <!-- BLOCK -->
 <section class="feedback">
-  <div class="feedback__inner">
+  <ScrollToaster
+    type={'clip'}
+    vector={'down'}
+    class="feedback__inner"
+  >
     <div class="feedback__left">
       <h2
         class="feedback__heading"
@@ -139,7 +144,7 @@ const {
         }
       </ul>
     </div>
-  </div>
+  </ScrollToaster>
 </section>
 
 <style is:global>
@@ -159,50 +164,54 @@ const {
   }
 
   .feedback__inner {
+    --transition: 1.2s;
+
     position: relative;
     z-index: 1;
 
     width: 100%;
 
-    display: flex;
-    justify-content: space-between;
+    .toaster__toast {
+      display: flex;
+      justify-content: space-between;
 
-    background-color: var(--color-white-1);
+      background-color: var(--color-white-1);
 
-    border-radius: 0.8rem;
-    overflow: hidden;
+      border-radius: 0.8rem;
+      overflow: hidden;
 
-    &::before {
-      content: '';
+      &::before {
+        content: '';
 
-      position: absolute;
-      left: -11.5%;
-      bottom: -35%;
+        position: absolute;
+        left: -11.5%;
+        bottom: -35%;
 
-      z-index: -1;
+        z-index: -1;
 
-      width: 65.1rem;
-      height: 53rem;
+        width: 65.1rem;
+        height: 53rem;
 
-      background-color: var(--color-white-3);
+        background-color: var(--color-white-3);
 
-      transform: rotate(135deg);
-      border-top-left-radius: 100rem;
-      border-bottom-left-radius: 100rem;
+        transform: rotate(135deg);
+        border-top-left-radius: 100rem;
+        border-bottom-left-radius: 100rem;
+
+        @media (max-width: 768px) {
+          top: 13rem;
+          left: -22rem;
+          bottom: unset;
+
+          width: 44.8rem;
+          height: 36.5rem;
+        }
+      }
 
       @media (max-width: 768px) {
-        top: 13rem;
-        left: -22rem;
-        bottom: unset;
-
-        width: 44.8rem;
-        height: 36.5rem;
+        flex-direction: column;
+        border-radius: 0;
       }
-    }
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      border-radius: 0;
     }
   }
 

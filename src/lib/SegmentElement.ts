@@ -1,6 +1,7 @@
 import { CSSProperty } from 'aptechka/css-property'
 import {
   clamp,
+  debounce,
   dispatchEvent,
   findScrollParentElement,
   getCumulativeOffsetLeft,
@@ -18,6 +19,12 @@ export interface SegmentEvents {
 }
 
 export class SegmentElement extends HTMLElement {
+  static __loaded = false
+
+  static __setLoaded = debounce(() => {
+    this.__loaded = true
+  }, 50)
+
   #scrollElement: HTMLElement = null!
 
   #startOffsetCSSProperty = new CSSProperty<number>(this, '--start-offset', 0, {
@@ -94,30 +101,37 @@ export class SegmentElement extends HTMLElement {
   protected connectedCallback() {
     this.#scrollElement = findScrollParentElement(this)
 
-    if (this.#scrollElement) {
-      elementResizer.subscribe(this, this.#resizeListener)
-      windowResizer.subscribe(this.#resizeListener)
+    setTimeout(
+      () => {
+        if (this.#scrollElement) {
+          elementResizer.subscribe(this, this.#resizeListener)
+          windowResizer.subscribe(this.#resizeListener)
 
-      this.#scrollElement.addEventListener('scroll', this.#tickListner)
+          this.#scrollElement.addEventListener('scroll', this.#tickListner)
 
-      this.#progressVarCSSProperty.subscribe((e) => {
-        if (e.current) {
-          this.#tickListner()
-        } else if (e.previous) {
-          this.style.removeProperty(this.#cssVar(e.previous))
+          this.#progressVarCSSProperty.subscribe((e) => {
+            if (e.current) {
+              this.#tickListner()
+            } else if (e.previous) {
+              this.style.removeProperty(this.#cssVar(e.previous))
+            }
+          })
+
+          this.#distanceCSSProperty.subscribe(() => {
+            this.#resizeListener()
+          })
+
+          this.#startOffsetCSSProperty.observe()
+          this.#distanceCSSProperty.observe()
+          this.#distanceOffsetCSSProperty.observe()
+          this.#progressVarCSSProperty.observe()
+          this.#captureOnceCSSProperty.observe()
         }
-      })
+      },
+      SegmentElement.__loaded ? 10 : 500,
+    )
 
-      this.#distanceCSSProperty.subscribe(() => {
-        this.#resizeListener()
-      })
-
-      this.#startOffsetCSSProperty.observe()
-      this.#distanceCSSProperty.observe()
-      this.#distanceOffsetCSSProperty.observe()
-      this.#progressVarCSSProperty.observe()
-      this.#captureOnceCSSProperty.observe()
-    }
+    SegmentElement.__setLoaded()
   }
 
   protected disconnectedCallback() {

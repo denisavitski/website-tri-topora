@@ -1,7 +1,9 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import Image, { type ImageDataProps } from '@elements/Image.astro'
 import Manager, { type Props as ManagerProps } from '@elements/Manager.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
+import Toaster from '@elements/Toaster.astro'
 
 export interface Props {
   heading?: string
@@ -44,14 +46,19 @@ const {
 ---
 
 <!-- BLOCK -->
-<div class="service-intro">
+<CaptureOnce class="service-intro">
   <SectionHeading
     class="service-intro__heading"
-    text={heading}
     tag="h1"
+    text={heading}
+    revealOnScroll
   />
 
-  <div class="service-intro__middle">
+  <Toaster
+    vector={'right'}
+    type={'clip'}
+    class="service-intro__middle"
+  >
     <Manager
       class="service-intro__manager"
       {...manager}
@@ -64,45 +71,61 @@ const {
       cover
       rounded
     />
-  </div>
+  </Toaster>
 
-  <h2
-    class="service-intro__subtitle"
-    set:html={subtitle}
-  />
+  <Toaster
+    type={'clip'}
+    vector={'right'}
+  >
+    <h2
+      set:html={subtitle}
+      class="service-intro__subtitle"
+    />
+  </Toaster>
 
-  <ul class="service-intro__list">
-    {
-      description.map((item) => {
-        return (
-          <li class="service-intro__list__item">
-            {item.image && (
-              <Image
-                {...item.image}
-                class="service-intro__list__item__image"
-                lazy
-                contain
+  <Toaster
+    vector={'right'}
+    type={'clip'}
+  >
+    <ul class="service-intro__list">
+      {
+        description.map((item) => {
+          return (
+            <li class="service-intro__list__item">
+              {item.image && (
+                <Image
+                  {...item.image}
+                  class="service-intro__list__item__image"
+                  lazy
+                  contain
+                />
+              )}
+
+              <p
+                class="service-intro__list__item__description"
+                set:html={item.description}
               />
-            )}
-
-            <p
-              class="service-intro__list__item__description"
-              set:html={item.description}
-            />
-          </li>
-        )
-      })
-    }
-  </ul>
-</div>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </Toaster>
+</CaptureOnce>
 
 <style is:global>
   .service-intro {
+    --transition: 1s;
+
     position: relative;
     z-index: calc(var(--z-lines) + 1);
 
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
     padding-top: 0;
+
+    .page-loaded &.captured {
+      --cooked: 1;
+    }
   }
 
   .service-intro__heading {
@@ -114,10 +137,12 @@ const {
   }
 
   .service-intro__middle {
-    display: flex;
-    gap: 2.4rem;
-
     margin-bottom: 3.2rem;
+
+    .toaster__toast {
+      display: flex;
+      gap: 2.4rem;
+    }
 
     @media (max-width: 768px) {
       margin-bottom: 2.4rem;
@@ -130,6 +155,14 @@ const {
     @media (max-width: 768px) {
       width: 100%;
     }
+
+    @media (min-width: 769px) {
+      overflow: hidden;
+    }
+  }
+
+  .service-intro.captured .service-intro__manager .manager__picture {
+    transform: translateX(0);
   }
 
   .service-intro__example {
@@ -145,6 +178,7 @@ const {
     font-family: 'Code', sans-serif;
     font-size: 4rem;
     text-indent: 13.5rem;
+
     text-transform: uppercase;
 
     margin-bottom: 1.6rem;
@@ -154,6 +188,7 @@ const {
     @media (max-width: 768px) {
       font-size: 2.2rem;
       text-indent: 7.6rem;
+
       width: 100%;
     }
   }

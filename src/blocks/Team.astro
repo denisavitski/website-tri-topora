@@ -2,6 +2,7 @@
 import TeamCard, { type Props as TeamCardProps } from '@elements/TeamCard.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import SliderButtons from '@elements/SliderButtons.astro'
+import CaptureOnce from '@elements/CaptureOnce.astro'
 
 export interface Props {
   heading?: string
@@ -62,24 +63,27 @@ const {
   <SectionHeading
     class="team__heading"
     text={heading}
+    revealOnScroll
   />
 
-  <e-scroll class="team__slider">
-    <SliderButtons
-      class="team__slider__buttons"
-      slot="static"
-    />
-    {
-      cards.map((card) => {
-        return (
-          <TeamCard
-            class="team__slider__card"
-            {...card}
-          />
-        )
-      })
-    }
-  </e-scroll>
+  <CaptureOnce class="team__slider-wrapper">
+    <e-scroll class="team__slider">
+      {
+        cards.map((card) => {
+          return (
+            <TeamCard
+              class="team__slider__card"
+              {...card}
+            />
+          )
+        })
+      }
+      <SliderButtons
+        class="team__slider__buttons"
+        slot="static"
+      />
+    </e-scroll>
+  </CaptureOnce>
 </section>
 
 <style is:global>
@@ -95,6 +99,60 @@ const {
 
     @media (max-width: 768px) {
       margin-bottom: 2.4rem;
+    }
+  }
+
+  .team__slider-wrapper {
+    @media (min-width: 769px) {
+      /* Image */
+      .team-card:nth-child(1) .team-card__image,
+      .team-card:nth-child(2) .team-card__image {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 1.5s;
+      }
+
+      .team-card:nth-child(2) .team-card__image {
+        transition-delay: 0.2s;
+      }
+
+      &.captured .team-card:nth-child(1) .team-card__image,
+      &.captured .team-card:nth-child(2) .team-card__image {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+
+      /* Name */
+
+      .team-card:nth-child(1) .team-card__name-box,
+      .team-card:nth-child(2) .team-card__name-box {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+        transition: clip-path 1.5s;
+      }
+
+      &.captured .team-card:nth-child(1) .team-card__name-box,
+      &.captured .team-card:nth-child(2) .team-card__name-box {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+
+      .team-card:nth-child(2) .team-card__name-box {
+        transition-delay: 0.4s;
+      }
+
+      /* Quote */
+
+      .team-card:nth-child(1) .team-card__description,
+      .team-card:nth-child(2) .team-card__description {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 1.5s;
+      }
+
+      &.captured .team-card:nth-child(1) .team-card__description,
+      &.captured .team-card:nth-child(2) .team-card__description {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+
+      .team-card:nth-child(2).team-card:nth-child(2) .team-card__description {
+        transition-delay: 0.6s;
+      }
     }
   }
 

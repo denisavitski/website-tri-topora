@@ -1,6 +1,7 @@
 ---
 import Image, { type ImageDataProps } from '@elements/Image.astro'
 import RichText from '@elements/RichText.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 
 export interface Props {
   class?: string
@@ -17,7 +18,11 @@ const {
 ---
 
 <section class="plan">
-  <div class="plan__left">
+  <ScrollToaster
+    vector={'left'}
+    type={'clip'}
+    class="plan__left"
+  >
     <RichText
       class="plan__left__right"
       text={text1}
@@ -30,16 +35,21 @@ const {
       rounded
       {...image}
     />
-  </div>
+  </ScrollToaster>
 
-  <RichText
+  <ScrollToaster
+    vector={'right'}
+    type={'clip'}
     class="plan__right"
-    text={text2}
-  />
+  >
+    <RichText text={text2} />
+  </ScrollToaster>
 </section>
 
 <style is:global>
   .plan {
+    --transition: 1.5s;
+
     position: relative;
     z-index: calc(var(--z-lines) + 1);
 

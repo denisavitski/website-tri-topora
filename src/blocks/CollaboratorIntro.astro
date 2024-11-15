@@ -1,4 +1,5 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import Image from '@elements/Image.astro'
 import RichText from '@elements/RichText.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
@@ -43,11 +44,12 @@ const {
     class="collaborator-intro__heading"
     tag="h1"
     text={heading}
+    revealOnScroll
   />
 
-  <div class="collaborator-intro__content">
+  <CaptureOnce class="collaborator-intro__content">
     <Image
-      class="collaborator-intro__photo"
+      class="collaborator-intro__photo collaborator-intro__clip collaborator-intro__clip_1"
       src={photo}
       alt={heading}
       lazy
@@ -56,7 +58,9 @@ const {
       rounded
     />
 
-    <div class="collaborator-intro__studio">
+    <div
+      class="collaborator-intro__studio collaborator-intro__clip collaborator-intro__clip_2"
+    >
       <div
         class="collaborator-intro__studio__name"
         set:html={studio.name}
@@ -74,9 +78,9 @@ const {
 
     <RichText
       text={description}
-      class="collaborator-intro__description"
+      class="collaborator-intro__description collaborator-intro__clip collaborator-intro__clip_3"
     />
-  </div>
+  </CaptureOnce>
 </div>
 
 <style is:global>
@@ -155,5 +159,30 @@ const {
       width: 100%;
       padding-top: unset;
     }
+  }
+
+  .collaborator-intro__clip {
+    @media (min-width: 769px) {
+      transition: clip-path 1.2s;
+
+      clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+      .collaborator-intro__content.captured & {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+      }
+    }
+  }
+
+  .collaborator-intro__clip_1 {
+    transition-delay: 0s;
+  }
+
+  .collaborator-intro__clip_2 {
+    transition-delay: 0.1s;
+  }
+
+  .collaborator-intro__clip_3 {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+    transition-delay: 0.2s;
   }
 </style>

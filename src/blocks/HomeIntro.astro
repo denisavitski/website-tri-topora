@@ -4,6 +4,7 @@ import ArrowButton, {
 } from '@elements/ArrowButton.astro'
 import Image, { type ImageDataProps } from '@elements/Image.astro'
 import Parallax from '@elements/Parallax.astro'
+import Toaster from '@elements/Toaster.astro'
 
 export interface Props {
   image?: ImageDataProps
@@ -35,7 +36,7 @@ const {
 ---
 
 <!-- BLOCK -->
-<div class="home-intro">
+<e-segment class="home-intro">
   <Parallax class="home-intro__parralax">
     <Image
       class="home-intro__image"
@@ -45,27 +46,38 @@ const {
   </Parallax>
 
   <div class="home-intro__content">
-    <h1
+    <Toaster
+      type={'clip'}
+      vector={'right'}
       class="home-intro__heading"
-      set:html={heading}
-    />
+    >
+      <h1
+        class="home-intro__heading__value"
+        set:html={heading}
+      />
+    </Toaster>
 
     <div class="home-intro__buttons">
       {
-        buttons.map((button) => {
+        buttons.map((button, i) => {
           return (
-            <ArrowButton
-              class="home-intro__button"
-              {...button}
+            <Toaster
+              class="home-intro__button-wrapper"
+              style={{ '--reveal-index': i }}
             >
-              {button.name}
-            </ArrowButton>
+              <ArrowButton
+                class="home-intro__button"
+                {...button}
+              >
+                {button.name}
+              </ArrowButton>
+            </Toaster>
           )
         })
       }
     </div>
   </div>
-</div>
+</e-segment>
 
 <style is:global>
   .home-intro {
@@ -90,6 +102,10 @@ const {
       padding: 2.5rem var(--screen-horisontal-padding);
       justify-content: flex-end;
       flex-direction: column;
+    }
+
+    .page-loaded &.captured {
+      --cooked: 1;
     }
   }
 
@@ -144,7 +160,18 @@ const {
   }
 
   .home-intro__heading {
+    --transition: 2s var(--ease-out-expo);
+
     flex-shrink: 0;
+
+    width: 100%;
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  .home-intro__heading__value {
     font-family: 'Code', sans-serif;
     font-weight: 400;
     font-size: 6.4rem;
@@ -158,7 +185,6 @@ const {
       font-size: 3.2rem;
       line-height: 100%;
       text-indent: 18rem;
-      margin-bottom: 2.4rem;
     }
 
     @media (max-width: 600px) {
@@ -195,6 +221,12 @@ const {
     }
   }
 
+  .home-intro__button-wrapper {
+    --transition: 1s calc(0.3s + 0.1s * var(--reveal-index))
+      var(--ease-out-expo);
+  }
+
   .home-intro__button {
+    width: 100%;
   }
 </style>
