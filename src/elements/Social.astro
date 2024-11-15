@@ -8,6 +8,7 @@ export interface Props extends HTMLAttributes<any> {
     icon: string
     href: string
     type: 'circle' | 'square'
+    title: string
   }>
 }
 
@@ -18,21 +19,25 @@ const {
       href: 'https://google.com/',
       icon: 'star',
       type: 'square',
+      title: 'social-name',
     },
     {
       href: 'https://google.com/',
       icon: 'r',
       type: 'circle',
+      title: 'social-name',
     },
     {
       href: 'https://google.com/',
       icon: 'vk',
       type: 'square',
+      title: 'vk',
     },
     {
       href: 'https://google.com/',
       icon: 'tg',
       type: 'circle',
+      title: 'telegram',
     },
   ],
   ...rest
@@ -52,6 +57,7 @@ const {
         >
           <a
             class="social__link"
+            title={item.title}
             href={item.href}
           >
             <Icon

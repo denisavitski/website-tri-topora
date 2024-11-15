@@ -147,6 +147,8 @@ body {
   white-space: pre-line;
 
   -webkit-tap-highlight-color: transparent;
+
+  background-color: var(--color-grey-2);
 }
 
 button,
