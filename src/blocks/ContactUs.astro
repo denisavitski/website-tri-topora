@@ -65,6 +65,9 @@ const {
 
 <style is:global>
   .contact-us {
+    position: relative;
+    z-index: calc(var(--z-lines) + 1);
+
     padding: var(--section-vertical-padding) var(--screen-horisontal-padding);
 
     @media (max-width: 768px) {
@@ -116,6 +119,7 @@ const {
   .contact-us__heading {
     font-family: 'Code', sans-serif;
     font-size: 4.8rem;
+    font-weight: 400;
     text-transform: uppercase;
     line-height: 120%;
 
@@ -149,6 +153,7 @@ const {
   .contact-us__social__title {
     font-family: 'Code', sans-serif;
     font-size: 2.4rem;
+    font-weight: 400;
 
     width: 25.1rem;
     margin-bottom: 1.6rem;

@@ -24,7 +24,10 @@ const Tag = tag as any
   {id}
   class:list={['swipe-modal', className]}
 >
-  <div class="swipe-modal__inner hidden-scrollbar">
+  <div
+    class="swipe-modal__inner hidden-scrollbar"
+    data-outside
+  >
     <div
       class="swipe-modal__swipe hidden-scrollbar"
       data-swipe
@@ -93,13 +96,13 @@ const Tag = tag as any
 
       transition: opacity var(--modal-duration);
 
-      pointer-events: none;
-
-      background-color: rgba(0, 0, 0, 0.4);
+      background-color: rgba(0, 0, 0, 0.8);
     }
   }
 
   .swipe-modal__inner {
+    overscroll-behavior: contain;
+
     @media (min-width: 769px) {
       height: 100%;
     }
@@ -128,9 +131,9 @@ const Tag = tag as any
   }
 
   .swipe-modal__swipe {
-    @media (min-width: 769px) {
-      overscroll-behavior: contain;
+    overscroll-behavior: contain;
 
+    @media (min-width: 769px) {
       overflow: hidden auto;
       height: 100%;
     }
@@ -138,7 +141,7 @@ const Tag = tag as any
     @media (max-width: 768px) {
       position: relative;
 
-      max-height: 85vh;
+      max-height: calc(var(--viewport-height) * 0.85);
 
       pointer-events: auto;
       overflow: hidden auto;

@@ -82,6 +82,13 @@ const {
       background-color: var(--color-white-1);
       border-radius: 50%;
     }
+
+    @media (max-width: 768px) {
+      &:not(:first-child):before {
+        width: 0.4rem;
+        height: 0.4rem;
+      }
+    }
   }
 
   .breadcrumbs__link__name {
