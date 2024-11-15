@@ -2,7 +2,6 @@
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import Feedback from '@blocks/Feedback.astro'
 import Layout from '@layout/Layout.astro'
-import { getHref } from '@utils/url'
 import CollaboratorIntro from '@blocks/CollaboratorIntro.astro'
 import Works from '@blocks/Works.astro'
 ---
@@ -12,7 +11,7 @@ import Works from '@blocks/Works.astro'
     title: 'Три топора: Юлия Пивнева',
     description:
       'Строительство из дерева, стекла и камня сравнимо с исскуством',
-    cover: getHref('/images/seo/home.jpg'),
+    cover: '/images/seo/home.jpg',
   }}
 >
   <Breadcrumbs

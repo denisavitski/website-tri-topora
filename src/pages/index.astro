@@ -6,7 +6,6 @@ import Gallery from '@blocks/Gallery.astro'
 import HomeIntro from '@blocks/HomeIntro.astro'
 import Projects from '@blocks/Projects.astro'
 import Layout from '@layout/Layout.astro'
-import { getHref } from '@utils/url'
 ---
 
 <Layout
@@ -14,7 +13,7 @@ import { getHref } from '@utils/url'
     title: 'Три топора',
     description:
       'Строительство из дерева, стекла и камня сравнимо с исскуством',
-    cover: getHref('/images/seo/home.jpg'),
+    cover: '/images/seo/home.jpg',
   }}
 >
   <HomeIntro />

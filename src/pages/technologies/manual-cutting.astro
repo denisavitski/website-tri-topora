@@ -7,7 +7,6 @@ import Showcase7 from '@blocks/Showcase7.astro'
 import ShowcaseArticles from '@blocks/ShowcaseArticles.astro'
 import TechnologyIntro from '@blocks/TechnologyIntro.astro'
 import Layout from '@layout/Layout.astro'
-import { getHref } from '@utils/url'
 ---
 
 <Layout
@@ -15,7 +14,7 @@ import { getHref } from '@utils/url'
     title: 'Три топора: Ручная рубка',
     description:
       'Строительство из дерева, стекла и камня сравнимо с исскуством',
-    cover: getHref('/images/seo/home.jpg'),
+    cover: '/images/seo/home.jpg',
   }}
 >
   <Breadcrumbs

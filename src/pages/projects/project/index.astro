@@ -1,7 +1,6 @@
 ---
 import Breadcrumbs from '@blocks/Breadcrumbs.astro'
 import Layout from '@layout/Layout.astro'
-import { getHref } from '@utils/url'
 import Layouts from '@blocks/Layouts.astro'
 import Interiors from '@blocks/Interiors.astro'
 import Feedback from '@blocks/Feedback.astro'
@@ -13,7 +12,7 @@ import ProjectIntro from '@blocks/ProjectIntro.astro'
     title: `Три топора: Название проекта`,
     description:
       'Строительство из дерева, стекла и камня сравнимо с исскуством',
-    cover: getHref('/images/seo/home.jpg'),
+    cover: '/images/seo/home.jpg',
   }}
 >
   <Breadcrumbs

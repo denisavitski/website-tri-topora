@@ -4,7 +4,6 @@ import Feedback from '@blocks/Feedback.astro'
 import ServiceIntro from '@blocks/ServiceIntro.astro'
 import Collaboration from '@blocks/Collaboration.astro'
 import Layout from '@layout/Layout.astro'
-import { getHref } from '@utils/url'
 import Explanation from '@blocks/Explanation.astro'
 ---
 
@@ -13,7 +12,7 @@ import Explanation from '@blocks/Explanation.astro'
     title: 'Три топора: Дизайн интерьера',
     description:
       'Строительство из дерева, стекла и камня сравнимо с исскуством',
-    cover: getHref('/images/seo/home.jpg'),
+    cover: '/images/seo/home.jpg',
   }}
 >
   <Breadcrumbs
