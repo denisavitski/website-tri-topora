@@ -2,7 +2,7 @@
 
 ## Формы
 
-Для отправки данных форм используется компонент <e-form>. Данные передаются в формате [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) на адрес, указанный в атрибуте url.
+Для отправки данных форм используется компонент <e-form>. Данные передаются в формате [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) на адрес, указанный в атрибуте url. Специальное значение `/test` используется для разработки.
 
 Пример разметки формы:
 
@@ -37,19 +37,19 @@
 
     Для управления логикой скриптов предусмотрены следующие события:
 
-    - morphStart
+    - **morphStart**
 
      начало замены страницы.
 
-    - morphComplete
+    - **morphComplete**
 
      замена страницы завершена.
 
-    - morphNewChildrenAdded
+    - **morphNewChildrenAdded**
 
      новый контент добавлен на страницу.
 
-    - morphOldChildrenRemoved
+    - **morphOldChildrenRemoved**
 
      старый контент удален.
 
