@@ -57,7 +57,10 @@ modules.forEach((module) => {
                       data-morph-skip
                       href={
                         folderName === 'pages'
-                          ? '/' + name.replace('index', '/').replace('//', '/')
+                          ? ('/' + name.replace('index', '/')).replace(
+                              '//',
+                              '/',
+                            )
                           : `/ui/${folderName}/${name}`
                       }
                     >
