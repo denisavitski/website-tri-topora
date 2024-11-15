@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "NODE_ENV=development astro dev --host",
     "start": "astro dev",
-    "build": "astro check && NODE_ENV=production astro build && npm run format-dist",
+    "build": "astro check && NODE_ENV=production astro build",
+    "build-and-format": "NODE_ENV=production astro build && npm run format-dist",
     "bap": "NODE_ENV=production astro build && astro preview",
     "preview": "astro preview",
     "astro": "astro",
