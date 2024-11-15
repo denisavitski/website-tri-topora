@@ -18,21 +18,19 @@ const {
   image = {
     src: '/images/technologies/timber-frame/cover.jpg',
   },
-  description = '<p>Уникальная каркасно-брусовая технология стройки. Современная и классическая архитектура и дизайн. Брусовый каркас дома из массива дерева и из клееной балки.</p>',
+  description = 'Уникальная каркасно-брусовая технология стройки. Современная и классическая архитектура и дизайн. Брусовый каркас дома из массива дерева и из клееной балки.',
 } = Astro.props
 ---
 
 <!-- BLOCK -->
 <div
   class="technology-intro"
-  data-heading-type={headingType}
->
+  data-heading-type={headingType}>
   {
     image && (
       <ScrollToaster
         type={'clip'}
-        vector={'down'}
-      >
+        vector={'down'}>
         <Image
           {...image}
           class="technology-intro__cover"
@@ -48,8 +46,7 @@ const {
   <div class="technology-intro__texts">
     <ScrollToaster
       type={'clip'}
-      vector={'left'}
-    >
+      vector={'left'}>
       <SectionHeading
         class="technology-intro__heading"
         text={heading}
@@ -59,8 +56,7 @@ const {
 
     <ScrollToaster
       type={'clip'}
-      vector={'right'}
-    >
+      vector={'right'}>
       <RichText
         class="technology-intro__description"
         text={description}
