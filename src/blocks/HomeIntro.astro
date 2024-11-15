@@ -2,12 +2,13 @@
 import ArrowButton, {
   type Props as ArrowButtonProps,
 } from '@elements/ArrowButton.astro'
-import Image, { type ImageDataProps } from '@elements/Image.astro'
+import { type ImageDataProps } from '@elements/Image.astro'
+import ImagesMorph from '@elements/ImagesMorph.astro'
 import Parallax from '@elements/Parallax.astro'
 import Toaster from '@elements/Toaster.astro'
 
 export interface Props {
-  image?: ImageDataProps
+  images?: Array<ImageDataProps>
   heading?: string
   buttons?: Array<
     Omit<ArrowButtonProps, 'class'> & {
@@ -17,10 +18,24 @@ export interface Props {
 }
 
 const {
-  image = {
-    src: '/images/home-intro/main.jpg',
-    alt: 'Современный деревянный дом',
-  },
+  images = [
+    {
+      src: '/images/home-intro/1.jpg',
+      alt: 'Современный деревянный дом',
+    },
+    {
+      src: '/images/home-intro/2.jpg',
+      alt: 'Современный деревянный дом',
+    },
+    {
+      src: '/images/home-intro/3.jpg',
+      alt: 'Современный деревянный дом',
+    },
+    {
+      src: '/images/home-intro/4.jpg',
+      alt: 'Современный деревянный дом',
+    },
+  ],
   heading = 'Строительство из дерева, стекла и камня сравнимо <span>с исскуством</span>',
   buttons = [
     { name: 'Каталог проектов', tag: 'a', href: '/projects', theme: 'light' },
@@ -38,13 +53,7 @@ const {
 <!-- BLOCK -->
 <e-segment class="home-intro">
   <Parallax class="home-intro__parralax">
-    <Image
-      class="home-intro__image"
-      cover
-      lazy
-      lazyBackground
-      {...image}
-    />
+    <ImagesMorph images={images} />
   </Parallax>
 
   <div class="home-intro__content">
