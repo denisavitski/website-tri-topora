@@ -1,7 +1,5 @@
 ---
-import ArrowButton, {
-  type Props as ArrowButtonProps,
-} from '@elements/ArrowButton.astro'
+import ArrowButton, { type Props as ArrowButtonProps } from '@elements/ArrowButton.astro'
 import { type ImageDataProps } from '@elements/Image.astro'
 import ImagesMorph from '@elements/ImagesMorph.astro'
 import Parallax from '@elements/Parallax.astro'
@@ -142,20 +140,12 @@ const {
       width: 100%;
       height: 100%;
 
-      background-image: linear-gradient(
-        to right,
-        rgba(48, 48, 48, 0.7) 10%,
-        rgba(11, 11, 11, 0) 100%
-      );
+      background-image: linear-gradient(to right, rgba(48, 48, 48, 0.7) 10%, rgba(11, 11, 11, 0) 100%);
     }
 
     @media (max-width: 768px) {
       &::before {
-        background-image: linear-gradient(
-          to right,
-          rgba(48, 48, 48, 0.7) -100%,
-          rgba(11, 11, 11, 0) 100%
-        );
+        background-image: linear-gradient(to right, rgba(48, 48, 48, 0.7) -100%, rgba(11, 11, 11, 0) 100%);
       }
     }
   }
@@ -242,8 +232,7 @@ const {
   }
 
   .home-intro__button-wrapper {
-    --transition: 1s calc(0.3s + 0.1s * var(--reveal-index, 0))
-      var(--ease-out-expo);
+    --transition: 1s calc(0.3s + 0.1s * var(--reveal-index, 0)) var(--ease-out-expo);
   }
 
   .home-intro__button {
