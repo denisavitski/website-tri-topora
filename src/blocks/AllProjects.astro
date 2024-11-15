@@ -226,11 +226,7 @@ const {
 } = Astro.props
 ---
 
-<!-- BLOCK --><!-- 
-  Предполагается, что все карточки будут на странице сразу.
-  Если карточки будут загружаться по API, то вам нужно будет заменить all-projects 
-  на div и сделать фильтрацию и пагинацию самостоятельно.
--->
+<!-- BLOCK -->
 <all-projects class="all-projects">
   <CaptureOnce class="all-projects__inner">
     <SectionHeading
@@ -258,7 +254,7 @@ const {
 
       <div class="all-projects__sheet">
         <!-- 
-        Добавить aria-hidden на все итемы кроме первых 8
+        Обязательно нужно добавить aria-hidden на все итемы кроме первых 8
         Все data-[name] атрибуты должны соотвествовать названиями инпутов в фильтре.
       -->
         <div class="all-projects__list">
@@ -486,6 +482,12 @@ const {
         ...this.querySelectorAll<HTMLElement>('.all-projects__project'),
       ]
 
+      const notHiddenElements = this.#projectElements.filter(
+        (el) => el.getAttribute('aria-hidden') !== 'true',
+      )
+
+      this.#page = Math.ceil(notHiddenElements.length / this.#itemsPerPage) || 1
+
       this.#projectElements.forEach((el, i) => {
         el.style.setProperty('--index', i.toString())
       })
@@ -510,7 +512,11 @@ const {
 
       this.#resetButtonElement?.addEventListener('click', this.#resetListener)
 
-      this.#filter(false)
+      customElements.whenDefined('e-filter').then(() => {
+        if (this.isConnected) {
+          this.#filter({ scroll: false, page: this.#page })
+        }
+      })
     }
 
     protected disconnectedCallback() {
@@ -534,13 +540,13 @@ const {
       this.#page++
 
       const values = this.#filterElement?.values
-      const { elements, pagination } = this.#apiEmulation({
+      const { pageElements, pagination } = this.#apiEmulation({
         filter: values,
         page: this.#page,
         itemsPerPage: this.#itemsPerPage,
       })
 
-      elements.forEach((element) => {
+      pageElements.forEach((element) => {
         element.ariaHidden = 'false'
       })
 
@@ -551,22 +557,25 @@ const {
     }
 
     #filterListener = () => {
-      this.#filter(true)
+      this.#filter({ scroll: true, page: 1 })
     }
 
-    #filter(scroll = true) {
-      this.#page = 1
+    #filter({
+      scroll = true,
+      page = 1,
+    }: { scroll?: boolean; page?: number } = {}) {
+      this.#page = page
 
       const values = this.#filterElement?.values
 
-      const { elements, pagination } = this.#apiEmulation({
+      const { pagesElements, pagination } = this.#apiEmulation({
         filter: values,
         page: this.#page,
         itemsPerPage: this.#itemsPerPage,
       })
 
       this.#projectElements.forEach((element) => {
-        if (elements.includes(element)) {
+        if (pagesElements.includes(element)) {
           element.ariaHidden = 'false'
         } else {
           element.ariaHidden = 'true'
@@ -659,7 +668,8 @@ const {
 
       const start = (page - 1) * itemsPerPage
       const end = start + itemsPerPage
-      const elements = filteredElements.slice(start, end)
+      const pageElements = filteredElements.slice(start, end)
+      const pagesElements = filteredElements.slice(0, end)
 
       const pagination: AllProjectsAPIEmulationPagination = {
         totalItems: filteredElements.length,
@@ -668,7 +678,9 @@ const {
       }
 
       return {
-        elements,
+        filteredElements,
+        pageElements,
+        pagesElements,
         pagination,
       }
     }

@@ -31,17 +31,21 @@ const {
   href={href}
   data-prefetch
   data-hashtags={hashtags}
+  data-save-scroll-state
+  data-save-document-state
 >
   {
     image && (
-      <Image
-        {...image}
-        class="news-card__image"
-        lazy
-        lazyBackground
-        cover
-        rounded
-      />
+      <div class="news-card__image-wrapper">
+        <Image
+          {...image}
+          class="news-card__image"
+          lazy
+          lazyBackground
+          cover
+          rounded
+        />
+      </div>
     )
   }
 
@@ -81,15 +85,33 @@ const {
     flex-direction: column;
   }
 
-  .news-card__image {
+  .news-card__image-wrapper {
     width: 100%;
     height: 42rem;
 
     margin-bottom: 2.4rem;
 
+    overflow: hidden;
+    border-radius: 0.8rem;
+
     @media (max-width: 768px) {
       margin-bottom: 1.6rem;
       height: 30.3rem;
+    }
+  }
+
+  .news-card__image {
+    width: 100%;
+    height: 100%;
+
+    @media (hover: hover) {
+      will-change: transform;
+
+      transition: transform var(--duration-button);
+
+      .news-card__image-wrapper:hover & {
+        transform: scale(1.015);
+      }
     }
   }
 

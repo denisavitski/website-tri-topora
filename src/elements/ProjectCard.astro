@@ -41,6 +41,8 @@ const {
   {...rest}
   {href}
   data-prefetch
+  data-save-scroll-state
+  data-save-document-state
   class:list={['project-card', className]}
 >
   <div class="project-card__image-box">
@@ -83,10 +85,11 @@ const {
     height: 100%;
 
     @media (hover: hover) {
+      will-change: transform;
       transition: transform var(--duration-button);
 
       .project-card:hover & {
-        transform: scale(1.01);
+        transform: scale(1.015);
       }
     }
   }

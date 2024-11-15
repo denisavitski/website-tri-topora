@@ -125,7 +125,7 @@ const {
     public changeValue(value: string) {
       const input = this.#inputElements.find((input) => input.value === value)
 
-      if (input) {
+      if (input && input.value !== this.#value) {
         input.checked = true
         this.#inputListener()
       }

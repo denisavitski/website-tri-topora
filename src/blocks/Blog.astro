@@ -79,7 +79,24 @@ const {
   ],
 } = Astro.props
 
-const marticles = [...articles, ...articles, ...articles, ...articles]
+const marticles = [
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+  ...articles,
+]
 
 const hashtags = new Map<string, number>()
 
@@ -120,7 +137,7 @@ marticles.forEach((article) => {
 
   <CaptureOnce class="blog__sheet">
     <!-- 
-      Добавить aria-hidden на все итемы кроме первых 12
+      Обязательно нужно добавить aria-hidden на все итемы кроме первых 12
     -->
     <div class="blog__list">
       {
@@ -274,6 +291,12 @@ marticles.forEach((article) => {
         ...this.querySelectorAll<HTMLElement>('.blog__list__item'),
       ]
 
+      const notHiddenElements = this.#articleElements.filter(
+        (el) => el.getAttribute('aria-hidden') !== 'true',
+      )
+
+      this.#page = Math.ceil(notHiddenElements.length / this.#itemsPerPage) || 1
+
       this.#moreButtonElement = this.querySelector('.blog__more')
       this.#moreButtonElement?.addEventListener(
         'click',
@@ -294,7 +317,7 @@ marticles.forEach((article) => {
           if (initialHashtag) {
             this.#filterElement?.changeValue(initialHashtag)
           } else {
-            this.#filter(false)
+            this.#filter({ scroll: false, page: this.#page })
           }
         }
       })
@@ -319,13 +342,13 @@ marticles.forEach((article) => {
     #moreButtonListener = () => {
       this.#page++
 
-      const { elements, pagination } = this.#apiEmulation({
+      const { pageElements, pagination } = this.#apiEmulation({
         filter: this.#filterElement?.value,
         page: this.#page,
         itemsPerPage: this.#itemsPerPage,
       })
 
-      elements.forEach((element) => {
+      pageElements.forEach((element) => {
         element.ariaHidden = 'false'
       })
 
@@ -338,20 +361,22 @@ marticles.forEach((article) => {
       this.#filter()
     }
 
-    #filter(scroll = true) {
-      this.#page = 1
+    #filter({
+      scroll = true,
+      page = 1,
+    }: { scroll?: boolean; page?: number } = {}) {
+      this.#page = page
 
       const value = this.#filterElement?.value
-      location.hash = value || ''
 
-      const { elements, pagination } = this.#apiEmulation({
+      const { pagesElements, pagination } = this.#apiEmulation({
         filter: this.#filterElement?.value,
         page: this.#page,
         itemsPerPage: this.#itemsPerPage,
       })
 
       this.#articleElements.forEach((element) => {
-        if (elements.includes(element)) {
+        if (pagesElements.includes(element)) {
           element.ariaHidden = 'false'
         } else {
           element.ariaHidden = 'true'
@@ -420,7 +445,8 @@ marticles.forEach((article) => {
 
       const start = (page - 1) * itemsPerPage
       const end = start + itemsPerPage
-      const elements = filteredElements.slice(start, end)
+      const pageElements = filteredElements.slice(start, end)
+      const pagesElements = filteredElements.slice(0, end)
 
       const pagination: AllProjectsAPIEmulationPagination = {
         totalItems: filteredElements.length,
@@ -429,7 +455,9 @@ marticles.forEach((article) => {
       }
 
       return {
-        elements,
+        pageElements,
+        pagesElements,
+        filteredElements,
         pagination,
       }
     }
