@@ -1,8 +1,9 @@
 ---
+import type { HTMLAttributes } from 'astro/types'
 import type { ImageDataProps } from './Image.astro'
 import Image from './Image.astro'
 
-export interface Props {
+export interface Props extends HTMLAttributes<any> {
   class?: string
   image?: ImageDataProps | false
   href?: string

@@ -1,6 +1,7 @@
 ---
 import type { ImageDataProps } from './Image.astro'
 import Image from './Image.astro'
+import ScrollToaster from './ScrollToaster.astro'
 import SliderButton from './SliderButton.astro'
 
 export interface Props {
@@ -89,10 +90,12 @@ const {
     data-hashtag="Строительство, Дизайн"
     data-hashtag="Архитектура"
 -->
-<div
+<ScrollToaster
   {...rest}
   class:list={['full-article', className]}
   data-hashtags={hashtags}
+  vector={'right'}
+  type={'clip'}
 >
   <Image
     class="full-article__cover"
@@ -172,23 +175,26 @@ const {
       }
     })
   }
-</div>
+</ScrollToaster>
 
 <style is:global>
   .full-article {
+    --transition: 1.2s;
+
     position: relative;
     z-index: calc(var(--z-lines) + 1);
 
-    padding: 2.4rem;
-
-    border-radius: 0.8rem;
     color: var(--color-grey-1);
-    background-color: var(--color-white-1);
 
-    overflow: hidden;
+    .toaster__toast {
+      padding: 2.4rem;
+      border-radius: 0.8rem;
+      background-color: var(--color-white-1);
+      overflow: hidden;
 
-    @media (max-width: 768px) {
-      padding: 1.6rem;
+      @media (max-width: 768px) {
+        padding: 1.6rem;
+      }
     }
   }
 

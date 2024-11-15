@@ -1,6 +1,7 @@
 ---
 import Counter, { type Props as CounterProps } from '@elements/Counter.astro'
 import FullArticle from '@elements/FullArticle.astro'
+import ScrollToaster from '@elements/ScrollToaster.astro'
 
 export interface Props {
   restHeading?: string
@@ -69,7 +70,11 @@ const {
 <e-article class="article">
   <FullArticle class="article__right" />
 
-  <div class="article__left">
+  <ScrollToaster
+    type={'clip'}
+    vector={'right'}
+    class="article__left"
+  >
     <div class="article__rest">
       <h3
         class="article__rest__heading"
@@ -120,7 +125,7 @@ const {
         })
       }
     </div>
-  </div>
+  </ScrollToaster>
 </e-article>
 
 <style is:global>

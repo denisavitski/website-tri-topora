@@ -1,4 +1,5 @@
 ---
+import CaptureOnce from './CaptureOnce.astro'
 import Counter from './Counter.astro'
 import SwipeModal from './SwipeModal.astro'
 
@@ -38,28 +39,33 @@ const {
   id="hashtags-filter"
   tag="hashtags-filter"
 >
-  <div class="hashtags-filter__buttons">
+  <CaptureOnce class="hashtags-filter__buttons">
     {
       Array.from(hashtags).map(([hashtag, amount], i) => {
         return (
-          <label class="hashtags-filter__button">
-            <input
-              type="radio"
-              name="hashtag"
-              value={hashtag}
-              checked={i === 0}
-              class="visually-hidden hashtags-filter__button__input"
-            />
-            <Counter
-              class="hashtags-filter__button__value"
-              name={hashtag}
-              amount={amount}
-            />
+          <label
+            class="hashtags-filter__button"
+            style={{ '--index': i }}
+          >
+            <span class="hashtags-filter__button__inner">
+              <input
+                type="radio"
+                name="hashtag"
+                value={hashtag}
+                checked={i === 0}
+                class="visually-hidden hashtags-filter__button__input"
+              />
+              <Counter
+                class="hashtags-filter__button__value"
+                name={hashtag}
+                amount={amount}
+              />
+            </span>
           </label>
         )
       })
     }
-  </div>
+  </CaptureOnce>
 </SwipeModal>
 
 <style is:global>
@@ -70,6 +76,23 @@ const {
 
     @media (max-width: 768px) {
       flex-direction: column;
+    }
+  }
+
+  .hashtags-filter__button {
+    overflow: hidden;
+  }
+
+  .hashtags-filter__button__inner {
+    display: block;
+
+    @media (min-width: 769px) {
+      transition: transform 0.5s calc(0.05s * var(--index)) var(--ease-out-expo);
+      transform: translate3d(0, 101%, 0);
+
+      .hashtags-filter__buttons.captured & {
+        transform: translate3d(0, 0, 0);
+      }
     }
   }
 </style>

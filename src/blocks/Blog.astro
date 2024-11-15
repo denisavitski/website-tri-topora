@@ -1,4 +1,5 @@
 ---
+import CaptureOnce from '@elements/CaptureOnce.astro'
 import HashtagsFilter from '@elements/HashtagsFilter.astro'
 import NewsCard, { type Props as NewsCardProps } from '@elements/NewsCard.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
@@ -104,6 +105,7 @@ marticles.forEach((article) => {
   <SectionHeading
     class="blog__heading"
     text={heading}
+    revealOnScroll
   />
 
   <e-popover-button
@@ -116,14 +118,18 @@ marticles.forEach((article) => {
     class="blog__filter"
   />
 
-  <div class="blog__sheet">
+  <CaptureOnce class="blog__sheet">
+    <!-- 
+      Добавить aria-hidden на все итемы кроме первых 12
+    -->
     <div class="blog__list">
       {
-        marticles.map((article) => {
+        marticles.map((article, i) => {
           return (
             <NewsCard
               class="blog__list__item"
               {...article}
+              aria-hidden={i > 11}
             />
           )
         })
@@ -131,7 +137,7 @@ marticles.forEach((article) => {
     </div>
 
     <SimpleButton class="blog__more">Смотреть ещё</SimpleButton>
-  </div>
+  </CaptureOnce>
 </e-blog>
 
 <style is:global>
@@ -191,9 +197,17 @@ marticles.forEach((article) => {
   }
 
   .blog__list__item {
-  }
+    @media (min-width: 769px) {
+      &:not([aria-hidden='true']) {
+        transition: clip-path 1s 0.3s;
 
-  .blog__more {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+        .blog__sheet.captured & {
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+      }
+    }
   }
 
   .blog__mobile-filter-button {
@@ -360,7 +374,7 @@ marticles.forEach((article) => {
       if (scroll) {
         this.parentElement!.scrollIntoView({
           block: 'start',
-          behavior: 'instant',
+          behavior: 'smooth',
         })
       }
     }

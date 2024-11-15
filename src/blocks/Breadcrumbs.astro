@@ -1,4 +1,6 @@
 ---
+import ScrollToaster from '@elements/ScrollToaster.astro'
+
 export interface Props {
   class?: string
   links?: Array<{ name: string; href: string }>
@@ -15,7 +17,9 @@ const {
 ---
 
 <!-- BLOCK -->
-<div
+<ScrollToaster
+  type={'clip'}
+  vector={'right'}
   {...rest}
   class:list={['breadcrumbs', className]}
 >
@@ -38,7 +42,7 @@ const {
       )
     })
   }
-</div>
+</ScrollToaster>
 
 <style is:global>
   .breadcrumbs {
@@ -47,10 +51,14 @@ const {
     padding: 4.8rem var(--screen-horisontal-padding) 4rem
       var(--screen-horisontal-padding);
 
-    display: flex;
-    align-items: center;
-    gap: var(--gap);
-    flex-wrap: wrap;
+    .toaster__toast {
+      display: flex;
+      align-items: center;
+      gap: var(--gap);
+      flex-wrap: wrap;
+      width: max-content;
+      max-width: 100%;
+    }
 
     @media (max-width: 768px) {
       padding: 1.6rem var(--screen-horisontal-padding) 2.4rem
