@@ -55,11 +55,11 @@ const {
     width: 79.2rem;
     height: 59.2rem;
 
-    .showcase-2[data-image-size='large'] & {
-      width: 92.8rem;
-    }
-
     @media (min-width: 769px) {
+      .showcase-2[data-image-size='large'] & {
+        width: 92.8rem;
+      }
+
       min-height: 100%;
     }
 
@@ -68,10 +68,6 @@ const {
       height: 32rem;
 
       margin-left: calc(var(--screen-horisontal-padding) * -1);
-
-      img {
-        height: 32rem;
-      }
     }
   }
 
