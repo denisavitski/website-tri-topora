@@ -14,8 +14,7 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
 <CommonModal
   id="images-modal"
   class="images-modal"
-  tag="images-modal"
->
+  tag="images-modal">
   <div class="images-modal__content">
     <TextCloseButton
       class="images-modal__close-button"
@@ -27,8 +26,7 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
       <template class="images-modal__slider-template">
         <e-scroll
           class="images-modal__slider"
-          data-popover-content
-        >
+          data-popover-content>
           <SliderButton
             class="images-modal__slider__button images-modal__slider__button_prev"
             slot="static"
@@ -49,9 +47,7 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
     </div>
 
     <div class="images-modal__info">
-      Фотографии (<span class="images-modal__info__current">0</span> из <span
-        class="images-modal__info__total">0</span
-      >)
+      Фотографии (<span class="images-modal__info__current">0</span> из <span class="images-modal__info__total">0</span>)
     </div>
   </div>
 </CommonModal>
@@ -111,15 +107,20 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
 
     background-color: var(--color-grey-4);
 
+    .media-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    img {
+      width: auto;
+      max-width: 100%;
+    }
+
     @media (max-width: 768px) {
       --gap: var(--screen-horisontal-padding);
       width: 100%;
-    }
-
-    e-image {
-      width: 100%;
-      height: 100%;
-      display: block;
     }
   }
 
@@ -180,68 +181,55 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
       this.addEventListener('popoverOpened', (e) => {
         const trigger = e.detail.trigger
 
-        if (
-          this.#sliderContainerElement &&
-          this.#sliderTemplateElement &&
-          trigger instanceof HTMLElement
-        ) {
+        if (this.#sliderContainerElement && this.#sliderTemplateElement && trigger instanceof HTMLElement) {
           const group = trigger.getAttribute('data-group')
 
           if (group) {
-            const groupElements = document.querySelectorAll(
-              `[data-group="${group}"]`,
-            )
+            const groupElements = document.querySelectorAll(`[data-group="${group}"]`)
 
-            cloneTemplateContent<ScrollElement>(
-              this.#sliderTemplateElement,
-              (sliderElement) => {
-                this.#currentSliderElement = sliderElement
+            cloneTemplateContent<ScrollElement>(this.#sliderTemplateElement, (sliderElement) => {
+              this.#currentSliderElement = sliderElement
 
-                const sources: Array<string> = []
+              const sources: Array<string> = []
 
-                groupElements.forEach((element) => {
-                  const value = element.getAttribute('data-value')
+              groupElements.forEach((element) => {
+                const value = element.getAttribute('data-value')
 
-                  if (value) {
-                    if (trigger === element) {
-                      sources.unshift(value)
-                    } else {
-                      sources.push(value)
-                    }
+                if (value) {
+                  if (trigger === element) {
+                    sources.unshift(value)
+                  } else {
+                    sources.push(value)
                   }
-                })
+                }
+              })
 
-                sources.forEach((source) => {
-                  const cloack = new ImageCloakElement()
-                  cloack.classList.add('media-wrapper')
-                  cloack.setAttribute('lazy-background', '')
-                  cloack.setAttribute('cover', '')
+              sources.forEach((source) => {
+                const cloack = new ImageCloakElement()
+                cloack.classList.add('media-wrapper')
+                cloack.setAttribute('lazy-background', '')
+                cloack.setAttribute('cover', '')
 
-                  const image = new Image()
-                  image.src = source
+                const image = new Image()
+                image.src = source
 
-                  cloack.appendChild(image)
+                cloack.appendChild(image)
 
-                  this.#currentSliderElement!.appendChild(cloack)
-                })
+                this.#currentSliderElement!.appendChild(cloack)
+              })
 
-                this.#sliderContainerElement!.appendChild(
-                  this.#currentSliderElement,
-                )
+              this.#sliderContainerElement!.appendChild(this.#currentSliderElement)
 
-                this.#currentSliderElement.counter.subscribe((e) => {
-                  if (this.#currentElement) {
-                    this.#currentElement.textContent = (
-                      e.current + 1
-                    ).toString()
-                  }
+              this.#currentSliderElement.counter.subscribe((e) => {
+                if (this.#currentElement) {
+                  this.#currentElement.textContent = (e.current + 1).toString()
+                }
 
-                  if (this.#totalElement) {
-                    this.#totalElement.textContent = sources.length.toString()
-                  }
-                })
-              },
-            )
+                if (this.#totalElement) {
+                  this.#totalElement.textContent = sources.length.toString()
+                }
+              })
+            })
           }
         }
 
@@ -258,12 +246,9 @@ import TextCloseButton from '@elements/TextCloseButton.astro'
     protected override connectedCallback() {
       super.connectedCallback()
 
-      this.#sliderTemplateElement = this.querySelector(
-        '.images-modal__slider-template',
-      )
+      this.#sliderTemplateElement = this.querySelector('.images-modal__slider-template')
 
-      this.#sliderContainerElement =
-        this.#sliderTemplateElement?.parentElement || null
+      this.#sliderContainerElement = this.#sliderTemplateElement?.parentElement || null
 
       this.#sliderTemplateElement?.remove()
 
