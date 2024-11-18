@@ -14,7 +14,7 @@ export interface Props {
 const {
   class: className,
   image = {
-    src: '/images/dev/1.jpg',
+    src: '/images/dev/image/1.jpg',
   },
   href = 'https://google.com',
   title = 'Материал “Деловой квартал”',
@@ -25,8 +25,7 @@ const {
 
 <div
   {...rest}
-  class:list={['media-card', className]}
->
+  class:list={['media-card', className]}>
   <Image
     class="media-card__image"
     {...image}

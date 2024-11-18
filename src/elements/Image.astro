@@ -17,16 +17,7 @@ export interface Props extends ImageDataProps {
   rounded?: boolean | undefined
 }
 
-const {
-  class: className,
-  src = '/images/dev/dark/1.jpg',
-  alt = 'Альтернативный текст',
-  lazy,
-  cover,
-  contain,
-  lazyBackground,
-  ...rest
-} = Astro.props
+const { class: className, src = '/images/dev/image/dark/1.jpg', alt = 'Альтернативный текст', lazy, cover, contain, lazyBackground, ...rest } = Astro.props
 ---
 
 <MediaWrapper
@@ -35,8 +26,7 @@ const {
   {...omit(rest, ['slot'] as any)}
   cover={cover}
   contain={contain}
-  lazyBackground={lazyBackground}
->
+  lazyBackground={lazyBackground}>
   <img
     src={getHref(src)}
     {alt}

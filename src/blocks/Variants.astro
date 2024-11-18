@@ -22,28 +22,28 @@ const {
     {
       name: 'Дома из бревна',
       image: {
-        src: '/images/variants/1.jpg',
+        src: '/images/buildings/1.jpg',
         alt: 'Дома из бревна',
       },
     },
     {
       name: 'Дома из бруса',
       image: {
-        src: '/images/variants/1.jpg',
+        src: '/images/buildings/2.jpg',
         alt: 'Дома из бруса',
       },
     },
     {
       name: 'Бани и СПА-комплексы',
       image: {
-        src: '/images/variants/1.jpg',
+        src: '/images/buildings/3.jpg',
         alt: 'Бани и СПА-комплексы',
       },
     },
     {
       name: 'Коммерческая недвижимость',
       image: {
-        src: '/images/variants/1.jpg',
+        src: '/images/buildings/4.jpg',
         alt: 'Коммерческая недвижимость',
       },
     },
@@ -69,8 +69,7 @@ const {
             return (
               <button
                 class="variants__list__button"
-                style={{ '--index': i }}
-              >
+                style={{ '--index': i }}>
                 <span class="variants__list__button__value">{item.name}</span>
               </button>
             )
@@ -192,11 +191,7 @@ const {
     width: 100%;
     height: 100%;
 
-    background-image: linear-gradient(
-      to bottom,
-      rgba(34, 34, 34, 0) 20%,
-      rgba(34, 34, 34, 1) 100%
-    );
+    background-image: linear-gradient(to bottom, rgba(34, 34, 34, 0) 20%, rgba(34, 34, 34, 1) 100%);
 
     pointer-events: none;
   }
@@ -342,13 +337,9 @@ const {
     #listButtonElements: Array<HTMLElement> = []
 
     protected connectedCallback() {
-      this.#listButtonElements = [
-        ...this.querySelectorAll<HTMLElement>('.variants__list__button'),
-      ]
+      this.#listButtonElements = [...this.querySelectorAll<HTMLElement>('.variants__list__button')]
 
-      this.#listButtonElements.forEach((element) =>
-        element.addEventListener('click', this.#buttonClickListener),
-      )
+      this.#listButtonElements.forEach((element) => element.addEventListener('click', this.#buttonClickListener))
 
       this.#scrollElement = this.querySelector('.variants__slider')
 
@@ -362,9 +353,7 @@ const {
     }
 
     protected disconnectedCallback() {
-      this.#listButtonElements.forEach((element) =>
-        element.removeEventListener('click', this.#buttonClickListener),
-      )
+      this.#listButtonElements.forEach((element) => element.removeEventListener('click', this.#buttonClickListener))
     }
 
     #buttonClickListener = (e: Event) => {

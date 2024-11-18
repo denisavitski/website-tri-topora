@@ -21,7 +21,7 @@ const {
 <p>Этот тип рубки исключает продувание углов и стен, а в пазах используется упругий утеплитель, который не слёживается годами.</p>\
 <p>Это очень красивый тип соединения. Комли по углам дома сохраняем в первозданном виде. Возможно, нарезать на комле уникальный узор-«чешую»</p>\
 `,
-  image = { src: '/images/dev/1.jpg' },
+  image = { src: '/images/dev/image/1.jpg' },
 } = Astro.props
 ---
 
@@ -29,8 +29,7 @@ const {
 <Showcase
   class="showcase-5"
   direction={direction}
-  {heading}
->
+  {heading}>
   <RichText
     slot={'col-1'}
     text={text}

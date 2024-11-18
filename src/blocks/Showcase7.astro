@@ -22,14 +22,7 @@ const {
   text2 = `\
 <p><b>Компания Три Топора</b> так же производит облегченную версию Post&Beam в бревне 32-38 см. Это решение оптимально для коммерческих объектов: рестораны, гостиницы, гостевые дома так как снижает расходы на силовой каркас здания при сохранении внешней эстетики и уникальной архитектуры</p>\
 `,
-  images = [
-    { src: '/images/dev/1.jpg' },
-    { src: '/images/dev/2.jpg' },
-    { src: '/images/dev/3.jpg' },
-    { src: '/images/dev/4.jpg' },
-    { src: '/images/dev/5.jpg' },
-    { src: '/images/dev/6.jpg' },
-  ],
+  images = [{ src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }, { src: '/images/dev/image/4.jpg' }, { src: '/images/dev/image/5.jpg' }, { src: '/images/dev/image/6.jpg' }],
 } = Astro.props
 ---
 
@@ -37,8 +30,7 @@ const {
 <Showcase
   class="showcase-7"
   direction={direction}
-  {heading}
->
+  {heading}>
   <Image
     slot={'col-1'}
     {...images[3]}
@@ -55,8 +47,7 @@ const {
   />
   <div
     class="showcase-7__left-images"
-    slot={'col-1'}
-  >
+    slot={'col-1'}>
     <Image
       {...images[4]}
       lazy
@@ -81,8 +72,7 @@ const {
   />
   <e-scroll
     class="showcase-7__right-slider"
-    slot={'col-2'}
-  >
+    slot={'col-2'}>
     {
       images.map((image) => {
         return (

@@ -35,7 +35,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/projects-section/1.jpg', alt: '' },
+      image: { src: '/images/buildings/1.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -54,7 +54,7 @@ const {
     {
       name: 'Дом Гарда',
       href: '/projects/project',
-      image: { src: '/images/projects-section/2.jpg', alt: '' },
+      image: { src: '/images/buildings/2.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -73,7 +73,7 @@ const {
     {
       name: 'Дом Атитлан',
       href: '/projects/project',
-      image: { src: '/images/projects-section/3.jpg', alt: '' },
+      image: { src: '/images/buildings/3.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -92,7 +92,7 @@ const {
     {
       name: 'Дом Аннеси',
       href: '/projects/project',
-      image: { src: '/images/projects-section/4.jpg', alt: '' },
+      image: { src: '/images/buildings/4.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -135,8 +135,7 @@ const {
           return (
             <li
               class="projects__card"
-              style={{ '--index': i }}
-            >
+              style={{ '--index': i }}>
               <Image
                 {...project.image}
                 class="projects__card__image"
@@ -155,8 +154,7 @@ const {
                 tag="a"
                 href={project.href}
                 data-prefetch
-                transparent
-              >
+                transparent>
                 Перейти
               </ArrowButton>
             </li>
@@ -177,10 +175,7 @@ const {
     --offset: 0vh;
     --stick-offset: 5vh;
     --gap: var(--header-height);
-    --card-height: calc(
-      (var(--viewport-height) - var(--offset)) - var(--header-height) -
-        var(--stick-offset) * 2
-    );
+    --card-height: calc((var(--viewport-height) - var(--offset)) - var(--header-height) - var(--stick-offset) * 2);
 
     display: flex;
     flex-direction: column;
@@ -193,8 +188,7 @@ const {
       --gap: 0.8rem;
       --card-height: 35.1rem;
 
-      padding: calc(var(--section-vertical-padding) * 2)
-        var(--screen-horisontal-padding);
+      padding: calc(var(--section-vertical-padding) * 2) var(--screen-horisontal-padding);
     }
   }
 

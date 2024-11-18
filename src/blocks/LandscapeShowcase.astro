@@ -1,8 +1,6 @@
 ---
 import SectionHeading from '@elements/SectionHeading.astro'
-import ServiceSlider, {
-  type Props as ServiceSliderProps,
-} from '@elements/ServiceSlider.astro'
+import ServiceSlider, { type Props as ServiceSliderProps } from '@elements/ServiceSlider.astro'
 
 export interface Props {
   heading?: string
@@ -14,23 +12,11 @@ const {
   sliders = [
     {
       name: 'Стройка пруда с биоплато площадью зеркала 1630 м2 в рамках работ по проекту <b>«Лесная Усадьба»</b>',
-      images: [
-        { src: '/images/dev/1.jpg' },
-        { src: '/images/dev/2.jpg' },
-        { src: '/images/dev/3.jpg' },
-        { src: '/images/dev/4.jpg' },
-        { src: '/images/dev/5.jpg' },
-      ],
+      images: [{ src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }, { src: '/images/dev/image/4.jpg' }, { src: '/images/dev/image/5.jpg' }],
     },
     {
       name: 'Работа над проектом ландшафтного дизайна курорта <b>«Добрые Горы»</b>',
-      images: [
-        { src: '/images/dev/1.jpg' },
-        { src: '/images/dev/2.jpg' },
-        { src: '/images/dev/3.jpg' },
-        { src: '/images/dev/4.jpg' },
-        { src: '/images/dev/5.jpg' },
-      ],
+      images: [{ src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }, { src: '/images/dev/image/4.jpg' }, { src: '/images/dev/image/5.jpg' }],
     },
   ],
 } = Astro.props

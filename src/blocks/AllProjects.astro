@@ -2,9 +2,7 @@
 import CaptureOnce from '@elements/CaptureOnce.astro'
 import Filter, { type Props as FilterProps } from '@elements/Filter.astro'
 import Icon from '@elements/Icon.astro'
-import ProjectCard, {
-  type Props as ProjectCardProps,
-} from '@elements/ProjectCard.astro'
+import ProjectCard, { type Props as ProjectCardProps } from '@elements/ProjectCard.astro'
 import SectionHeading from '@elements/SectionHeading.astro'
 import SimpleButton from '@elements/SimpleButton.astro'
 
@@ -24,7 +22,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/1.jpg', alt: '' },
+      image: { src: '/images/buildings/1.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -49,7 +47,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/2.jpg', alt: '' },
+      image: { src: '/images/buildings/2.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -74,7 +72,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/3.jpg', alt: '' },
+      image: { src: '/images/buildings/3.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -99,7 +97,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/4.jpg', alt: '' },
+      image: { src: '/images/buildings/4.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -124,7 +122,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/5.jpg', alt: '' },
+      image: { src: '/images/buildings/5.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -149,7 +147,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/6.jpg', alt: '' },
+      image: { src: '/images/buildings/6.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -174,7 +172,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/7.jpg', alt: '' },
+      image: { src: '/images/buildings/7.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -199,7 +197,7 @@ const {
     {
       name: 'Дом Макдональд',
       href: '/projects/project',
-      image: { src: '/images/dev/8.jpg', alt: '' },
+      image: { src: '/images/buildings/8.jpg', alt: '' },
       stats: [
         {
           icon: 'bed',
@@ -237,8 +235,7 @@ const {
 
     <e-popover-button
       class="all-projects__filter-button"
-      target="filter"
-    >
+      target="filter">
       <span class="all-projects__filter-button__name">Фильтр</span>
       <Icon
         name="settings"
@@ -259,13 +256,7 @@ const {
       -->
         <div class="all-projects__list">
           {
-            [
-              ...projects,
-              ...projects,
-              ...projects,
-              ...projects,
-              ...projects,
-            ].map((project, i) => {
+            [...projects, ...projects, ...projects, ...projects, ...projects].map((project, i) => {
               return (
                 <ProjectCard
                   class={`all-projects__project`}
@@ -287,12 +278,9 @@ const {
 
         <div
           class="all-projects__reset"
-          aria-hidden="true"
-        >
+          aria-hidden="true">
           <div class="all-projects__reset__title">Ничего не найдено</div>
-          <SimpleButton class="all-projects__reset__button"
-            >Очистить фильтры</SimpleButton
-          >
+          <SimpleButton class="all-projects__reset__button">Очистить фильтры</SimpleButton>
         </div>
 
         <SimpleButton class="all-projects__more">Смотреть ещё</SimpleButton>
@@ -478,13 +466,9 @@ const {
     #page = 1
 
     protected connectedCallback() {
-      this.#projectElements = [
-        ...this.querySelectorAll<HTMLElement>('.all-projects__project'),
-      ]
+      this.#projectElements = [...this.querySelectorAll<HTMLElement>('.all-projects__project')]
 
-      const notHiddenElements = this.#projectElements.filter(
-        (el) => el.getAttribute('aria-hidden') !== 'true',
-      )
+      const notHiddenElements = this.#projectElements.filter((el) => el.getAttribute('aria-hidden') !== 'true')
 
       this.#page = Math.ceil(notHiddenElements.length / this.#itemsPerPage) || 1
 
@@ -493,22 +477,14 @@ const {
       })
 
       this.#moreButtonElement = this.querySelector('.all-projects__more')
-      this.#moreButtonElement?.addEventListener(
-        'click',
-        this.#moreButtonListener,
-      )
+      this.#moreButtonElement?.addEventListener('click', this.#moreButtonListener)
 
       this.#filterElement = this.querySelector('e-filter')
-      this.#filterElement?.addEventListener(
-        'filterChange',
-        this.#filterListener,
-      )
+      this.#filterElement?.addEventListener('filterChange', this.#filterListener)
 
       this.#resetElement = this.querySelector('.all-projects__reset')
 
-      this.#resetButtonElement =
-        this.#resetElement?.querySelector('.all-projects__reset__button') ||
-        null
+      this.#resetButtonElement = this.#resetElement?.querySelector('.all-projects__reset__button') || null
 
       this.#resetButtonElement?.addEventListener('click', this.#resetListener)
 
@@ -520,20 +496,11 @@ const {
     }
 
     protected disconnectedCallback() {
-      this.#moreButtonElement?.removeEventListener(
-        'click',
-        this.#moreButtonListener,
-      )
+      this.#moreButtonElement?.removeEventListener('click', this.#moreButtonListener)
 
-      this.#filterElement?.removeEventListener(
-        'filterChange',
-        this.#filterListener,
-      )
+      this.#filterElement?.removeEventListener('filterChange', this.#filterListener)
 
-      this.#resetButtonElement?.removeEventListener(
-        'click',
-        this.#resetListener,
-      )
+      this.#resetButtonElement?.removeEventListener('click', this.#resetListener)
     }
 
     #moreButtonListener = () => {
@@ -560,10 +527,7 @@ const {
       this.#filter({ scroll: true, page: 1 })
     }
 
-    #filter({
-      scroll = true,
-      page = 1,
-    }: { scroll?: boolean; page?: number } = {}) {
+    #filter({ scroll = true, page = 1 }: { scroll?: boolean; page?: number } = {}) {
       this.#page = page
 
       const values = this.#filterElement?.values
@@ -601,10 +565,7 @@ const {
 
     #toggleMoreButton(pagination: AllProjectsAPIEmulationPagination) {
       if (this.#moreButtonElement) {
-        if (
-          !pagination.totalPages ||
-          pagination.totalPages === pagination.currentPage
-        ) {
+        if (!pagination.totalPages || pagination.totalPages === pagination.currentPage) {
           this.#moreButtonElement.ariaHidden = 'true'
         } else {
           this.#moreButtonElement.ariaHidden = 'false'
@@ -622,11 +583,7 @@ const {
       }
     }
 
-    #apiEmulation({
-      page = 1,
-      filter,
-      itemsPerPage = 8,
-    }: AllProjectsAPIEmulationParameters) {
+    #apiEmulation({ page = 1, filter, itemsPerPage = 8 }: AllProjectsAPIEmulationParameters) {
       const filteredElements = this.#projectElements.filter((project) => {
         let errors = 0
 
@@ -645,11 +602,7 @@ const {
                 const maxFloat = parseFloat(max)
                 const valueFloat = parseFloat(projectValue)
 
-                if (
-                  !isNaN(valueFloat) &&
-                  !isNaN(minFloat) &&
-                  !isNaN(maxFloat)
-                ) {
+                if (!isNaN(valueFloat) && !isNaN(minFloat) && !isNaN(maxFloat)) {
                   if (valueFloat < minFloat || valueFloat > maxFloat) {
                     errors++
                   }

@@ -21,12 +21,8 @@ const {
 </ul>\
 <h3>Клееный брус материал, с которым можно и нужно работать в как в частной, так и в коммерческой стройке.</h3>\
 `,
-  image = { src: '/images/dev/1.jpg' },
-  images = [
-    { src: '/images/dev/2.jpg' },
-    { src: '/images/dev/3.jpg' },
-    { src: '/images/dev/4.jpg' },
-  ],
+  image = { src: '/images/dev/image/1.jpg' },
+  images = [{ src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }, { src: '/images/dev/image/4.jpg' }],
 } = Astro.props
 ---
 
@@ -34,12 +30,10 @@ const {
 <Showcase
   class="showcase-4"
   direction={direction}
-  {heading}
->
+  {heading}>
   <div
     class="showcase-4__text-images"
-    slot={'col-1'}
-  >
+    slot={'col-1'}>
     {
       images.map((image) => {
         return (

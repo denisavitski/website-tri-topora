@@ -10,33 +10,7 @@ export interface Props {
   description?: Array<string> | false
 }
 
-const {
-  heading = 'Фото работ',
-  list = [
-    { src: '/images/dev/1.jpg' },
-    { src: '/images/dev/2.jpg' },
-    { src: '/images/dev/3.jpg' },
-    { src: '/images/dev/4.jpg' },
-    { src: '/images/dev/5.jpg' },
-    { src: '/images/dev/6.jpg' },
-    { src: '/images/dev/7.jpg' },
-    { src: '/images/dev/8.jpg' },
-    { src: '/images/dev/9.jpg' },
-    { src: '/images/dev/1.jpg' },
-    { src: '/images/dev/2.jpg' },
-    { src: '/images/dev/3.jpg' },
-    { src: '/images/dev/4.jpg' },
-    { src: '/images/dev/5.jpg' },
-    { src: '/images/dev/6.jpg' },
-    { src: '/images/dev/7.jpg' },
-    { src: '/images/dev/8.jpg' },
-    { src: '/images/dev/9.jpg' },
-  ],
-  description = [
-    'Работаем с 2007 года',
-    'Реализовано более 120 проектов, вот некоторые из них',
-  ],
-} = Astro.props
+const { heading = 'Фото работ', list = [{ src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }, { src: '/images/dev/image/4.jpg' }, { src: '/images/dev/image/5.jpg' }, { src: '/images/dev/image/6.jpg' }, { src: '/images/dev/image/7.jpg' }, { src: '/images/dev/image/8.jpg' }, { src: '/images/dev/image/9.jpg' }, { src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }, { src: '/images/dev/image/4.jpg' }, { src: '/images/dev/image/5.jpg' }, { src: '/images/dev/image/6.jpg' }, { src: '/images/dev/image/7.jpg' }, { src: '/images/dev/image/8.jpg' }, { src: '/images/dev/image/9.jpg' }], description = ['Работаем с 2007 года', 'Реализовано более 120 проектов, вот некоторые из них'] } = Astro.props
 ---
 
 <!-- BLOCK -->
@@ -52,8 +26,7 @@ const {
       <ScrollToaster
         vector={'right'}
         type={'clip'}
-        class="works__description"
-      >
+        class="works__description">
         {description.map((item) => {
           return (
             <div
@@ -72,8 +45,7 @@ const {
         return (
           <ScrollToaster
             type={'clip'}
-            vector={i % 2 === 0 ? 'left' : 'right'}
-          >
+            vector={i % 2 === 0 ? 'left' : 'right'}>
             <Image
               class="works__list__item"
               {...item}
@@ -213,14 +185,9 @@ const {
 
     protected connectedCallback() {
       this.#moreButtonElement = this.querySelector('.works__more-button')
-      this.#itemElements = [
-        ...this.querySelectorAll<HTMLElement>('.works__list__item'),
-      ]
+      this.#itemElements = [...this.querySelectorAll<HTMLElement>('.works__list__item')]
 
-      this.#moreButtonElement?.addEventListener(
-        'click',
-        this.#moreButtonListener,
-      )
+      this.#moreButtonElement?.addEventListener('click', this.#moreButtonListener)
 
       this.#moreButtonListener()
 
@@ -230,10 +197,7 @@ const {
     }
 
     protected disconnectedCallback() {
-      this.#moreButtonElement?.removeEventListener(
-        'click',
-        this.#moreButtonListener,
-      )
+      this.#moreButtonElement?.removeEventListener('click', this.#moreButtonListener)
 
       this.#itemElements.forEach((item) => {
         item.removeEventListener('load', this.#loadListener)
@@ -249,10 +213,7 @@ const {
         }
       })
 
-      if (
-        this.#currentPage ===
-        Math.ceil(this.#itemElements.length / this.#itemsPerPage)
-      ) {
+      if (this.#currentPage === Math.ceil(this.#itemElements.length / this.#itemsPerPage)) {
         this.#moreButtonElement?.remove()
       }
     }

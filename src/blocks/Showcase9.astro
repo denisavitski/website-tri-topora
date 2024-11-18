@@ -24,11 +24,7 @@ const {
 
 Грунт со слабой несущей способностью?
 `,
-  images = [
-    { src: '/images/dev/1.jpg' },
-    { src: '/images/dev/2.jpg' },
-    { src: '/images/dev/3.jpg' },
-  ],
+  images = [{ src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }],
   plaque = 'Эти задачи по плечу технологии Timber Frame',
 } = Astro.props
 ---
@@ -37,12 +33,10 @@ const {
 <Showcase
   class="showcase-9"
   direction={direction}
-  {heading}
->
+  {heading}>
   <e-scroll
     class="showcase-9__slider"
-    slot={'col-1'}
-  >
+    slot={'col-1'}>
     {
       images.map((image) => {
         return (
@@ -61,8 +55,7 @@ const {
 
   <div
     class="showcase-9__right-images"
-    slot={'col-2'}
-  >
+    slot={'col-2'}>
     {
       images.slice(1).map((image) => {
         return (
@@ -81,8 +74,7 @@ const {
 
   <div
     class="showcase-9__rich-container"
-    slot={'col-2'}
-  >
+    slot={'col-2'}>
     <RichText
       text={text}
       class="showcase-9__rich"

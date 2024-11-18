@@ -36,48 +36,48 @@ const {
   ],
   items = [
     {
-      miniature: '/images/dev/1.jpg',
-      full: '/images/dev/1.jpg',
+      miniature: '/images/dev/image/1.jpg',
+      full: '/images/dev/image/1.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/2.jpg',
-      full: '/images/dev/2.jpg',
+      miniature: '/images/dev/image/2.jpg',
+      full: '/images/dev/image/2.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/3.jpg',
-      full: '/images/dev/3.jpg',
+      miniature: '/images/dev/image/3.jpg',
+      full: '/images/dev/image/3.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/4.jpg',
-      full: '/images/dev/4.jpg',
+      miniature: '/images/dev/image/4.jpg',
+      full: '/images/dev/image/4.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/5.jpg',
-      full: '/images/dev/5.jpg',
+      miniature: '/images/dev/image/5.jpg',
+      full: '/images/dev/image/5.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/6.jpg',
-      full: '/images/dev/6.jpg',
+      miniature: '/images/dev/image/6.jpg',
+      full: '/images/dev/image/6.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/7.jpg',
-      full: '/images/dev/7.jpg',
+      miniature: '/images/dev/image/7.jpg',
+      full: '/images/dev/image/7.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/8.jpg',
-      full: '/images/dev/8.jpg',
+      miniature: '/images/dev/image/8.jpg',
+      full: '/images/dev/image/8.jpg',
       alt: '',
     },
     {
-      miniature: '/images/dev/9.jpg',
-      full: '/images/dev/9.jpg',
+      miniature: '/images/dev/image/9.jpg',
+      full: '/images/dev/image/9.jpg',
       alt: '',
     },
   ],
@@ -91,13 +91,11 @@ const {
 -->
 <project-slider
   {...rest}
-  class:list={['project-slider', className]}
->
+  class:list={['project-slider', className]}>
   <ScrollToaster
     vector={'down'}
     type={'clip'}
-    class="project-slider__main-window"
-  >
+    class="project-slider__main-window">
     <SectionHeading
       class="project-slider__heading"
       text={name}
@@ -139,8 +137,7 @@ const {
             <div
               class="project-slider__miniature"
               data-full-src={item.full}
-              style={{ '--index': i }}
-            >
+              style={{ '--index': i }}>
               <div class="project-slider__miniature__clip">
                 <Image
                   class="project-slider__miniature__image"
@@ -199,11 +196,7 @@ const {
         width: 100%;
         height: 100%;
 
-        background-image: linear-gradient(
-          to bottom,
-          rgba(44, 44, 44, 1) -20%,
-          rgba(58, 58, 58, 0)
-        );
+        background-image: linear-gradient(to bottom, rgba(44, 44, 44, 1) -20%, rgba(58, 58, 58, 0));
       }
 
       @media (max-width: 768px) {
@@ -394,41 +387,21 @@ const {
     }
 
     protected connectedCallback() {
-      this.#miniaturesSliderElement = this.querySelector(
-        '.project-slider__miniatures',
-      )
+      this.#miniaturesSliderElement = this.querySelector('.project-slider__miniatures')
 
-      this.#miniatureElements = [
-        ...this.querySelectorAll<ImageCloakElement>(
-          '.project-slider__miniature',
-        ),
-      ]
+      this.#miniatureElements = [...this.querySelectorAll<ImageCloakElement>('.project-slider__miniature')]
 
-      this.#miniatureElements.forEach((element) =>
-        element.addEventListener('click', this.#miniatureListener),
-      )
+      this.#miniatureElements.forEach((element) => element.addEventListener('click', this.#miniatureListener))
 
-      this.#currentImageElement = this.querySelector(
-        '.project-slider__current-image',
-      )
+      this.#currentImageElement = this.querySelector('.project-slider__current-image')
 
-      this.#prevButtonElement = this.querySelector(
-        '.project-slider__button_prev',
-      )
+      this.#prevButtonElement = this.querySelector('.project-slider__button_prev')
 
-      this.#prevButtonElement?.addEventListener(
-        'click',
-        this.#prevButtonListener,
-      )
+      this.#prevButtonElement?.addEventListener('click', this.#prevButtonListener)
 
-      this.#nextButtonElement = this.querySelector(
-        '.project-slider__button_next',
-      )
+      this.#nextButtonElement = this.querySelector('.project-slider__button_next')
 
-      this.#nextButtonElement?.addEventListener(
-        'click',
-        this.#nextButtonListener,
-      )
+      this.#nextButtonElement?.addEventListener('click', this.#nextButtonListener)
 
       customElements.whenDefined('e-scroll').then(() => {
         if (this.isConnected) {
@@ -442,19 +415,11 @@ const {
     }
 
     protected disconnectedCallback() {
-      this.#miniatureElements.forEach((element) =>
-        element.removeEventListener('click', this.#miniatureListener),
-      )
+      this.#miniatureElements.forEach((element) => element.removeEventListener('click', this.#miniatureListener))
 
-      this.#prevButtonElement?.removeEventListener(
-        'click',
-        this.#prevButtonListener,
-      )
+      this.#prevButtonElement?.removeEventListener('click', this.#prevButtonListener)
 
-      this.#nextButtonElement?.removeEventListener(
-        'click',
-        this.#nextButtonListener,
-      )
+      this.#nextButtonElement?.removeEventListener('click', this.#nextButtonListener)
     }
 
     #prevButtonListener = () => {

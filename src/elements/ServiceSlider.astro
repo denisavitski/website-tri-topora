@@ -11,25 +11,44 @@ export interface Props {
   images?: Array<ImageDataProps>
 }
 
-const { class: className, name = 'Стройка пруда с биоплато площадью зеркала 1630 м2 в рамках работ по проекту <b>«Лесная Усадьба»</b>', images = [{ src: '/images/dev/1.jpg' }, { src: '/images/dev/2.jpg' }, { src: '/images/dev/3.jpg' }, { src: '/images/dev/4.jpg' }, { src: '/images/dev/5.jpg' }], ...rest } = Astro.props
+const { class: className, name = 'Стройка пруда с биоплато площадью зеркала 1630 м2 в рамках работ по проекту <b>«Лесная Усадьба»</b>', images = [{ src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }, { src: '/images/dev/image/4.jpg' }, { src: '/images/dev/image/5.jpg' }], ...rest } = Astro.props
 ---
 
-<div {...rest} class:list={['service-slider', className]}>
-  <ScrollToaster type={'clip'} vector={'right'} class="service-slider__name" set:html={name} />
+<div
+  {...rest}
+  class:list={['service-slider', className]}>
+  <ScrollToaster
+    type={'clip'}
+    vector={'right'}
+    class="service-slider__name"
+    set:html={name}
+  />
 
   <CaptureOnce class="service-slider__scroll-wrapper">
     <e-scroll class="service-slider__scroll">
       {
         images.map((image, i) => {
           return (
-            <div class="service-slider__scroll__item" style={{ '--index': i }}>
-              <Image class="service-slider__scroll__image" cover lazy lazyBackground rounded {...image} />
+            <div
+              class="service-slider__scroll__item"
+              style={{ '--index': i }}>
+              <Image
+                class="service-slider__scroll__image"
+                cover
+                lazy
+                lazyBackground
+                rounded
+                {...image}
+              />
             </div>
           )
         })
       }
 
-      <SliderStatic class="service-slider__scroll__buttons" slot="static" />
+      <SliderStatic
+        class="service-slider__scroll__buttons"
+        slot="static"
+      />
     </e-scroll>
   </CaptureOnce>
 </div>

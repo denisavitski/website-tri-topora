@@ -1,9 +1,7 @@
 ---
 import SectionHeading from '@elements/SectionHeading.astro'
 import SliderButtons from '@elements/SliderButtons.astro'
-import MediaCard, {
-  type Props as MediaCardProps,
-} from '@elements/MediaCard.astro'
+import MediaCard, { type Props as MediaCardProps } from '@elements/MediaCard.astro'
 import CaptureOnce from '@elements/CaptureOnce.astro'
 
 export interface Props {
@@ -16,16 +14,15 @@ const {
   cards = [
     {
       image: {
-        src: '/images/dev/1.jpg',
+        src: '/images/dev/image/1.jpg',
       },
       href: 'https://google.com',
       title: 'Материал “Деловой квартал”',
-      description:
-        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+      description: '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
     },
     {
       image: {
-        src: '/images/dev/2.jpg',
+        src: '/images/dev/image/2.jpg',
       },
       href: 'https://google.com',
       title: 'Материал “Деловой квартал”',
@@ -33,30 +30,27 @@ const {
     },
     {
       image: {
-        src: '/images/dev/3.jpg',
+        src: '/images/dev/image/3.jpg',
       },
       href: 'https://google.com',
       title: 'Материал “Деловой квартал”',
-      description:
-        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+      description: '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
     },
     {
       image: {
-        src: '/images/dev/4.jpg',
+        src: '/images/dev/image/4.jpg',
       },
       href: 'https://google.com',
       title: 'Материал “Деловой квартал”',
-      description:
-        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+      description: '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
     },
     {
       image: {
-        src: '/images/dev/5.jpg',
+        src: '/images/dev/image/5.jpg',
       },
       href: 'https://google.com',
       title: 'Материал “Деловой квартал”',
-      description:
-        '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
+      description: '«Дешевле не будет. В стройку нужно было заходить еще вчера»',
     },
   ],
 } = Astro.props
@@ -77,8 +71,7 @@ const {
           return (
             <div
               class="mass-media__slider__item"
-              style={{ '--index': i }}
-            >
+              style={{ '--index': i }}>
               <MediaCard
                 class="mass-media__slider__card"
                 {...card}

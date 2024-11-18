@@ -11,16 +11,16 @@ const {
   class: className,
   images = [
     {
-      src: '/images/dev/1.jpg',
+      src: '/images/dev/image/1.jpg',
     },
     {
-      src: '/images/dev/2.jpg',
+      src: '/images/dev/image/2.jpg',
     },
     {
-      src: '/images/dev/3.jpg',
+      src: '/images/dev/image/3.jpg',
     },
     {
-      src: '/images/dev/4.jpg',
+      src: '/images/dev/image/4.jpg',
     },
   ],
   ...rest
@@ -29,8 +29,7 @@ const {
 
 <image-morph
   {...rest}
-  class:list={['image-morph', className]}
->
+  class:list={['image-morph', className]}>
   {
     images.map((image) => {
       return (
@@ -83,9 +82,7 @@ const {
     #counter = 0
 
     protected connectedCallback() {
-      this.#itemElements = [
-        ...this.querySelectorAll<HTMLElement>('.image-morph__item'),
-      ]
+      this.#itemElements = [...this.querySelectorAll<HTMLElement>('.image-morph__item')]
 
       this.#itemElements[0]?.classList.add('current')
 
@@ -119,10 +116,7 @@ const {
       clearInterval(this.#intervalId)
 
       if (this.#isIntersecting) {
-        this.#intervalId = setInterval(
-          this.#tick,
-          parseFloat(this.#delay.current || '0') * 1000,
-        )
+        this.#intervalId = setInterval(this.#tick, parseFloat(this.#delay.current || '0') * 1000)
       }
     }
 

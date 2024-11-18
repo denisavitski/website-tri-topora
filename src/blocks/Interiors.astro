@@ -15,57 +15,30 @@ const {
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/dev/1.jpg',
+        src: '/images/interiors/1.jpg',
         lazy: true,
         lazyBackground: true,
       },
-      value: '/images/dev/1.jpg',
+      value: '/images/interiors/1.jpg',
     },
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/dev/2.jpg',
+        src: '/images/interiors/2.jpg',
         lazy: true,
         lazyBackground: true,
       },
       modal: 'images-modal',
-      value: '/images/dev/2.jpg',
+      value: '/images/interiors/2.jpg',
     },
     {
       circleText: 'Смотреть',
       image: {
-        src: '/images/dev/3.jpg',
+        src: '/images/interiors/3.jpg',
         lazy: true,
         lazyBackground: true,
       },
-      value: '/images/dev/3.jpg',
-    },
-    {
-      circleText: 'Смотреть',
-      image: {
-        src: '/images/dev/4.jpg',
-        lazy: true,
-        lazyBackground: true,
-      },
-      value: '/images/dev/4.jpg',
-    },
-    {
-      circleText: 'Смотреть',
-      image: {
-        src: '/images/dev/5.jpg',
-        lazy: true,
-        lazyBackground: true,
-      },
-      value: '/images/dev/5.jpg',
-    },
-    {
-      circleText: 'Смотреть',
-      image: {
-        src: '/images/dev/6.jpg',
-        lazy: true,
-        lazyBackground: true,
-      },
-      value: '/images/dev/6.jpg',
+      value: '/images/interiors/3.jpg',
     },
   ],
 } = Astro.props
@@ -86,8 +59,7 @@ const {
           return (
             <div
               class="interiors__slider__item"
-              style={{ '--index': i }}
-            >
+              style={{ '--index': i }}>
               <LookCard
                 class="interiors__slider__card"
                 modal="images-modal"
@@ -155,7 +127,6 @@ const {
   }
 
   .interiors__slider__item {
-    width: 100%;
     height: 100%;
 
     @media (min-width: 769px) {

@@ -22,9 +22,9 @@ const {
   <li>Размеры клееного бруса могут быть от 185(h)х152 мм до 365(h)х302 мм что позволяет закрыть любую потребность. Брус большого сечения выглядит очень представительно. (здесь если разрешение позволяет можно вставить картинки Brus001, Brus002, Brus003)</li>\
 </ul>\
 `,
-  image1 = { src: '/images/dev/1.jpg' },
-  image2 = { src: '/images/dev/2.jpg' },
-  image3 = { src: '/images/dev/3.jpg' },
+  image1 = { src: '/images/dev/image/1.jpg' },
+  image2 = { src: '/images/dev/image/2.jpg' },
+  image3 = { src: '/images/dev/image/3.jpg' },
 } = Astro.props
 ---
 
@@ -32,16 +32,14 @@ const {
 <Showcase
   class="showcase-3"
   direction={direction}
-  {heading}
->
+  {heading}>
   <RichText
     slot={'col-1'}
     text={text}
   />
   <div
     class="showcase-3__text-images"
-    slot={'col-1'}
-  >
+    slot={'col-1'}>
     <Image
       {...image2}
       lazy
@@ -61,8 +59,7 @@ const {
   </div>
   <e-scroll
     class="showcase-3__slider"
-    slot={'col-2'}
-  >
+    slot={'col-2'}>
     {
       [image1, image2, image3].map((image) => {
         return (

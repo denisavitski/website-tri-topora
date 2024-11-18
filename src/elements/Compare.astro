@@ -10,21 +10,13 @@ export interface Props {
   titlePosition?: 'left' | 'right'
 }
 
-const {
-  title,
-  titlePosition = 'left',
-  image1 = { src: '/images/dev/1.jpg' },
-  image2 = { src: '/images/dev/2.jpg' },
-  class: className,
-  ...rest
-} = Astro.props
+const { title, titlePosition = 'left', image1 = { src: '/images/dev/image/1.jpg' }, image2 = { src: '/images/dev/image/2.jpg' }, class: className, ...rest } = Astro.props
 ---
 
 <e-compare
   {...rest}
   class:list={['compare', className]}
-  title-position={titlePosition}
->
+  title-position={titlePosition}>
   {
     title && (
       <div
@@ -130,12 +122,7 @@ const {
   }
 
   .compare__image_1 {
-    clip-path: polygon(
-      0 0,
-      calc(100% * var(--progress, 0)) 0,
-      calc(100% * var(--progress, 0)) 100%,
-      0% 100%
-    );
+    clip-path: polygon(0 0, calc(100% * var(--progress, 0)) 0, calc(100% * var(--progress, 0)) 100%, 0% 100%);
   }
 
   .compare__image_2 {
@@ -224,10 +211,7 @@ const {
 
 <script>
   import { Damped } from 'aptechka/animation'
-  import {
-    elementResizer,
-    type ElementResizerCallback,
-  } from 'aptechka/element-resizer'
+  import { elementResizer, type ElementResizerCallback } from 'aptechka/element-resizer'
   import { setupDrag } from 'aptechka/utils'
 
   export class CompareElement extends HTMLElement {
@@ -243,28 +227,19 @@ const {
       if (this.#imagesElement && this.#lineElement) {
         this.#linePosition = new Damped(0)
 
-        this.#lineElement.addEventListener(
-          'pointerdown',
-          this.#pointerdownListener,
-        )
+        this.#lineElement.addEventListener('pointerdown', this.#pointerdownListener)
 
         elementResizer.subscribe(this, this.#resizeListener)
 
         this.#linePosition.subscribe((e) => {
           this.style.setProperty('--x', e.current + 'px')
-          this.style.setProperty(
-            '--progress',
-            this.#linePosition.distanceProgress + '',
-          )
+          this.style.setProperty('--progress', this.#linePosition.distanceProgress + '')
         })
       }
     }
 
     protected disconnectedCallback() {
-      this.#lineElement?.removeEventListener(
-        'pointerdown',
-        this.#pointerdownListener,
-      )
+      this.#lineElement?.removeEventListener('pointerdown', this.#pointerdownListener)
 
       elementResizer.unsubscribe(this.#resizeListener)
 

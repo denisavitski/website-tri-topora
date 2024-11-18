@@ -19,11 +19,7 @@ const {
 <p>Дом под ключ можно построить за 9 месяцев. Отсутствует усадка и это ускоряет процесс стройки.
 Можно сразу монтировать лестницы, окна и двери, завершая работу финишной отделкой. Строительный сезон у таких домов круглый год.</p>
 `,
-  images = [
-    { src: '/images/dev/1.jpg' },
-    { src: '/images/dev/2.jpg' },
-    { src: '/images/dev/3.jpg' },
-  ],
+  images = [{ src: '/images/dev/image/1.jpg' }, { src: '/images/dev/image/2.jpg' }, { src: '/images/dev/image/3.jpg' }],
 } = Astro.props
 ---
 
@@ -31,16 +27,14 @@ const {
 <Showcase
   class="showcase-6"
   direction={direction}
-  {heading}
->
+  {heading}>
   <RichText
     slot={'col-2'}
     text={text}
   />
   <e-scroll
     class="showcase-6__slider"
-    slot={'col-1'}
-  >
+    slot={'col-1'}>
     {
       images.map((image) => {
         return (

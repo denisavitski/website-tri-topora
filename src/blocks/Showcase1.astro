@@ -23,8 +23,8 @@ const {
   <li>Решение сложных конструктивных и архитектурных задач в стройке так как возможно изготовление балок до 14 метров и деталей бруса до 12 метров длинной. Есть возможность изготовления элементов кровли с гнутой конструкционной балкой, радиальных элементов.</li>\
 </ul>\
 `,
-  textImage = { src: '/images/dev/1.jpg' },
-  mainImage = { src: '/images/dev/2.jpg' },
+  textImage = { src: '/images/dev/image/1.jpg' },
+  mainImage = { src: '/images/dev/image/2.jpg' },
 } = Astro.props
 ---
 
@@ -32,8 +32,7 @@ const {
 <Showcase
   class="showcase-1"
   {heading}
-  {direction}
->
+  {direction}>
   <Image
     slot={'col-1'}
     {...textImage}

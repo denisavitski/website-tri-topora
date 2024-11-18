@@ -13,16 +13,7 @@ export interface Props extends HTMLAttributes<any> {
   description?: string
 }
 
-const {
-  class: className,
-  image = { src: '/images/dev/1.jpg' },
-  href = '/blog/article',
-  hashtags = ['cтроительство'],
-  date = '03.09.2024',
-  title = 'Норвежская рубка: искусство и традиции плотницкого мастерства',
-  description = 'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения',
-  ...rest
-} = Astro.props
+const { class: className, image = { src: '/images/dev/image/1.jpg' }, href = '/blog/article', hashtags = ['cтроительство'], date = '03.09.2024', title = 'Норвежская рубка: искусство и традиции плотницкого мастерства', description = 'В&nbsp;мире деревянного строительства выбор технологии возведения дома или&nbsp;бани&nbsp;— это&nbsp;один из&nbsp;самых важных этапов, который определяет не&nbsp;только внешний вид, но&nbsp;и&nbsp;долговечность будущего сооружения', ...rest } = Astro.props
 ---
 
 <a
@@ -32,8 +23,7 @@ const {
   data-prefetch
   data-hashtags={hashtags}
   data-save-scroll-state
-  data-save-document-state
->
+  data-save-document-state>
   {
     image && (
       <div class="news-card__image-wrapper">
