@@ -6,9 +6,7 @@ import type { HTMLAttributes } from 'astro/types'
 
 export type ProjectProps = Omit<CardInfoProps, 'size' | 'class'> & {}
 
-export interface Props
-  extends Omit<CardInfoProps, 'size' | 'class'>,
-    HTMLAttributes<any> {
+export interface Props extends Omit<CardInfoProps, 'size' | 'class'>, HTMLAttributes<any> {
   class?: string
   href?: string | undefined
   image?: ImageDataProps | undefined
@@ -41,10 +39,7 @@ const {
   {...rest}
   {href}
   data-prefetch
-  data-save-scroll-state
-  data-save-document-state
-  class:list={['project-card', className]}
->
+  class:list={['project-card', className]}>
   <div class="project-card__image-box">
     <Image
       class="project-card__image"

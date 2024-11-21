@@ -10,24 +10,13 @@ export interface Props {
   fillError?: string
 }
 
-const {
-  class: className,
-  name = 'dev',
-  placeholder = 'dev',
-  type = 'email',
-  staticError = false,
-  emptyError = 'Заполните поле',
-  fillError = '',
-  required,
-  ...rest
-} = Astro.props
+const { class: className, name = 'dev', placeholder = 'dev', type = 'email', staticError = false, emptyError = 'Заполните поле', fillError = '', required, ...rest } = Astro.props
 ---
 
 <e-input
   {...rest}
   class:list={['input', className]}
-  data-type={type}
->
+  data-type={type}>
   <label class="visually-hidden">
     {placeholder}
     <input
@@ -40,12 +29,12 @@ const {
 
   <span class="input__content">
     <span
-      class="font-d-24-500-140-0 font-t-20-500-140-0 input__editable"
+      class="input__editable"
       contenteditable
     ></span>
 
     <span
-      class="font-d-24-500-140-0 font-t-20-500-140-0 input__placeholder"
+      class="input__placeholder"
       aria-hidden="true"
       >{placeholder}</span
     >
@@ -128,8 +117,7 @@ const {
 
     color: var(--placeholder-color);
 
-    transform: translateY(calc(100% * (1 - var(--placeholder-transform))))
-      scale(calc(1 - var(--placeholder-transform) * 0.35));
+    transform: translateY(calc(100% * (1 - var(--placeholder-transform)))) scale(calc(1 - var(--placeholder-transform) * 0.35));
 
     transform-origin: left bottom;
 
@@ -206,10 +194,7 @@ const {
     }
 
     public validate() {
-      if (
-        this.#nativeInputElement &&
-        !this.#nativeInputElement.validity.valid
-      ) {
+      if (this.#nativeInputElement && !this.#nativeInputElement.validity.valid) {
         this.#showError()
       } else {
         this.#hideError()
@@ -228,11 +213,9 @@ const {
       this.#editableElement = this.querySelector('.input__editable')
       this.#errorElement = this.querySelector('.input__error')
 
-      this.#emptyErrorText =
-        this.#errorElement?.getAttribute('data-empty-error') || ''
+      this.#emptyErrorText = this.#errorElement?.getAttribute('data-empty-error') || ''
 
-      this.#fillErrorText =
-        this.#errorElement?.getAttribute('data-fill-error') || ''
+      this.#fillErrorText = this.#errorElement?.getAttribute('data-fill-error') || ''
 
       this.#isPhoneInput = this.getAttribute('data-type') === 'phone'
 
@@ -307,9 +290,7 @@ const {
       this.#isError = true
 
       if (this.#errorElement) {
-        const message = !this.#nativeInputElement?.value
-          ? this.#emptyErrorText
-          : this.#fillErrorText
+        const message = !this.#nativeInputElement?.value ? this.#emptyErrorText : this.#fillErrorText
 
         this.#errorElement.textContent = message
 
@@ -327,21 +308,14 @@ const {
     }
 
     #maskPhoneValue(value: string) {
-      let unmasked = value
-        .replace(/\D/g, '')
-        .match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/)
+      let unmasked = value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/)
 
       if (unmasked) {
         if (!unmasked.input) {
           return ''
         }
 
-        const masked =
-          `+7 (${unmasked[2]}` +
-          (unmasked[3] ? `) ${unmasked[3]}` : '') +
-          (unmasked[4] ? `-${unmasked[4]}` : '') +
-          (unmasked[5] ? `-${unmasked[5]}` : '') +
-          (unmasked[6] ? `-${unmasked[6]}` : '')
+        const masked = `+7 (${unmasked[2]}` + (unmasked[3] ? `) ${unmasked[3]}` : '') + (unmasked[4] ? `-${unmasked[4]}` : '') + (unmasked[5] ? `-${unmasked[5]}` : '') + (unmasked[6] ? `-${unmasked[6]}` : '')
 
         value = masked.slice(0, 19)
       } else {

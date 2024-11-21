@@ -26,13 +26,7 @@ const {
       type: 'type',
       name: 'Тип дома',
       opened: true,
-      items: [
-        { name: 'Все дома', checked: true, value: '' },
-        { name: 'Дома из бревна' },
-        { name: 'Дома из бруса' },
-        { name: 'Бани и СПА-комплексы' },
-        { name: 'Коммерческая недвижимость' },
-      ],
+      items: [{ name: 'Все дома', checked: true, value: '' }, { name: 'Дома из бревна' }, { name: 'Дома из бруса' }, { name: 'Бани и СПА-комплексы' }, { name: 'Коммерческая недвижимость' }],
     },
     {
       type: 'area',
@@ -88,26 +82,22 @@ const {
   {...rest}
   class={`filter ${className || ''}`}
   id="filter"
-  tag="e-filter"
->
+  tag="e-filter">
   <button
     class="filter__reset"
-    slot="buttons"
-  >
+    slot="buttons">
     Очистить фильтры
   </button>
 
   <e-accordion
     class="filter__accordion"
-    multiple
-  >
+    multiple>
     {
       folders.map((folder) => {
         return (
           <div
             class="filter__folder"
-            data-opened={folder.opened}
-          >
+            data-opened={folder.opened}>
             <div class="filter__folder__head">
               <div
                 class="filter__folder__name"
@@ -127,11 +117,7 @@ const {
                         class="visually-hidden"
                         type="radio"
                         name={folder.type}
-                        value={
-                          typeof item.value === 'string'
-                            ? item.value
-                            : item.name
-                        }
+                        value={typeof item.value === 'string' ? item.value : item.name}
                         checked={item.checked}
                         data-checked-default={item.checked}
                       />
@@ -150,9 +136,7 @@ const {
     }
   </e-accordion>
 
-  <SimpleButton class="filter__reset filter__reset-desktop"
-    >Очистить фильтры</SimpleButton
-  >
+  <SimpleButton class="filter__reset filter__reset-desktop">Очистить фильтры</SimpleButton>
 </SwipeModal>
 
 <style is:global>
@@ -303,9 +287,9 @@ const {
 </style>
 
 <script>
-  import { scrollElement } from '@globals/page'
   import { SwipePopoverElement } from '@lib/SwipePopoverElement'
   import { dispatchEvent, getCumulativeOffsetTop } from 'aptechka/utils'
+  import { morph } from '@globals/page'
 
   export interface FilterEvents {
     filterChange: CustomEvent<Record<string, string>>
@@ -355,9 +339,7 @@ const {
     protected override connectedCallback() {
       super.connectedCallback()
 
-      this.#inputElements = [
-        ...this.querySelectorAll<HTMLInputElement>('input'),
-      ]
+      this.#inputElements = [...this.querySelectorAll<HTMLInputElement>('input')]
 
       this.#updateValues()
 
@@ -365,9 +347,7 @@ const {
         input.addEventListener('change', this.#inputListener)
       })
 
-      this.#resetButtonElements = [
-        ...this.querySelectorAll<HTMLElement>('.filter__reset'),
-      ]
+      this.#resetButtonElements = [...this.querySelectorAll<HTMLElement>('.filter__reset')]
 
       this.#resetButtonElements.forEach((element) => {
         element?.addEventListener('click', this.#resetListener)
@@ -375,10 +355,7 @@ const {
 
       this.#swipeElement = this.querySelector('[data-swipe]')
 
-      scrollElement.current.addEventListener(
-        'scroll',
-        this.#parentScrollListener,
-      )
+      morph.scrollElement.addEventListener('scroll', this.#parentScrollListener)
     }
 
     protected override disconnectedCallback() {
@@ -392,10 +369,7 @@ const {
         element?.removeEventListener('click', this.#resetListener)
       })
 
-      scrollElement.current.removeEventListener(
-        'scroll',
-        this.#parentScrollListener,
-      )
+      morph.scrollElement.removeEventListener('scroll', this.#parentScrollListener)
     }
 
     #resetListener = () => {
@@ -413,13 +387,11 @@ const {
 
     #parentScrollListener = () => {
       if (this.#swipeElement && matchMedia('(min-width: 769px)').matches) {
-        const scrollDirection = Math.sign(
-          scrollElement.current.scrollTop - this.#currentScrollValue,
-        )
+        const scrollDirection = Math.sign(morph.scrollElement.scrollTop - this.#currentScrollValue)
 
         const containerTop = getCumulativeOffsetTop(this.parentElement!)
 
-        const pageScroll = scrollElement.current.scrollTop - containerTop
+        const pageScroll = morph.scrollElement.scrollTop - containerTop
 
         if (scrollDirection !== this.#currentDirection) {
           this.#lastPageScroll = pageScroll
@@ -433,7 +405,7 @@ const {
 
         this.#swipeElement.scrollTop = this.#lastScrollTop + delta
 
-        this.#currentScrollValue = scrollElement.current.scrollTop
+        this.#currentScrollValue = morph.scrollElement.scrollTop
         this.#currentDirection = scrollDirection
       }
     }

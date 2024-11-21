@@ -10,22 +10,14 @@ export interface Props {
   name?: string
 }
 
-const {
-  class: className,
-  href = '/',
-  image = { src: '/images/services/1.jpg', alt: 'alt' },
-  name = 'Плотницкое дело',
-  ...rest
-} = Astro.props
+const { class: className, href = '/', image = { src: '/images/services/1.jpg', alt: 'alt' }, name = 'Плотницкое дело', ...rest } = Astro.props
 ---
 
 <a
   {...rest}
   href={href}
   data-prefetch
-  data-save-scroll-state
-  class:list={['button-owner service-card', className]}
->
+  class:list={['button-owner service-card', className]}>
   <span
     class="service-card__name"
     set:html={name}
@@ -73,11 +65,7 @@ const {
       width: 100%;
       height: 100%;
 
-      background-image: linear-gradient(
-        to bottom,
-        rgba(58, 58, 58, 0),
-        rgba(44, 44, 44, 1) 200%
-      );
+      background-image: linear-gradient(to bottom, rgba(58, 58, 58, 0), rgba(44, 44, 44, 1) 200%);
     }
 
     @media (max-width: 768px) {
