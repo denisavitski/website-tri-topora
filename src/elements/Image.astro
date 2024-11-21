@@ -28,7 +28,7 @@ const { class: className, src = '/images/dev/image/dark/1.jpg', alt = 'Альт�
   contain={contain}
   lazyBackground={lazyBackground}>
   <img
-    src={getHref(src)}
+    srcset={getHref(src)}
     {alt}
     decoding="async"
     loading={lazy ? 'lazy' : 'eager'}
