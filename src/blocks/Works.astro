@@ -48,9 +48,9 @@ const { heading = 'Фото работ', list = [{ src: '/images/dev/image/1.jpg
             type={'clip'}
             vector={i % 2 === 0 ? 'left' : 'right'}
             aria-hidden={i > 9}
+            class="works__list__item"
           >
             <Image
-              class="works__list__item"
               {...item}
               lazy
               lazyBackground
