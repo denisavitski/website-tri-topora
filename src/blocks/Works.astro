@@ -45,14 +45,14 @@ const { heading = 'Фото работ', list = [{ src: '/images/dev/image/1.jpg
         return (
           <ScrollToaster
             type={'clip'}
-            vector={i % 2 === 0 ? 'left' : 'right'}>
+            vector={i % 2 === 0 ? 'left' : 'right'}
+            aria-hidden={i > 9}>
             <Image
               class="works__list__item"
               {...item}
               lazy
               lazyBackground
               cover
-              aria-hidden={i > 9}
               rounded
             />
           </ScrollToaster>
