@@ -56,6 +56,7 @@ const { heading = 'Фото работ', list = [{ src: '/images/dev/image/1.jpg
               lazyBackground
               cover
               rounded
+              class="works__list__item__image"
             />
           </ScrollToaster>
         )
@@ -158,16 +159,21 @@ const { heading = 'Фото работ', list = [{ src: '/images/dev/image/1.jpg
   }
 
   .works__list__item {
+    --mh: 40rem;
     width: 100%;
-    min-height: 40rem;
+    min-height: var(--mh);
 
     &[aria-hidden='true'] {
       display: none;
     }
 
     @media (max-width: 768px) {
-      min-height: 20rem;
+      --mh: 20rem;
     }
+  }
+
+  .works__list__item__image {
+    min-height: var(--mh);
   }
 
   .works__more-button {
