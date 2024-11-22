@@ -37,6 +37,15 @@ const { name = 'form', handler = '/test', successTitle, successMessage, errorMes
   {handler}
   {reusable}>
   <form>
+    <input
+      type="hidden"
+      name="page"
+    />
+    <input
+      type="hidden"
+      name="pageName"
+    />
+
     <slot />
   </form>
 </e-form>
@@ -52,23 +61,32 @@ const { name = 'form', handler = '/test', successTitle, successMessage, errorMes
 </style>
 
 <script>
-  import { dispatchEvent } from 'aptechka/utils'
+  import { PopoverElement, type PopoverEvents } from 'aptechka/popover'
+  import { dispatchEvent, findParentElement } from 'aptechka/utils'
 
   export class FormElement extends HTMLElement {
+    #popoverElement: PopoverElement | null = null
     #formElement: HTMLFormElement | null = null
     #buttonElement: HTMLButtonElement | null = null
     #inputElements: Array<HTMLInputElement> | null = null
+    #pageInputElement: HTMLInputElement | null = null
+    #pageNameInputElement: HTMLInputElement | null = null
     #sended = false
     #handler = '/test'
     #isReusable = false
 
     protected connectedCallback() {
+      this.#popoverElement = findParentElement(this, PopoverElement)
+
       this.#formElement = this.querySelector('form')
 
       this.#handler = this.getAttribute('handler') || '/test'
       this.#isReusable = this.hasAttribute('reusable')
 
       if (this.#formElement) {
+        this.#pageInputElement = this.querySelector('[name="page"]')
+        this.#pageNameInputElement = this.querySelector('[name="pageName"]')
+
         this.#formElement.addEventListener('submit', this.#submitListener)
 
         this.#inputElements = [...this.#formElement.querySelectorAll('input')]
@@ -86,6 +104,8 @@ const { name = 'form', handler = '/test', successTitle, successMessage, errorMes
           document.addEventListener('fetchit:error', this.#fetchitErrorListener as EventListener)
         }
       }
+
+      this.#popoverElement?.addEventListener('popoverOpened', this.#popoverOpenedListener)
     }
 
     protected disconnectedCallback() {
@@ -95,6 +115,8 @@ const { name = 'form', handler = '/test', successTitle, successMessage, errorMes
 
       document.removeEventListener('fetchit:success', this.#fetchitSuccesListener as EventListener)
       document.removeEventListener('fetchit:error', this.#fetchitErrorListener as EventListener)
+
+      this.#popoverElement?.removeEventListener('popoverOpened', this.#popoverOpenedListener)
     }
 
     #submitListener = async (e: SubmitEvent) => {
@@ -203,6 +225,23 @@ const { name = 'form', handler = '/test', successTitle, successMessage, errorMes
       alert(errorMessage)
 
       this.#sended = false
+    }
+
+    #popoverOpenedListener = (e: PopoverEvents['popoverOpened']) => {
+      const trigger = e.detail.trigger
+
+      if (trigger instanceof HTMLElement) {
+        const pageName = trigger.getAttribute('data-page-name')
+        const page = trigger.getAttribute('data-page')
+
+        if (pageName && this.#pageNameInputElement) {
+          this.#pageNameInputElement.value = pageName
+        }
+
+        if (page && this.#pageInputElement) {
+          this.#pageInputElement.value = page
+        }
+      }
     }
   }
 
