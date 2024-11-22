@@ -26,7 +26,8 @@ const { heading = 'Фото работ', list = [{ src: '/images/dev/image/1.jpg
       <ScrollToaster
         vector={'right'}
         type={'clip'}
-        class="works__description">
+        class="works__description"
+      >
         {description.map((item) => {
           return (
             <div
@@ -46,7 +47,8 @@ const { heading = 'Фото работ', list = [{ src: '/images/dev/image/1.jpg
           <ScrollToaster
             type={'clip'}
             vector={i % 2 === 0 ? 'left' : 'right'}
-            aria-hidden={i > 9}>
+            aria-hidden={i > 9}
+          >
             <Image
               class="works__list__item"
               {...item}

@@ -4,7 +4,7 @@
   "semi": false,
   "printWidth": 123213213,
   "arrowParens": "always",
-  "bracketSameLine": true,
+  "bracketSameLine": false,
   "bracketSpacing": true,
   "singleAttributePerLine": true,
   "htmlWhitespaceSensitivity": "strict",
